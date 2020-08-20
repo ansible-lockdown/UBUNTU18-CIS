@@ -1,5 +1,4 @@
 ---
-- debug: var=ansible_facts
 # Preliminary tasks that should always be run
 # List users in order to look files inside each home directory
 - name: "PRELIM | List users accounts"
