@@ -532,15 +532,22 @@
       - rule_1.2.1
       - apt
 
-- name: "NOTSCORED | 1.2.2 | PATCH | Ensure GPG keys are configured"
+# ---------------
+# ---------------
+# revisit. The RHEL7 CIS task for this does the command below
+# gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-{{ ansible_distribution|lower }}-release
+# with ubuntu the command fails due to the file not existing
+# ---------------
+# ---------------
+- name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured"
   block:
-      - name: "NOTSCORED | 1.2.2 | PATCH | Ensure GPG keys are configured | Get apt gpg keys"
+      - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured | Get apt gpg keys"
         command: apt-key list
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_2_2_apt_gpgkeys
 
-      - name: "NOTSCORED | 1.2.2 | PATCH | Ensure GPG keys are configured | Message out apt gpg keys"
+      - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured | Message out apt gpg keys"
         debug:
             msg:
                 - "Alert!!!!Below are teh apt gpg kyes configured"
@@ -553,7 +560,53 @@
       - level1-server
       - level1-workstation
       - notscored
-      - patch
+      - audit
       - rule_1.2.2
       - gpg
       - keys
+
+- name: "SCORED | 1.3.1 | PATCH | Ensure sudo is installed"
+  apt:
+      name: "{{ ubtu18cis_sudo_package }}"
+      state: present
+  when:
+      - ubtu18cis_rule_1_3_1
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.3.1
+      - sudo
+
+- name: "SCORED | 1.3.2 | PATCH | Ensure sudo commands use pty"
+  lineinfile:
+      path: /etc/sudoers
+      regexp: '^Defaults        use_'
+      line: 'Defaults        use_pty'
+      insertafter: '^Defaults'
+  when:
+      - ubtu18cis_rule_1_3_2
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.3.2
+      - sudo
+
+- name: "SCORED | 1.3.3 | PATCH | Ensure sudo log file exists"
+  lineinfile:
+      path: /etc/sudoers
+      regexp: '^Defaults        logfile'
+      line: 'Defaults        logfile="{{ ubtu18cis_sudo_logfile }}"'
+      insertafter: '^Defaults'
+  when:
+      - ubtu18cis_rule_1_3_3
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.3.3
+      - sudo

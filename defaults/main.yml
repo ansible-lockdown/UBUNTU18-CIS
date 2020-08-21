@@ -127,3 +127,12 @@ ubtu18cis_vartmp:
     fstype: none
     opts: "defaults,nodev,nosuid,noexec,bind"
     enabled: no
+
+# Control 1.3.1
+# ubtu18cis_sudo_package is the name of the sudo package to install
+# The possible values are "sudo" or "sudo-ldap"
+ubtu18cis_sudo_package: "sudo"
+
+# Control 1.3.3
+# ubtu18cis_sudo_logfile is the path and file name of the sudo log file
+ubtu18cis_sudo_logfile: "/var/log/sudo.log"
