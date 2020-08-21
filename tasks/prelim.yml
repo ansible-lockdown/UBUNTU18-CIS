@@ -7,3 +7,10 @@
   changed_when: no
   check_mode: no
 
+- name: "PRELIM | Check for autofs service"
+  shell: "systemctl show autofs | grep LoadState | cut -d = -f 2"
+  register: ubtu18cis_autofs_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint

@@ -318,3 +318,181 @@
       - rule_1.1.10
       - var/tmp
 
+- name: "SCORED | 1.1.11 | PATCH | Ensure separate partition exists for /var/log"
+  shell: mount | grep "on /var/log "
+  register: var_log_mounted
+  changed_when: no
+  failed_when: no
+  when:
+      - ubtu18cis_rule_1_1_11
+  tags:
+      - level2-server
+      - level2-workstation
+      - scored
+      - patch
+      - rule_1.1.11
+      - var/log
+
+- name: "SCORED | 1.1.12 | PATCH | Ensure separate partition exists for /var/log/audit"
+  shell: mount | grep "on /var/log/audit "
+  register: var_log_audit_mounted
+  changed_when: no
+  failed_when: no
+  when:
+      - ubtu18cis_rule_1_1_12
+  tags:
+      - level2-server
+      - level2-workstation
+      - scored
+      - patch
+      - var/log/audit
+
+- name: "SCORED | 1.1.13 | PATCH | Ensure separate partition exists for /home"
+  shell: mount | grep "on /home"
+  register: home_mounted
+  changed_when: no
+  failed_when: no
+  when:
+      - ubtu18cis_rule_1_1_13
+  tags:
+      - level2-server
+      - level2-workstation
+      - scored
+      - patch
+      - /home
+
+- name: "SCORED | 1.1.14 | PATCH | Ensure nodev option set on /home partition"
+  mount:
+      name: "/home"
+      src: "{{ item.device }}"
+      state: mounted
+      fstype: "{{ item.fstype }}"
+      opts: "nodev"
+  with_items: "{{ ansible_mounts }}"
+  when:
+      - ubtu18cis_rule_1_1_14
+      - item.mount == "/home"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.1.14
+      - /home
+
+- name: |
+    "SCORED | 1.1.15 | PATCH | Ensure nodev option set on /dev/shm partition"
+    "SCORED | 1.1.16 | PATCH | Ensure nosuid option set on /dev/shm partition"
+    "SCORED | 1.1.17 | PATCH | Ensure noexec option set on /dev/shm partition"
+  mount:
+      name: /dev/shm
+      src: tmpfs
+      state: mounted
+      fstype: tmpfs
+      opts: "defaults,nodev,nosuid,noexec"
+  when:
+      - ubtu18cis_rule_1_1_15 or
+        ubtu18cis_rule_1_1_16 or
+        ubtu18cis_rule_1_1_17
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.1.15
+      - rule_1.1.16
+      - rule_1.1.17
+      - /dev/shm
+- name: "NOTSCORED | 1.1.18 | AUDIT | Ensure nodev option set on removable media partitions"
+  debug:
+      msg: "Warning!!!! Not relevent control"
+  when:
+      - ubtu18cis_rule_1_1_18
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - audit
+      - rule_1.1.18
+      - removable_media
+
+- name: "NOTSCORED | 1.1.19 | AUDIT | Ensure nosuid option set on removable media partitions"
+  debug:
+      msg: "Warning!!!! Not relevent control"
+  when:
+      - ubtu18cis_rule_1_1_19
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - audit
+      - rule_1.1.19
+      - removable_media
+
+- name: "NOTSCORED | 1.1.20 | AUDIT | Ensure noexec option set on removable media partitions"
+  debug:
+      msg: "Warning!!!! Not relevent control"
+  when:
+      - ubtu18cis_rule_1_1_20
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - audit
+      - rule_1.1.20
+      - removable_media
+
+- name: "SCORED | 1.1.21 | PATCH | Ensure sticky bit is set on all world-writable directories"
+  shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null | xargs -I '{}' chmod a+t '{}'
+  failed_when: ubtu18cis_1_1_21_status.rc>0
+  register: ubtu18cis_1_1_21_status
+  when:
+      - ubtu18cis_rule_1_1_21
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.1.21
+      - sticky_bit
+
+- name: "SCORED | 1.1.22 | PATCH | Disable Automounting"
+  service:
+      name: autofs
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_1_1_22
+      - ubtu18cis_autofs_service_status.stdout == "loaded"
+      - not ubtu18cis_allow_autofs
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.1.22
+      - automounting
+
+- name: "SCORED | 1.1.23 | PATCH | Disable USB Storage"
+  block:
+      - name: "SCORED | 1.1.23 | PATCH | Disable USB Storage | Set modprobe config"
+        lineinfile:
+            path: /etc/modprobe.d/usb_storage.conf
+            regexp: '^install usb-storage'
+            line: 'install usb-storage /bin/true'
+            create: yes
+
+      - name: "SCORED | 1.1.23 | PATCH | Disable USB Storage | Remove usb-storage module"
+        modprobe:
+            name: usb-storage
+            state: absent
+        when: ansible_connection != 'docker'
+  when:
+      - ubtu18cis_rule_1_1_23
+  tags:
+      - level1-server
+      - level2-workstation
+      - scored
+      - patch
+      - rule_1.1.23
+      - usb_storage
