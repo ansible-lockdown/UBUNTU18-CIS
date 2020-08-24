@@ -34,11 +34,11 @@
   tags:
       - section1
 
-# - name: Include section 2 patches
-#   import_tasks: section2.yml
-#   when: ubtu18cis_section2_patch | bool
-#   tags:
-#       - section2
+- name: Include section 2 patches
+  import_tasks: section2.yml
+  when: ubtu18cis_section2_patch | bool
+  tags:
+      - section2
 
 # - name: Include section 3 patches
 #   import_tasks: section3.yml

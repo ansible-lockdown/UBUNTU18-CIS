@@ -104,6 +104,33 @@ ubtu18cis_rule_1_8_1_6: true
 ubtu18cis_rule_1_8_2: true
 ubtu18cis_rule_1_9: true
 
+# Section 2 Fixes
+# Section 2 is Services (inetd, special purpose, and service clients)
+ubtu18cis_rule_2_1_1: true
+ubtu18cis_rule_2_1_2: true
+ubtu18cis_rule_2_2_1: true
+ubtu18cis_rule_2_2_2: true
+ubtu18cis_rule_2_2_3: true
+ubtu18cis_rule_2_2_4: true
+ubtu18cis_rule_2_2_5: true
+ubtu18cis_rule_2_2_6: true
+ubtu18cis_rule_2_2_7: true
+ubtu18cis_rule_2_2_8: true
+ubtu18cis_rule_2_2_9: true
+ubtu18cis_rule_2_2_10: true
+ubtu18cis_rule_2_2_11: true
+ubtu18cis_rule_2_2_12: true
+ubtu18cis_rule_2_2_13: true
+ubtu18cis_rule_2_2_14: true
+ubtu18cis_rule_2_2_15: true
+ubtu18cis_rule_2_2_16: true
+ubtu18cis_rule_2_2_17: true
+ubtu18cis_rule_2_3_1: true
+ubtu18cis_rule_2_3_2: true
+ubtu18cis_rule_2_3_3: true
+ubtu18cis_rule_2_3_4: true
+ubtu18cis_rule_2_3_5: true
+
 # Service configuration variables, set to true to keep service
 ubtu18cis_allow_autofs: false
 ubtu18cis_allow_usb_storage: false
