@@ -822,3 +822,60 @@
       - patch
       - rule_1.6.4
       - coredump
+
+- name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed"
+  apt:
+      name: ['apparmor', 'apparmor-utils']
+      state: present
+  when:
+      - ubtu18cis_rule_1_7_1_1
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.7.1.1
+      - apparmor
+
+- name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration"
+  lineinfile:
+      path: /etc/default/grub
+      regexp: '^GRUB_CMDLINE_LINUX'
+      line: 'GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor"'
+      insertafter: '^GRUB_'
+  notify: grub update
+  when:
+      - ubtu18cis_rule_1_7_1_1
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.7.1.2
+      - apparmor
+
+- name: "SCORED | 1.7.1.3 | PATCH | Ensure all AppArmor Profiles are in enforce or complain mode"
+  command: aa-enforce /etc/apparmor.d/*
+  failed_when: false
+  when:
+      - ubtu18cis_rule_1_7_1_3
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.7.1.3
+      - apparmor
+
+- name: "SCORED | 1.7.1.4 | PATCH | Ensure all AppArmor Profiles are enforcing"
+  command: aa-enforce /etc/apparmor.d/*
+  failed_when: false
+  when:
+      - ubtu18cis_rule_1_7_1_4
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_1.7.1.4
+      - apparmor
