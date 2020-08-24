@@ -136,3 +136,15 @@ ubtu18cis_sudo_package: "sudo"
 # Control 1.3.3
 # ubtu18cis_sudo_logfile is the path and file name of the sudo log file
 ubtu18cis_sudo_logfile: "/var/log/sudo.log"
+
+# Control 1.4.2
+# These are the crontab settings for file system integrity enforcement
+ubtu18cis_aide_cron:
+    cron_user: root
+    cron_file: /etc/crontab
+    aide_job: '/usr/bin/aide.wrapper --config /etc/aide/aide.conf --check'
+    aide_minute: 0
+    aide_hour: 5
+    aide_day: '*'
+    aide_month: '*'
+    aide_weekday: '*'
