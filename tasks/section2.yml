@@ -178,6 +178,7 @@
       - patch
       - rule_2.2.3
       - avahi
+      - services
 
 - name: "SCORED | 2.2.4 | PATCH | Ensure CUPS is not enabled"
   service:
@@ -195,6 +196,7 @@
       - patch
       - rule_2.2.4
       - cups
+      - services
 
 - name: "SCORED | 2.2.5 | PATCH | Ensure DHCP Server is not enabled"
   block:
@@ -221,6 +223,7 @@
       - patch
       - rule_2.2.5
       - dhcp
+      - services
 
 - name: "SCORED | 2.2.6 | PATCH | Ensure LDAP server is not enabled"
   service:
@@ -238,3 +241,208 @@
       - patch
       - rule_2.2.6
       - ldap
+      - services
+
+- name: "SCORED | 2.2.7 | PATCH | Ensure NFS and RPC are not enabled"
+  block:
+      - name: "SCORED | 2.2.7 | PATCH | Ensure NFS and RPC are not enabled | Disable NFS service"
+        service:
+            name: nfs-server
+            state: stopped
+            enabled: no
+        when: nfs_service_status.stdout == "loaded"
+
+      - name: "SCORED | 2.2.7 | PATCH | Ensure NFS and RPC are not enabled | Disable RPC service"
+        service:
+            name: rpcbind
+            state: stopped
+            enabled: no
+        when: rpcbind_service_status.stdout == "loaded"
+  when:
+      - ubtu18cis_rule_2_2_7
+      - not ubtu18cis_nfs_rpc_server
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.7
+      - nfs
+      - rpc
+      - services
+
+- name: "SCORED | 2.2.8 | PATCH | Ensure DNS Server is not enabled"
+  service:
+      name: bind9
+      status: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_8
+      - not ubtu18cis_dns_server
+      - named_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.8
+      - dns
+      - service
+
+- name: "SCORED | 2.2.9 | PATCH | Ensure FTP Server is not enabled"
+  service:
+      name: vsftpd
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_9
+      - not ubtu18cis_vsftpd_server
+      - vsftpd_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.9
+      - ftp
+      - service
+
+- name: "SCORED | 2.2.10 | PATCH | Ensure HTTP server is not enabled"
+  service:
+      name: apache2
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_10
+      - not ubtu18cis_httpd_server
+      - httpd_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.10
+      - httpd
+      - service
+
+- name: "SCORED | 2.2.11 | PATCH | Ensure email services are not enabled"
+  service:
+      name: dovecot
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_11
+      - not ubtu18cis_dovecot_server
+      - dovecot_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.11
+      - dovecot
+      - service
+
+- name: "SCORED | 2.2.12 | PATCH | Ensure Samba is not enabled"
+  service:
+      name: smbd
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_12
+      - not ubtu18cis_smb_server
+      - smb_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.12
+      - samba
+      - service
+
+- name: "SCORED | 2.2.13 | PATCH | Ensure HTTP Proxy Server is not enabled"
+  service:
+      name: squid
+      states: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_13
+      - not ubtu18cis_squid_server
+      - squid_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.13
+      - http_proxy
+      - service
+
+- name: "SCORED | 2.2.14 | PATCH | Ensure SNMP Server is not enabled"
+  service:
+      name: snmpd
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_14
+      - not ubtu18cis_snmp_server
+      - snmpd_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.14
+      - snmp
+      - service
+
+- name: "SCORED | 2.2.15 | PATCH | Ensure mail transfer agent is configured for local-only mode"
+  lineinfile:
+      path: /etc/postfix/main.cf
+      regexp: '^(#)?inet_interfaces'
+      line: 'inet_interfaces = loopback-only'
+  notify: restart postfix
+  when:
+      - ubtu18cis_rule_2_2_15
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.15
+      - postfix
+
+- name: "SCORED | 2.2.16 | PATCH | Ensure rsync service is not enabled"
+  service:
+      name: rsync
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_16
+      - not ubtu18cis_rsync_server
+      - rsync_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.16
+      - rsync
+
+- name: "SCORED | 2.2.17 | PATCH | Ensure NIS Server is not enabled"
+  service:
+      name: nis
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_17
+      - not ubtu18cis_nis_server
+      - nis_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - rule_2.2.17
+      - nis
+      - service

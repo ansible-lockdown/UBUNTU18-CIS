@@ -2,3 +2,8 @@
 - name: grub update
   command: update-grub
   failed_when: false
+
+- name: restart postfix
+  service:
+      name: postfix
+      state: restarted

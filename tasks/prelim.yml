@@ -60,3 +60,91 @@
   check_mode: no
   tags:
       - skip_ansible_lint
+
+- name: "PRELIM | Check for nfs service"
+  shell: "systemctl show nfs | grep LoadState | cut -d = -f 2"
+  register: nfs_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for rpcbind service"
+  shell: "systemctl show rpcbind | grep LoadState | cut -d = -f 2"
+  register: rpcbind_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for named service"
+  shell: "systemctl show named | grep LoadState | cut -d = -f 2"
+  register: named_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for vsftpd service"
+  shell: "systemctl show vsftpd | grep LoadState | cut -d = -f 2"
+  register: vsftpd_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for httpd service"
+  shell: "systemctl show httpd | grep LoadState | cut -d = -f 2"
+  register: httpd_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for dovecot service"
+  shell: "systemctl show dovecot | grep LoadState | cut -d = -f 2"
+  register: dovecot_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for smb service"
+  shell: "systemctl show smb | grep LoadState | cut -d = -f 2"
+  register: smb_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for squid service"
+  shell: "systemctl show squid | grep LoadState | cut -d = -f 2"
+  register: squid_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for snmpd service"
+  shell: "systemctl show snmpd | grep LoadState | cut -d = -f 2"
+  register: snmpd_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for rsync service"
+  shell: "systemctl show rsync | grep LoadState | cut -d = -f 2"
+  register: rsync_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for nis service"
+  shell: "systemctl show nis | grep LoadState | cut -d = -f 2"
+  register: nis_service_status
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_lint
