@@ -101,7 +101,6 @@
             path: /etc/default/chrony
             regexp: '^DAEMON_OPTS'
             line: 'DAEMON_OPTS="-u chrony"'
-        when: "'chrony' not in ubtu18cis_2_2_1_3_chronyd_ps_user.stdout"
   when:
       - ubtu18cis_rule_2_2_1_3
       - ubtu18cis_time_sync_tool == "chrony"
@@ -128,6 +127,7 @@
             path: /etc/sysconfig/ntpd
             regexp: "{{ item.regexp }}"
             line: "{{ item. line }}"
+            create: yes
         with_items:
             - { regexp: '^OPTIONS', line: 'OPTIONS="-u ntp:ntp"'}
             - { regexp: '^NTPD_OPTIONS', line: 'NTPD_OPTIONS="-u ntp:ntp"' }
@@ -148,4 +148,93 @@
       - rule_2.2.1.4
       - ntp
 
-# - name: "SCORED | 2.2.2|"
+- name: "SCORED | 2.2.2 | PATCH | Ensure X Window System is not installed"
+  apt:
+      name: xserver-xorg*
+      state: absent
+  when:
+      - ubtu18cis_rule_2_2_2
+      - not ubtu18cis_xwindows_required
+  tags:
+      - level1-server
+      - scored
+      - patch
+      - rule_2.2.2
+      - xwindows
+
+- name: "SCORED | 2.2.3 | PATCH | Ensure Avahi Server is not enabled"
+  service:
+      name: avahi-daemon
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_3
+      - not ubtu18cis_avahi_server
+      - avahi_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.3
+      - avahi
+
+- name: "SCORED | 2.2.4 | PATCH | Ensure CUPS is not enabled"
+  service:
+      name: cups
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_4
+      - not ubtu18cis_cups_server
+      - cups_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level2-workstation
+      - scored
+      - patch
+      - rule_2.2.4
+      - cups
+
+- name: "SCORED | 2.2.5 | PATCH | Ensure DHCP Server is not enabled"
+  block:
+      - name: "SCORED | 2.2.5 | PATCH | Ensure DHCP Server is not enabled | Disable isc-dhcp-server service"
+        service:
+            name: isc-dhcp-server
+            state: stopped
+            enabled: no
+        when: dhcp_service_status == "loaded"
+
+      - name: "SCORED | 2.2.5 | PATCH | Ensure DHCP Server is not enabled | Disable isc-dhcp-server6 service"
+        service:
+            name: isc-dhcp-server6
+            state: stopped
+            enabled: no
+        when: dhcp6_service_status == "loaded"
+  when:
+      - ubtu18cis_rule_2_2_5
+      - not ubtu18cis_dhcp_server
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.5
+      - dhcp
+
+- name: "SCORED | 2.2.6 | PATCH | Ensure LDAP server is not enabled"
+  service:
+      name: slapd
+      state: stopped
+      enabled: no
+  when:
+      - ubtu18cis_rule_2_2_6
+      - not ubtu18cis_ldap_server
+      - slapd_service_status.stdout == "loaded"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.6
+      - ldap
