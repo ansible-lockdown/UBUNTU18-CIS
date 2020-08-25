@@ -26,3 +26,126 @@
       - patch
       - rule_2.1.2
       - openbsd-inetd
+
+- name: "SCORED | 2.2.1.1 | PATCH | Ensure time synchronization is in use"
+  apt:
+      name: "{{ ubtu18cis_time_sync_tool }}"
+      state: present
+  when:
+      - ubtu18cis_rule_2_2_1_1
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.1.1
+      - chrony
+
+- name: "NOTSCORED | 2.2.1.2 | PATCH | Ensure systemd-timesyncd is configured"
+  block:
+      - name: "NOTSCORED | 2.2.1.2 | PATCH | Ensure systemd-timesyncd is configured | Set configuration for systemd-timesyncd"
+        lineinfile:
+            path: /etc/systemd/timesyncd.conf
+            regexp: "{{ item.regexp }}"
+            line: "{{ item.line }}"
+            insertafter: "{{ item.insertafter }}"
+        with_items:
+            - { regexp: '^\[Time\]', line: '[Time]', insertafter: EOF }
+            - { regexp: '^#NTP|^NTP', line: 'NTP=0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org', insertafter: '\[Time\]' }
+            - { regexp: '^#FallbackNTP|^FallbackNTP', line: 'FallbackNTP=ntp.ubuntu.com 3.ubuntu.pool.ntp.org', insertafter: '\[Time\]' }
+            - { regexp: '^#RootDistanceMaxSec|^RootDistanceMaxSec', line: 'RootDistanceMaxSec=1', insertafter: '\[Time\]'}
+
+      - name: "NOTSCORED | 2.2.1.2 | PATCH | Ensure systemd-timesyncd is configured | Start and enable the systemd-timesyncd service"
+        service:
+            name: systemd-timesyncd.service
+            state: started
+            enabled: yes
+
+      - name: "NOTSCORED | 2.2.1.2 | PATCH | Ensure systemd-timesyncd is configured | Set timedatectl to ntp"
+        command: timedatectl set-ntp true
+  when:
+      - ubtu18cis_rule_2_2_1_2
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - patch
+      - rule_2.2.1.2
+      - systemd-timesyncd
+
+- name: "SCORED | 2.2.1.3 | PATCH | Ensure chrony is configured"
+  block:
+      - name: "SCORED | 2.2.1.3 | AUDIT | Ensure chrony is configured | Check for chrony user"
+        shell: grep chrony /etc/passwd
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_2_2_1_3_chrony_user_status
+
+      - name: "SCORED | 2.2.1.3 | PATCH | Ensure chrony is configured | Set chrony.conf file"
+        template:
+            src: chrony.conf.j2
+            dest: /etc/chrony/chrony.conf
+            owner: root
+            group: root
+            mode: 0644
+
+      - name: "SCORED | 2.2.1.3 | PATCH | Ensure chrony is configured | Create chrony user"
+        user:
+            name: chrony
+            shell: /usr/sbin/nologin
+            system: true
+        when: ubtu18cis_2_2_1_3_chrony_user_status.stdout != ""
+
+      - name: "SCORED | 2.2.1.3 | PATCH | Ensure chrony is configured | Set option to use chrony user"
+        lineinfile:
+            path: /etc/default/chrony
+            regexp: '^DAEMON_OPTS'
+            line: 'DAEMON_OPTS="-u chrony"'
+        when: "'chrony' not in ubtu18cis_2_2_1_3_chronyd_ps_user.stdout"
+  when:
+      - ubtu18cis_rule_2_2_1_3
+      - ubtu18cis_time_sync_tool == "chrony"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.1.3
+      - chrony
+
+- name: "SCORED | 2.2.1.4 | PATCH | Ensure ntp is configured"
+  block:
+      - name: "SCORED | 2.2.1.4 | PATCH | Ensure ntp is configured | Set ntp.conf settings"
+        template:
+            src: ntp.conf.j2
+            dest: /etc/ntp.conf
+            owner: root
+            group: root
+            mode: 0644
+
+      - name: "SCORED | 2.2.1.4 | PATCH | Ensure ntp is configured | Modify sysconfig/ntpd"
+        lineinfile:
+            path: /etc/sysconfig/ntpd
+            regexp: "{{ item.regexp }}"
+            line: "{{ item. line }}"
+        with_items:
+            - { regexp: '^OPTIONS', line: 'OPTIONS="-u ntp:ntp"'}
+            - { regexp: '^NTPD_OPTIONS', line: 'NTPD_OPTIONS="-u ntp:ntp"' }
+
+      - name: "SCORED | 2.2.1.4 | PATCH | Ensure ntp is configured | Modify /etc/init.d/npt"
+        lineinfile:
+            path: /etc/init.d/ntp
+            regexp: '^RUNAUSER'
+            line: 'RUNAUSER=npt'
+  when:
+      - ubtu18cis_rule_2_2_1_4
+      - ubtu18cis_time_sync_tool == "ntp"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_2.2.1.4
+      - ntp
+
+# - name: "SCORED | 2.2.2|"
