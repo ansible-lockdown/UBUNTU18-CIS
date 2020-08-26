@@ -296,3 +296,17 @@ ubtu18cis_host_allow:
     - "10.0.0.0/255.0.0.0"
     - "172.16.0.0/255.240.0.0"
     - "192.168.0.0/255.255.0.0"
+
+# Control 3.5.1.1
+# ubtu18cis_firewall_package is the firewall package you will be using.
+# the options are ufw, nftables, or iptables
+# you much chose only one firewall package
+ubtu18cis_firewall_package: "ufw"
+
+# Control 3.5.2.4
+# ubtu18cis_ufw_allow_out_ports are the ports for the firewall to allow
+# if you want to allow out on all ports set variable to "all", example ubtu18cis_ufw_allow_out_ports: "all"
+ubtu18cis_ufw_allow_out_ports: 
+    - 53
+    - 80
+    - 443

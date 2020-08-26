@@ -427,3 +427,146 @@
       - patch
       - rule_3.4.4
       - tipc
+
+- name: "SCORED | 3.5.1.1 | PATCH | Ensure a Firewall package is installed"
+  apt:
+      name: "{{ ubtu18cis_firewall_package }}"
+      state: present
+  when:
+      - ubtu18cis_rule_3_5_1_1
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_3.5.1
+      - apt
+      - firewall
+
+# Adding the allow OpenSSH rule while enabling ufw to allow ansible to run after enabling
+- name: "SCORED | 3.5.2.1 | PATCH | Ensure ufw service is enabled"
+  ufw:
+      rule: allow
+      name: OpenSSH
+      state: enabled
+  when:
+      - ubtu18cis_rule_3_5_2_1
+      - ubtu18cis_firewall_package == "ufw"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_3.5.2.1
+      - ufw
+
+- name: "SCORED | 3.5.2.2 | PATCH | Ensure default deny firewall policy"
+  ufw:
+      default: deny
+      direction: "{{ item }}"
+  notify: reload ufw
+  with_items:
+      - incoming
+      - outgoing
+      - routed
+  when:
+      - ubtu18cis_rule_3_5_2_2
+      - ubtu18cis_firewall_package == "ufw"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_3.5.2.2
+      - ufw
+
+- name: "SCORED | 3.5.2.3 | PATCH | Ensure loopback traffic is configured"
+  block:
+      - name: "SCORED | 3.5.2.3 | PATCH | Ensure loopback traffic is configured"
+        ufw:
+            rule: allow
+            direction: in
+            interface: lo
+        notify: reload ufw
+
+      - name: "SCORED | 3.5.2.3 | PATCH | Ensure loopback traffic is configured"
+        ufw:
+            rule: deny
+            direction: in
+            from_ip: "{{ item }}"
+        notify: reload ufw
+        with_items:
+            - 127.0.0.0/8
+            - ::1
+  when:
+      - ubtu18cis_rule_3_5_2_3
+      - ubtu18cis_firewall_package == "ufw"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_3.5.2.3
+      - ufw
+
+- name: "NOTSCORED | 3.5.2.4 | PATCH | Ensure outbound connections are configured"
+  block:
+      - name: "NOTSCORED | 3.5.2.4 | PATCH | Ensure outbound connections are configured | Custom ports"
+        ufw:
+            rule: allow
+            direction: out
+            to_port: '{{ item }}'
+        with_items:
+            - '{{ ubtu18cis_ufw_allow_out_ports }}'
+        notify: reload ufw
+        when: ubtu18cis_ufw_allow_out_ports != "all"
+ 
+      - name: "NOTSCORED | 3.5.2.4 | PATCH | Ensure outbound connections are configured | Allow all"
+        ufw:
+            rule: allow
+            direction: out
+            to_port: all
+        notify: reload ufw
+        when: "'all' in ubtu18cis_ufw_allow_out_ports"
+  when:
+      - ubtu18cis_rule_3_5_2_4
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_3.5.2.4
+      - ufw
+
+- name: "NOTSCORED | 3.5.2.5 | AUDIT | Ensure firewall rules exist for all open ports"
+  block:
+      - name: "NOTSCORED | 3.5.2.5 | AUDIT | Ensure firewall rules exist for all open ports | Get list of open ports"
+        command: ss -4tuln
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_3_5_2_5_open_listen_ports
+
+      - name: "NOTSCORED | 3.5.2.5 | AUDIT | Ensure firewall rules exist for all open ports | Get list of firewall rules"
+        command: ufw status
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_3_5_2_5_firewall_rules
+
+      - name: "NOTSCORED | 3.5.2.5 | AUDIT | Ensure firewall rules exist for all open ports | Message out settings"
+        debug:
+            msg:
+                - "ALERT!!!!Below are the listening ports and firewall rules"
+                - "Please create firewall rule for any open ports if not already done"
+                - "*****---Open Listen Ports---*****"
+                - "{{ ubtu18cis_3_5_2_5_open_listen_ports.stdout_lines }}"
+                - "*****---Firewall Rules---*****"
+                - "{{ ubtu18cis_3_5_2_5_firewall_rules.stdout_lines }}"              
+  when:
+      - ubtu18cis_rule_3_5_2_5
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - audit
+      - rule_3.5.2.5
+      - ufw
