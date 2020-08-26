@@ -288,3 +288,11 @@ ubtu18cis_time_synchronization_servers:
     - 1.pool.ntp.org
     - 2.pool.ntp.org
     - 3.pool.ntp.org
+
+# Section 3 Control Variables
+# Control 3.3.2
+# values for the /etc/hosts.allow file for IP addresses permitted to connect to the host. 
+ubtu18cis_host_allow:
+    - "10.0.0.0/255.0.0.0"
+    - "172.16.0.0/255.240.0.0"
+    - "192.168.0.0/255.255.0.0"
