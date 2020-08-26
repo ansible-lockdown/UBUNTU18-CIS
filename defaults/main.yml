@@ -205,6 +205,10 @@ ubtu18cis_rsh_required: false
 ubtu18cis_talk_required: false
 ubtu18cis_telnet_required: false
 ubtu18cis_ldap_clients_required: false
+ubtu18cis_is_router: false
+
+# IPv6 requirement toggle
+ubtu18cis_ipv6_required: true
 
 # Other system wide variables
 # ubtu18cis_xwindows_required is the toggle for requiring x windows. True means you use X Windoes (not recommented for servers)
