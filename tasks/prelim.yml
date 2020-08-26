@@ -148,3 +148,9 @@
   check_mode: no
   tags:
       - skip_ansible_lint
+
+- name: "PRELIM | Install nftables"
+  apt:
+      name: nftables
+      state: present
+  when: ubtu18cis_firewall_package == "nftables"

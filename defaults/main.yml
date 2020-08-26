@@ -301,7 +301,7 @@ ubtu18cis_host_allow:
 # ubtu18cis_firewall_package is the firewall package you will be using.
 # the options are ufw, nftables, or iptables
 # you much chose only one firewall package
-ubtu18cis_firewall_package: "ufw"
+ubtu18cis_firewall_package: "nftables"
 
 # Control 3.5.2.4
 # ubtu18cis_ufw_allow_out_ports are the ports for the firewall to allow
@@ -310,3 +310,9 @@ ubtu18cis_ufw_allow_out_ports:
     - 53
     - 80
     - 443
+
+# Control 3.5.3.2
+# ubtu18cis_nftables_table_name is the name of the table in nftables you want to create
+# the default nftables table name is filter. This variable name will be the one all
+# nftables configs are applied to
+ubtu18cis_nftables_table_name: "filter"

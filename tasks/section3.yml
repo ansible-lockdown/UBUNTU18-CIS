@@ -517,7 +517,7 @@
             direction: out
             to_port: '{{ item }}'
         with_items:
-            - '{{ ubtu18cis_ufw_allow_out_ports }}'
+            - "{{ ubtu18cis_ufw_allow_out_ports }}"
         notify: reload ufw
         when: ubtu18cis_ufw_allow_out_ports != "all"
  
@@ -530,6 +530,7 @@
         when: "'all' in ubtu18cis_ufw_allow_out_ports"
   when:
       - ubtu18cis_rule_3_5_2_4
+      - ubtu18cis_firewall_package == "ufw"
   tags:
       - level1-server
       - level1-workstation
@@ -563,6 +564,7 @@
                 - "{{ ubtu18cis_3_5_2_5_firewall_rules.stdout_lines }}"              
   when:
       - ubtu18cis_rule_3_5_2_5
+      - ubtu18cis_firewall_package == "ufw"
   tags:
       - level1-server
       - level1-workstation
@@ -570,3 +572,53 @@
       - audit
       - rule_3.5.2.5
       - ufw
+      - notimplemented
+
+- name: "NOTSCORED | 3.5.3.1 | PATCH | Ensure iptables are flushed"
+  iptables:
+      flush: yes
+  when:
+      - ubtu18cis_rule_3_5_3_1
+      - ubtu18cis_firewall_package == "nfptables"
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - patch
+      - rule_3.5.3.1
+      - iptables
+
+- name: "SCORED | 3.5.3.2 | PATCH | Ensure a table exists"      
+  command: "nft create table inet {{ ubtu18cis_nftables_table_name }}"
+  changed_when: ubtu18cis_3_5_3_2_new_table.rc == 0
+  failed_when: false
+  register: ubtu18cis_3_5_3_2_new_table
+  when:
+      - ubtu18cis_rule_3_5_3_2
+      - ubtu18cis_firewall_package == "nftables"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_3.5.3.2
+      - nftables
+
+- name: "SCORED | 3.5.3.3 | PATCH | Ensure base chains exist"
+  shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} input { type filter hook {{ item }} priority 0 \; }'
+  changed_when: ubtu18cis_3_5_3_3_base_chains.rc == 0
+  register: ubtu18cis_3_5_3_3_base_chains
+  with_items:
+      - input
+      - forward
+      - output
+  when:
+      - ubtu18cis_rule_3_5_3_3
+      - ubtu18cis_firewall_package == "nftables"
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_3.5.3.3
+      - nftables
