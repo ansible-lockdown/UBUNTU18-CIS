@@ -179,7 +179,7 @@ ubtu18cis_rule_3_5_4_2_2: true
 ubtu18cis_rule_3_5_4_2_3: true
 ubtu18cis_rule_3_5_4_2_4: true
 ubtu18cis_rule_3_6: true
-ubtu18cis_rule3_7: true
+ubtu18cis_rule_3_7: true
 
 # Service configuration variables, set to true to keep service
 ubtu18cis_allow_autofs: false
@@ -208,7 +208,7 @@ ubtu18cis_ldap_clients_required: false
 ubtu18cis_is_router: false
 
 # IPv6 requirement toggle
-ubtu18cis_ipv6_required: true
+ubtu18cis_ipv6_required: false
 
 # Other system wide variables
 # ubtu18cis_xwindows_required is the toggle for requiring x windows. True means you use X Windoes (not recommented for servers)
