@@ -301,7 +301,15 @@ ubtu18cis_host_allow:
 # ubtu18cis_firewall_package is the firewall package you will be using.
 # the options are ufw, nftables, or iptables
 # you much chose only one firewall package
-ubtu18cis_firewall_package: "nftables"
+ubtu18cis_firewall_package: "iptables"
+# ubtu18cis_iptables_v6 toggles iptables vs ip6tables CIS firewall rules
+ubtu18cis_iptables_v6: true
+
+# Controls 3.5.4.1.1 through 3.5.4.1.4
+# The iptables module only writes to memory which means a reboot could revert settings
+# The below toggle will install iptables-persistent and save the rules in memory (/etc/iptables/rules.v4 or rules.v6)
+# This makes the CIS role changes permenant
+ubtu18cis_save_iptables_cis_rules: true
 
 # Control 3.5.2.4
 # ubtu18cis_ufw_allow_out_ports are the ports for the firewall to allow
