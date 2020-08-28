@@ -181,6 +181,42 @@ ubtu18cis_rule_3_5_4_2_4: true
 ubtu18cis_rule_3_6: true
 ubtu18cis_rule_3_7: true
 
+# Section 4 Fixes
+# Section 4 is Logging and Auditing (configure system accounting and configure logging)
+ubtu18cis_rule_4_1_1_1: true
+ubtu18cis_rule_4_1_1_2: true
+ubtu18cis_rule_4_1_1_3: true
+ubtu18cis_rule_4_1_1_4: true
+ubtu18cis_rule_4_1_2_1: true
+ubtu18cis_rule_4_1_2_2: true
+ubtu18cis_rule_4_1_2_3: true
+ubtu18cis_rule_4_1_3: true
+ubtu18cis_rule_4_1_4: true
+ubtu18cis_rule_4_1_5: true
+ubtu18cis_rule_4_1_6: true
+ubtu18cis_rule_4_1_7: true
+ubtu18cis_rule_4_1_8: true
+ubtu18cis_rule_4_1_9: true
+ubtu18cis_rule_4_1_10: true
+ubtu18cis_rule_4_1_11: true
+ubtu18cis_rule_4_1_12: true
+ubtu18cis_rule_4_1_13: true
+ubtu18cis_rule_4_1_14: true
+ubtu18cis_rule_4_1_15: true
+ubtu18cis_rule_4_1_16: true
+ubtu18cis_rule_4_1_17: true
+ubtu18cis_rule_4_2_1_1: true
+ubtu18cis_rule_4_2_1_2: true
+ubtu18cis_rule_4_2_1_3: true
+ubtu18cis_rule_4_2_1_4: true
+ubtu18cis_rule_4_2_1_5: true
+ubtu18cis_rule_4_2_1_6: true
+ubtu18cis_rule_4_2_2_1: true
+ubtu18cis_rule_4_2_2_2: true
+ubtu18cis_rule_4_2_2_3: true
+ubtu18cis_rule_4_2_3: true
+ubtu18cis_rule_4_3: true
+
 # Service configuration variables, set to true to keep service
 ubtu18cis_allow_autofs: false
 ubtu18cis_allow_usb_storage: false
@@ -301,8 +337,9 @@ ubtu18cis_host_allow:
 # ubtu18cis_firewall_package is the firewall package you will be using.
 # the options are ufw, nftables, or iptables
 # you much chose only one firewall package
-ubtu18cis_firewall_package: "iptables"
-# ubtu18cis_iptables_v6 toggles iptables vs ip6tables CIS firewall rules
+ubtu18cis_firewall_package: "ufw"
+# ubtu18cis_iptables_v6 toggles iptables vs ip6tables CIS firewall rules and is used with 
+# variable ubtu18cis_firewall_package set to iptables
 ubtu18cis_iptables_v6: true
 
 # Controls 3.5.4.1.1 through 3.5.4.1.4
@@ -324,3 +361,19 @@ ubtu18cis_ufw_allow_out_ports:
 # the default nftables table name is inet filter. This variable name will be the one all
 # nftables configs are applied to
 ubtu18cis_nftables_table_name: "inet filter"
+
+# Section 4 Control Variables
+# Control 4.1.1.4
+# ubtu18cis_audit_back_log_limit is the audit_back_log limit and should be set to a sufficient value
+# The example from CIS uses 8192
+ubtu18cis_audit_back_log_limit: 8192
+
+# Control 4.1.2.1
+# ubtu18cis_max_log_file_size is largest the log file will become in MB
+# This shoudl be set based on your sites policy
+ubtu18cis_max_log_file_size: 10
+
+# Control 4.1.2.2
+ubtu18cis_auditd:
+    admin_space_left_action: halt
+    max_log_file_action: keep_logs
