@@ -391,3 +391,7 @@ ubtu18cis_remote_log_server: 192.168.2.100
 
 # Control 4.2.1.6
 ubtu18cis_system_is_log_server: true
+
+# Control 4.3
+# ubtu18cis_logrotate is the log rotate frequencey. Options are daily, weekly, monthly, and yearly
+ubtu18cis_logrotate: "daily"
