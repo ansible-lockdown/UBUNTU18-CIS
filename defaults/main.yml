@@ -446,3 +446,13 @@ ubtu18cis_system_is_log_server: true
 # Control 4.3
 # ubtu18cis_logrotate is the log rotate frequencey. Options are daily, weekly, monthly, and yearly
 ubtu18cis_logrotate: "daily"
+
+# Section 5 Control Variables
+# Control 5.2.5
+# ubtu18cis_log_level is the log level variable. This needs to be set to VERBOSE or INFO to conform to CIS standards
+ubtu18cis_log_level: "INFO"
+
+# Control 5.2.7
+# ubtu18cis_max_auth_tries is the max number of authentication attampts per connection.
+# This value should be 4 or less to conform to CIS standards
+ubtu18cis_max_auth_tries: 4
