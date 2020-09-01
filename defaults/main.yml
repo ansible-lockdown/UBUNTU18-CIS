@@ -217,6 +217,57 @@ ubtu18cis_rule_4_2_2_3: true
 ubtu18cis_rule_4_2_3: true
 ubtu18cis_rule_4_3: true
 
+# Section 5 Fixes
+# Section 5 is Acces, Authentication, and Authorization (configure cron, SSH server config, configure PAM
+# and user accounts and environment)
+ubtu18cis_rule_5_1_1: true
+ubtu18cis_rule_5_1_2: true
+ubtu18cis_rule_5_1_3: true
+ubtu18cis_rule_5_1_4: true
+ubtu18cis_rule_5_1_5: true
+ubtu18cis_rule_5_1_6: true
+ubtu18cis_rule_5_1_7: true
+ubtu18cis_rule_5_1_8: true
+ubtu18cis_rule_5_2_1: true
+ubtu18cis_rule_5_2_2: true
+ubtu18cis_rule_5_2_3: true
+ubtu18cis_rule_5_2_4: true
+ubtu18cis_rule_5_2_5: true
+ubtu18cis_rule_5_2_6: true
+ubtu18cis_rule_5_2_7: true
+ubtu18cis_rule_5_2_8: true
+ubtu18cis_rule_5_2_9: true
+ubtu18cis_rule_5_2_10: true
+ubtu18cis_rule_5_2_11: true
+ubtu18cis_rule_5_2_12: true
+ubtu18cis_rule_5_2_13: true
+ubtu18cis_rule_5_2_14: true
+ubtu18cis_rule_5_2_15: true
+ubtu18cis_rule_5_2_16: true
+ubtu18cis_rule_5_2_17: true
+ubtu18cis_rule_5_2_18: true
+ubtu18cis_rule_5_2_19: true
+ubtu18cis_rule_5_2_20: true
+ubtu18cis_rule_5_2_21: true
+ubtu18cis_rule_5_2_22: true
+ubtu18cis_rule_5_2_23: true
+ubtu18cis_rule_5_3_1: true
+ubtu18cis_rule_5_3_2: true
+ubtu18cis_rule_5_3_3: true
+ubtu18cis_rule_5_3_4: true
+ubtu18cis_rule_5_4_1_1: true
+ubtu18cis_rule_5_4_1_2: true
+ubtu18cis_rule_5_4_1_3: true
+ubtu18cis_rule_5_4_1_4: true
+ubtu18cis_rule_5_4_1_5: true
+ubtu18cis_rule_5_4_1: true
+ubtu18cis_rule_5_4_2: true
+ubtu18cis_rule_5_4_3: true
+ubtu18cis_rule_5_4_4: true
+ubtu18cis_rule_5_4_5: true
+ubtu18cis_rule_5_5: true
+ubtu18cis_rule_5_6: true
+
 # Service configuration variables, set to true to keep service
 ubtu18cis_allow_autofs: false
 ubtu18cis_allow_usb_storage: false
