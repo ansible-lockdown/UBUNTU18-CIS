@@ -37,7 +37,11 @@
        - skip_ansible_lint
 
 - name: restart rsyslog
-  become: yes
   service:
       name: rsyslog
+      state: restarted
+
+- name: restart sshd
+  service:
+      name: sshd
       state: restarted
