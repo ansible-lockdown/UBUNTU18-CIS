@@ -5,11 +5,11 @@
 ubtu18cis_oscap_scan: no
 ubtu18cis_report_dir: /tmp
 
-ubtu18cis_section1_patch: true
-ubtu18cis_section2_patch: true
-ubtu18cis_section3_patch: true
-ubtu18cis_section4_patch: true
-ubtu18cis_section5_patch: true
+ubtu18cis_section1_patch: false
+ubtu18cis_section2_patch: false
+ubtu18cis_section3_patch: false
+ubtu18cis_section4_patch: false
+ubtu18cis_section5_patch: false
 ubtu18cis_section6_patch: true
 
 # We've defined complexity-high to mean that we cannot automatically remediate
@@ -269,6 +269,43 @@ ubtu18cis_rule_5_4_5: true
 ubtu18cis_rule_5_5: true
 ubtu18cis_rule_5_6: true
 
+# Section 6 Fixes
+# Section 6 is System Maintenance (system file permissions and user and group settings)
+ubtu18cis_rule_6_1_1: true
+ubtu18cis_rule_6_1_2: true
+ubtu18cis_rule_6_1_3: true
+ubtu18cis_rule_6_1_4: true
+ubtu18cis_rule_6_1_5: true
+ubtu18cis_rule_6_1_6: true
+ubtu18cis_rule_6_1_7: true
+ubtu18cis_rule_6_1_8: true
+ubtu18cis_rule_6_1_9: true
+ubtu18cis_rule_6_1_10: true
+ubtu18cis_rule_6_1_11: true
+ubtu18cis_rule_6_1_12: true
+ubtu18cis_rule_6_1_13: true
+ubtu18cis_rule_6_1_14: true
+ubtu18cis_rule_6_2_1: true
+ubtu18cis_rule_6_2_2: true
+ubtu18cis_rule_6_2_3: true
+ubtu18cis_rule_6_2_4: true
+ubtu18cis_rule_6_2_5: true
+ubtu18cis_rule_6_2_6: true
+ubtu18cis_rule_6_2_7: true
+ubtu18cis_rule_6_2_8: true
+ubtu18cis_rule_6_2_9: true
+ubtu18cis_rule_6_2_10: true
+ubtu18cis_rule_6_2_11: true
+ubtu18cis_rule_6_2_12: true
+ubtu18cis_rule_6_2_13: true
+ubtu18cis_rule_6_2_14: true
+ubtu18cis_rule_6_2_15: true
+ubtu18cis_rule_6_2_16: true
+ubtu18cis_rule_6_2_17: true
+ubtu18cis_rule_6_2_18: true
+ubtu18cis_rule_6_2_19: true
+ubtu18cis_rule_6_2_20: true
+
 # Service configuration variables, set to true to keep service
 ubtu18cis_allow_autofs: false
 ubtu18cis_allow_usb_storage: false
@@ -522,3 +559,9 @@ ubtu18cis_shell_session_timeout:
 # Control 5.6
 # ubtu18cis_su_group is the su group to use with pam_wheel
 ubtu18cis_su_group: "wheel"
+
+# Section 6 Control Variables
+# Control 6.1.10
+# ubtu18cis_no_world_write_adjust will toggle the automated fix to remove world-writable perms from all files
+# Setting to true will remove all world-writable permissions, and false will leave as-is
+ubtu18cis_no_world_write_adjust: true
