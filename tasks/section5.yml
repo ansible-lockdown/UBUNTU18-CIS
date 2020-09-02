@@ -1002,3 +1002,64 @@
       - patch
       - rule_5.4.5
       - user
+
+- name: "NOTSCORED | 5.5 | AUDIT | Ensure root login is restricted to system console"
+  block:
+      - name: "NOTSCORED | 5.5 | AUDIT | Ensure root login is restricted to system console | Get list of all terminals"
+        command: cat /etc/securetty
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_5_5_terminal_list
+
+      - name: "NOTSCORED | 5.5 | AUDIT | Ensure root login is restricted to system console | Message out list"
+        debug:
+            msg:
+                - "WARNING!!!!Below is the list of conoles with root login access"
+                - "Please review for any conoles that are not in a physically secure location"
+                - "{{ ubtu18cis_5_5_terminal_list.stdout_lines }}"
+  when:
+      - ubtu18cis_rule_5_5
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - audit
+      - rule_5.5
+      - user
+
+- name: "SCORED | 5.6 | PATCH | Ensure access to the su command is restricted"
+  block:
+      - name: "SCORED | 5.6 | PATCH | Ensure access to the su command is restricted | Check for pam_wheel.so module"
+        command: grep 'auth.*required.*pam_wheel' /etc/pam.d/su
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_5_6_pam_wheel_status
+
+      - name: "SCORED | 5.6 | PATCH | Ensure access to the su command is restricted | Create empty sugroup"
+        group:
+            name: "{{ ubtu18cis_su_group }}"
+
+      - name: "SCORED | 5.6 | PATCH | Ensure access to the su command is restricted | Set pam_wheel if exists"
+        pamd:
+            name: su
+            type: auth
+            control: required
+            module_path: pam_wheel.so
+            module_arguments: 'use_uid group={{ ubtu18cis_su_group }}'
+        when: ubtu18cis_5_6_pam_wheel_status.stdout != ""
+
+      - name: "SCORED | 5.6 | PATCH | Ensure access to the su command is restricted | Set pam_wheel if does not exist"
+        lineinfile:
+            path: /etc/pam.d/su
+            line: 'auth       required   pam_wheel.so use_uid group={{ ubtu18cis_su_group }}'
+            create: yes
+        when: ubtu18cis_5_6_pam_wheel_status.stdout == ""
+  when:
+      - ubtu18cis_rule_5_6
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_5.6
+      - user
