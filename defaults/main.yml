@@ -565,3 +565,16 @@ ubtu18cis_su_group: "wheel"
 # ubtu18cis_no_world_write_adjust will toggle the automated fix to remove world-writable perms from all files
 # Setting to true will remove all world-writable permissions, and false will leave as-is
 ubtu18cis_no_world_write_adjust: true
+
+# Control 6.1.11
+# ubtu18cis_un_owned_owner is the owner to set files to that have no owner
+ubtu18cis_unowned_owner: root
+# ubtu18cis_no_owner_adjust will toggle the automated fix to give a user to unowned files/directories
+# true will give the owner from ubtu18cis_un_owned_owner to all unowned files/directories and false will skip
+ubtu18cis_no_owner_adjust: true
+# Control 6.1.12
+# ubtu18cis_ungrouped_group is the group to set files to that have no group
+ubtu18cis_ungrouped_group: root
+# ubtu18cis_no_group_adjust will toggle the automated fix to give a group to ungrouped files/directories
+# true will give the group from ubtu18cis_un_owned_group to all ungrouped files/directories and false will skip
+ubtu18cis_no_group_adjust: true

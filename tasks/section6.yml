@@ -173,8 +173,7 @@
             mode: o-w
         with_items:
             - "{{ ubtu18cis_6_1_10_wwf.stdout_lines }}"
-        when:
-            - ubtu18cis_no_world_write_adjust
+        when: ubtu18cis_no_world_write_adjust
   when:
       - ubtu18cis_rule_6_1_10
   tags:
@@ -183,4 +182,78 @@
       - scored
       - patch
       - rule_6.1.10
+      - permissions
+
+- name: "SCORED | 6.1.11 | PATCH | Ensure no unowned files or directories exist"
+  block:
+      - name: "SCORED | 6.1.11 | AUDIT | Ensure no unowned files or directories exist | Get unowned files or directories"
+        shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nouser
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_6_1_11_no_user_items
+
+      - name: "SCORED | 6.1.11 | AUDIT | Ensure no unowned files or directories exist | Alert on unowned files and directories"
+        debug:
+            msg:
+                - "ALERT!!!You have unowned files and are configured to not auto-remediate for this task"
+                - "Please review the files/directories below and assign an owner"
+                - "{{ ubtu18cis_6_1_11_no_user_items.stdout_lines }}"
+        when:
+            - not ubtu18cis_no_owner_adjust
+            - ubtu18cis_6_1_11_no_user_items.stdout != ""
+
+      - name: "SCORED | 6.1.11 | PATCH | Ensure no unowned files or directories exist | Set unowned files/directories to configured owner"
+        file:
+            path: "{{ item }}"
+            ower: "{{ ubtu18cis_unowned_owner }}"
+        with_items:
+            - "{{ ubtu18cis_6_1_11_no_user_items.stdout_lines }}"
+        when:
+            - ubtu18cis_no_owner_adjust
+            - ubtu18cis_6_1_11_no_user_items.stdout != ""
+  when:
+      - ubtu18cis_rule_6_1_11
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_6.1.11
+      - permissions
+
+- name: "SCORED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist"
+  block:
+      - name: "SCORED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Get ungrouped fiels or directories"
+        shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_6_1_12_ungrouped_items
+
+      - name: "SCORED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Alert on ungrouped files and directories"
+        debug:
+            msg:
+                - "ALERT!!!!You have ungrouped files/directories and are configured to not auto-remediate for this task"
+                - "Please review the files/directories below and assign a group"
+                - "{{ ubtu18cis_6_1_12_ungrouped_items.stdout_lines }}"
+        when:
+            - not ubtu18cis_no_group_adjust
+            - ubtu18cis_6_1_12_ungrouped_items.stdout != ""
+
+      - name: "SCORED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Set ungrouped files/directories to configured group"
+        file:
+            path: "{{ item }}"
+            group: "{{ ubtu18cis_ungrouped_group }}"
+        with_items:
+            - "{{ ubtu18cis_6_1_12_ungrouped_items.stdout_lines }}"
+        when:
+            - ubtu18cis_no_group_adjust
+            - ubtu18cis_6_1_12_ungrouped_items.stdout != ""
+  when:
+      - ubtu18cis_rule_6_1_12
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_6.1.12
       - permissions
