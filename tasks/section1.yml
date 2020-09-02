@@ -773,7 +773,7 @@
       - name: "SCORED | 1.6.2 | PATCH | Ensure address space layout randomization (ASLR) is enabled | Set active kernel parameter"
         sysctl:
             name: kernel.randomize_va_space
-            value: '3'
+            value: '2'
   when:
       - ubtu18cis_rule_1_6_2
   tags:

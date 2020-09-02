@@ -630,30 +630,34 @@
       - rule_5.3.1
       - pam
 
+# -------------
+# -------------
+# There is a bug in pam_tally2.so where the use of the audit keyword may log credentials in the case of user error during authentication.
+# To work around this bug the CIS documentation has you setting pam_tally2 to the account section. 
+# Once bug is fixed please set pam_tally2 to the auth sections. We have those commented out in the task
+# -------------
+# -------------
+
+# -------------
+# -------------
+# figure out why pam_deny kills vagrant user
+# -------------
+# -------------
 - name: "SCORED | 5.3.2 | PATCH | Ensure lockout for failed password attempts is configured"
   block:
       - name: "SCORED | 5.3.2 | AUDIT | Ensure lockout for failed password attempts is configured | Confirm pam_tally2.so module in common-password"
-        command: grep 'auth.*required.*pam_tally2.so' /etc/pam.d/common-password
+        # command: grep 'auth.*required.*pam_tally2.so' /etc/pam.d/common-password
+        command: grep 'auth.*required.*pam_tally2.so' /etc/pam.d/common-account
         changed_when: false
         failed_when: false
         register: ubtu18cis_5_3_2_pam_tally2_state
 
-      # - name: "SCORED | 5.3.2 | AUDIT | Ensure lockout for failed password attempts is configured | Confirm pam_deny.so module in common-password"
-      #   command: grep 'account.*requisite.*pam_deny.so' /etc/pam.d/common-password
-      #   changed_when: false
-      #   failed_when: false
-      #   register: ubtu18cis_5_3_2_pam_deny.state
-
-      # - name: "SCORED | 5.3.2 | AUDIT | Ensure lockout for failed password attempts is configured | Confirm pam_tally.so module in common-password"
-      #   command: grep 'account required pam_tally.so' /etc/pam.d/common-password
-      #   changed_when: false
-      #   failed_when: false
-      #   register: ubtu18cis_5_3_2_pam_tally_state
-
       - name: "SCORED | 5.3.2 | PATCH | Ensure lockout for failed password attempts is configured | Set pam_tally2.so settings if exists"
         pamd:
-            name: common-password
-            type: auth
+            # name: common-auth
+            name: common-account
+            # type: auth
+            type: account
             control: required
             module_path: pam_tally2.so
             module_arguments: 'onerr=fail
@@ -665,19 +669,21 @@
 
       - name: "SCORED | 5.3.2 | PATCH | Ensure lockout for failed password attempts is configured | Set pam_tally2.so settings if does not exist"
         lineinfile:
-            path: /etc/pam.d/common-password
-            line: 'auth       required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
-            insertbefore: '^# here are the per-package modules'
+            # path: /etc/pam.d/common-auth
+            path: /etc/pam.d/common-account
+            # line: 'auth       required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
+            line: 'account       required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
+            insertafter: '^# end of pam-auth-update config'
         when: ubtu18cis_5_3_2_pam_tally2_state == ""
 
       - name: "SCORED | 5.3.2 | PATCH | Ensure lockout for failed password attempts is configured | Set pam_deny.so and pam_tally.so"
         lineinfile:
-            path: /etc/pam.d/common-password
+            path: /etc/pam.d/common-account
             regexp: "{{ item.regexp }}"
             line: "{{ item.line }}"
-            insertbefore: '^# here are the per-package modules'
+            insertafter: '^# end of pam-auth-update config'
         with_items:
-            - { regexp: '^accout.*requisite.*pam_deny.so', line: 'account    requisite pam_deny.so' }
+            # - { regexp: '^accout.*requisite.*pam_deny.so', line: 'account    requisite pam_deny.so' }
             - { regexp: '^account.*required.*pam_tally.so', line: 'account    required pam_tally.so' }
   when:
       - ubtu18cis_rule_5_3_2
@@ -688,3 +694,211 @@
       - patch
       - rule_5.3.2
       - pamd
+      - notimplemented
+
+- name: "SCORED | 5.3.3 | PATCH | Ensure password reuse is limited"
+  block:
+      - name: "SCORED | 5.3.3 | PATCH | Ensure password reuse is limited | Confirm pam_pwhistory.so in common-password"
+        command: grep 'password.*required.*pam_pwhistory.so' /etc/pam.d/common-password
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_5_3_3_pam_pwhistory_state
+
+      - name: "SCORED | 5.3.3 | PATCH | Ensure password reuse is limited | Set remember value if pam_pwhistory exists"
+        pamd:
+            name: common-password
+            type: password
+            control: required
+            module_path: pam_pwhistory.so
+            module_arguments: 'remember={{ ubtu18cis_pamd_pwhistory_remember }}'
+            state: args_present
+        when: ubtu18cis_5_3_3_pam_pwhistory_state.stdout != ""
+
+      - name: "SCORED | 5.3.3 | PATCH | Ensure password reuse is limited | Set remember value if pam_pwhistory does no exist"
+        lineinfile:
+            path: /etc/pam.d/common-password
+            line: 'password        required                        pam_pwhistory.so remember={{ ubtu18cis_pamd_pwhistory_remember }}'
+            insertafter: '^# end of pam-auth-update config'
+        when: ubtu18cis_5_3_3_pam_pwhistory_state.stdout == ""
+  when:
+      - ubtu18cis_rule_5_3_3
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_5.3.3
+      - pamd
+
+- name: "SCORED | 5.3.4 | PATCH | Ensure password hashing algorithm is SHA-512"
+  block:
+      - name: "SCORED | 5.3.4 | PATCH | Ensure password hashing algorithm is SHA-512 | Confirm pam_unix.so"
+        shell: grep -E '^\s*password\s+(\S+\s+)+pam_unix\.so\s+(\S+\s+)*sha512\s*(\S+\s*)*(\s+#.*)?$' /etc/pam.d/common-password
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_5_3_4_pam_unix_state
+
+      - name: "SCORED | 5.3.4 | PATCH | Ensure password hashing algorithm is SHA-512 | Set hashing if pam_unix.so exists"
+        pamd:
+            name: common-password
+            type: password
+            control: '[success=1 default=ignore]'
+            module_path: pam_unix.so
+            module_arguments: sha512
+            state: args_present
+        when: ubtu18cis_5_3_4_pam_unix_state.stdout != ""
+
+      - name: "SCORED | 5.3.4 | PATCH | Ensure password hashing algorithm is SHA-512 | Set hashing if pam_unix.so does not exist"
+        lineinfile:
+            path: /etc/pam.d/common-password
+            line: 'password        [success=1 default=ignore]      pam_unix.so sha512'
+            insertafter: '^# end of pam-auth-update config'
+        when: ubtu18cis_5_3_4_pam_unix_state.stdout == ""
+  when:
+      - ubtu18cis_rule_5_3_4
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_5.3.4
+      - pamd
+
+- name: "SCORED | 5.4.1.1 | PATCH | Ensure password expiration is 365 days or less"
+  block:
+      - name: "SCORED | 5.4.1.1 | PATCH | Ensure password expiration is 365 days or less | Set /etc/login.defs PASS_MAX_DAYS"
+        lineinfile:
+            path: /etc/login.defs
+            regexp: '^PASS_MAX_DAYS|^#PASS_MAX_DAYS'
+            line: 'PASS_MAX_DAYS {{ ubtu18cis_pass.max_days }}'
+            insertafter: '# Password aging controls'
+
+      - name: "SCORED | 5.4.1.1 | PATCH | Ensure password expiration is 365 days or less | Set existing users PASS_MAX_DAYS"
+        command: chage --maxdays {{ ubtu18cis_pass.max_days }} {{ item }}
+        failed_when: false
+        with_items:
+            - "{{ ubtu18cis_passwd| selectattr('uid', '>=', 1000) | map(attribute='id') | list }}"
+        when: ubtu18cis_disruption_high
+  when:
+      - ubtu18cis_rule_5_4_1_1
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_5.4.1.1
+      - user
+      - login
+
+- name: "SCORED | 5.4.1.2 | PATCH | Ensure minimum days between password changes is configured"
+  block:
+      - name: "SCORED | 5.4.1.2 | PATCH | Ensure minimum days between password changes is configured | Set /etc/login.defs PASS_MIN_DAYS"
+        lineinfile:
+            path: /etc/login.defs
+            regexp: '^PASS_MIN_DAYS|^#PASS_MIN_DAYS'
+            line: 'PASS_MIN_DAYS {{ ubtu18cis_pass.min_days }}'
+
+      - name: "SCORED | 5.4.1.2 | PATCH | Ensure minimum days between password changes is configured | Set existing users PASS_MIN_DAYS"
+        command: chage --mindays {{ ubtu18cis_pass.min_days }} {{ item }}
+        failed_when: false
+        with_items:
+            - "{{ ubtu18cis_passwd| selectattr('uid', '>=', 1000) | map(attribute='id') | list }}"
+        when: ubtu18cis_disruption_high
+  when:
+      - ubtu18cis_rule_5_4_1_2
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_5.4.1.1
+      - user
+      - login
+
+- name: "SCORED | 5.4.1.3 | PATCH | Ensure password expiration warning days is 7 or more"
+  block:
+      - name: "SCORED | 5.4.1.3 | PATCH | Ensure password expiration warning days is 7 or more | Set /etc/login.defs PASS_WARN_AGE"
+        lineinfile:
+            path: /etc/login.defs
+            regexp: '^PASS_WARN_AGE|^#PASS_WARN_AGE'
+            line: 'PASS_WARN_AGE {{ ubtu18cis_pass.warn_age }}'
+
+      - name: "SCORED | 5.4.1.3 | PATCH | Ensure password expiration warning days is 7 or more | Set existing users PASS_WARN_AGE"
+        command: chage --warndays {{ ubtu18cis_pass.warn_age }} {{ item }}
+        failed_when: false
+        with_items:
+            - "{{ ubtu18cis_passwd| selectattr('uid', '>=', 1000) | map(attribute='id') | list }}"
+        when: ubtu18cis_disruption_high
+  when:
+      - ubtu18cis_rule_5_4_1_3
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_5.4.1.3
+      - user
+      - login
+
+- name: "SCORED | 5.4.1.4 | PATCH | Ensure inactive password lock is 30 days or less"
+  block:
+      - name: "SCORED | 5.4.1.4 | PATCH | Ensure inactive password lock is 30 days or less | Set inactive period for new users"
+        command: useradd -D -f {{ ubtu18cis_pass.inactive }}
+        failed_when: false
+
+      - name: "SCORED | 5.4.1.4 | PATCH | Ensure inactive password lock is 30 days or less | Set inactive period for existing users"
+        command: chage --inactive {{ ubtu18cis_pass.inactive }} {{ item }}
+        failed_when: false
+        with_items:
+            - "{{ ubtu18cis_passwd| selectattr('uid', '>=', 1000) | map(attribute='id') | list }}"
+        when: ubtu18cis_disruption_high
+  when:
+      - ubtu18cis_rule_5_4_1_4
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_5.4.1.4
+      - user
+      - login
+
+- name: "SCORED | 5.4.1.5 | PATCH | Ensure all users last password change date is in the past"
+  block:
+      - name: "SCORED | 5.4.1.5 | PATCH | Ensure all users last password change date is in the past | Get current date in Unix Time"
+        shell: echo $(($(date --utc --date "$1" +%s)/86400))
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_5_4_1_5_current_time
+
+      - name: "SCORED | 5.4.1.5 | PATCH | Ensure all users last password change date is in the past | Get list of users with last changed PW date in future"
+        shell: "cat /etc/shadow | awk -F: '{if($3>{{ ubtu18cis_5_4_1_5_current_time.stdout }})print$1}'"
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_5_4_1_5_user_list
+
+      - name: "SCORED | 5.4.1.5 | PATCH | Ensure all users last password change date is in the past | Warn about users"
+        debug:
+            msg:
+                - "WARNING!!!!The following accounts have the last PW change date in the future"
+                - "{{ ubtu18cis_5_4_1_5_user_list.stdout_lines }}"
+        when: ubtu18cis_5_4_1_5_user_list.stdout != ""
+
+      - name: "SCORED | 5.4.1.5 | PATCH | Ensure all users last password change date is in the past | Lock accounts with furtre PW changed dates"
+        command: passwd --expire {{ item }}
+        failed_when: false
+        with_items:
+            - "{{ ubtu18cis_5_4_1_5_user_list.stdout_lines }}"
+        when:
+            - ubtu18cis_disruption_high
+            - ubtu18cis_5_4_1_5_user_list.stdout != ""
+  when:
+      - ubtu18cis_rule_5_4_1_5
+  tags:
+      - level1-server
+      - level1-workstation
+      - scored
+      - patch
+      - rule_5.4.1.5
+      - user
+      - login
