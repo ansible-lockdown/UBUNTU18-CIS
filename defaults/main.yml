@@ -511,3 +511,10 @@ ubtu18cis_pass:
     min_days: 1
     warn_age: 7
     inactive: 30
+
+# Control 5.4.5
+# Session timeout setting file (TMOUT setting can be set in multiple files)
+# Timeout value is in seconds. Set value to 900 seconds or less
+ubtu18cis_shell_session_timeout:
+    file: /etc/profile.d/tmout.sh
+    timeout: 900
