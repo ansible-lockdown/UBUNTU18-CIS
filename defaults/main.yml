@@ -5,11 +5,11 @@
 ubtu18cis_oscap_scan: no
 ubtu18cis_report_dir: /tmp
 
-ubtu18cis_section1_patch: false
-ubtu18cis_section2_patch: false
-ubtu18cis_section3_patch: false
-ubtu18cis_section4_patch: false
-ubtu18cis_section5_patch: false
+ubtu18cis_section1_patch: true
+ubtu18cis_section2_patch: true
+ubtu18cis_section3_patch: true
+ubtu18cis_section4_patch: true
+ubtu18cis_section5_patch: true
 ubtu18cis_section6_patch: true
 
 # We've defined complexity-high to mean that we cannot automatically remediate
