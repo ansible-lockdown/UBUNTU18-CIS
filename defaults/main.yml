@@ -578,3 +578,8 @@ ubtu18cis_ungrouped_group: root
 # ubtu18cis_no_group_adjust will toggle the automated fix to give a group to ungrouped files/directories
 # true will give the group from ubtu18cis_un_owned_group to all ungrouped files/directories and false will skip
 ubtu18cis_no_group_adjust: true
+
+# Cotnrol 6.1.13
+# ubtu18cis_suid_adjust is the toggle to remove the SUID bit from all files on all mounts
+# Set to true this role will remove that bit, set to false we will just warn about the files
+ubtu18cis_suid_adjust: false
