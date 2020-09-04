@@ -333,7 +333,7 @@ ubtu18cis_ldap_clients_required: false
 ubtu18cis_is_router: false
 
 # IPv6 requirement toggle
-ubtu18cis_ipv6_required: false
+ubtu18cis_ipv6_required: true
 
 # Other system wide variables
 # ubtu18cis_xwindows_required is the toggle for requiring x windows. True means you use X Windoes (not recommented for servers)
@@ -583,3 +583,6 @@ ubtu18cis_no_group_adjust: true
 # ubtu18cis_suid_adjust is the toggle to remove the SUID bit from all files on all mounts
 # Set to true this role will remove that bit, set to false we will just warn about the files
 ubtu18cis_suid_adjust: false
+
+# Control 6.1.10 Allow ansible to adjust world-writable files. False will just display world-writable files, True will remove world-writable
+ubtu18cis_passwd_label: "{{ (this_item | default(item)).id }}: {{ (this_item | default(item)).dir }}"

@@ -125,7 +125,6 @@
       group: root
       mode: 0600
   notify: restart auditd
-  # when: "'64' not in ansible_architecture"
   when:
       - "'64' not in ansible_architecture"
       - ubtu18cis_rule_4_1_3

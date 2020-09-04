@@ -679,9 +679,14 @@
 # ---------------
 # ---------------
 - name: "SCORED | 1.5.2 | PATCH | Ensure bootloader password is set"
-  command: /bin/true
-  changed_when: false
-  failed_when: false
+  block:
+      - name: "SCORED | 1.5.2 | PATCH | Ensure bootloader password is set"
+        grub_crypt:
+            password: "{{ ubtu18cis_bootloader_password }}"
+        register: grub_pass
+
+      - debug: var=grub_pass
+
   when:
       - ubtu18cis_rule_1_5_2
   tags:

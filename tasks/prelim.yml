@@ -4,9 +4,13 @@
 # List users in order to look files inside each home directory
 - name: "PRELIM | List users accounts"
   command: "awk -F: '{print $1}' /etc/passwd"
-  register: users
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  register: ubtu18cis_users
+  when:
+      - ubtu18cis_rule_6_2_11 or
+        ubtu18cis_rule_6_2_12 or
+        ubtu18cis_rule_6_2_13 or
+        ubtu18cis_rule_6_2_14
 
 - name: "PRELIM | Check for autofs service"
   shell: "systemctl show autofs | grep LoadState | cut -d = -f 2"
