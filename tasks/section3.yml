@@ -33,7 +33,7 @@
             state: present
             reload: yes
             ignoreerrors: yes
-        notify: 
+        notify:
             - sysctl flush ipv4 route table
 
       - name: "SCORED | 3.1.2 | PATCH | Ensure IP forwarding is disabled | IPv4 settings"
@@ -44,7 +44,7 @@
             state: present
             reload: yes
             ignoreerrors: yes
-        notify: 
+        notify:
             - sysctl flush ipv6 route table
   when:
       - ubtu18cis_rule_3_1_2
@@ -84,7 +84,7 @@
         with_items:
             - net.ipv6.conf.all.accept_source_route
             - net.ipv6.conf.default.accept_source_route
-        notify: sysctl flush ipv6 route table        
+        notify: sysctl flush ipv6 route table
   when:
       - ubtu18cis_rule_3_2_1
       - not ubtu18cis_is_router
@@ -525,7 +525,7 @@
             - "{{ ubtu18cis_ufw_allow_out_ports }}"
         notify: reload ufw
         when: ubtu18cis_ufw_allow_out_ports != "all"
- 
+
       - name: "NOTSCORED | 3.5.2.4 | PATCH | Ensure outbound connections are configured | Allow all"
         ufw:
             rule: allow
@@ -566,7 +566,7 @@
                 - "*****---Open Listen Ports---*****"
                 - "{{ ubtu18cis_3_5_2_5_open_listen_ports.stdout_lines }}"
                 - "*****---Firewall Rules---*****"
-                - "{{ ubtu18cis_3_5_2_5_firewall_rules.stdout_lines }}"              
+                - "{{ ubtu18cis_3_5_2_5_firewall_rules.stdout_lines }}"
   when:
       - ubtu18cis_rule_3_5_2_5
       - ubtu18cis_firewall_package == "ufw"
@@ -917,7 +917,7 @@
 # ---------------
 # ---------------
 # This is not a control however using the iptables module only writes to memery
-# if a reboot occurs that means changes can revert. This task will make the 
+# if a reboot occurs that means changes can revert. This task will make the
 # above iptables settings permanent
 # ---------------
 # ---------------
@@ -1084,7 +1084,7 @@
 # ---------------
 # ---------------
 # This is not a control however using the ip6tables module only writes to memery
-# if a reboot occurs that means changes can revert. This task will make the 
+# if a reboot occurs that means changes can revert. This task will make the
 # above ip6tables settings permanent
 # ---------------
 # ---------------
@@ -1115,15 +1115,15 @@
         command: rpm -q NetworkManager
         args:
             warn: no
-        check_mode: no
-        changed_when: no
+        check_mode: false
+        changed_when: false
         register: ubtu18cis_nmcli_available
         failed_when: no
 
       - name: "SCORED | 3.6 | SCORED | Ensure wireless interfaces are disabled | Check if wifi is enabled"
         command: nmcli radio wifi
         register: ubtu18cis_wifi_enabled
-        check_mode: no
+        check_mode: false
         changed_when: ubtu18cis_wifi_enabled.stdout != "disabled"
         when: ubtu18cis_nmcli_available.rc == 0
 

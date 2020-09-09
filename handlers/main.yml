@@ -16,7 +16,6 @@
   when: ansible_virtualization_type != "docker"
 
 - name: sysctl flush ipv6 route table
-  become: yes
   sysctl:
       name: net.ipv6.route.flush
       value: '1'
@@ -34,7 +33,7 @@
   when:
       - not ubtu18cis_skip_for_travis
   tags:
-       - skip_ansible_lint
+      - skip_ansible_lint
 
 - name: restart rsyslog
   service:

@@ -612,7 +612,7 @@
         pamd:
             name: common-password
             type: password
-            control: required 
+            control: required
             module_path: pam_permit.so
             new_type: password
             new_control: requisite
@@ -633,7 +633,7 @@
 # -------------
 # -------------
 # There is a bug in pam_tally2.so where the use of the audit keyword may log credentials in the case of user error during authentication.
-# To work around this bug the CIS documentation has you setting pam_tally2 to the account section. 
+# To work around this bug the CIS documentation has you setting pam_tally2 to the account section.
 # Once bug is fixed please set pam_tally2 to the auth sections. We have those commented out in the task
 # -------------
 # -------------

@@ -297,7 +297,7 @@
       state: present
       fstype: "{{ ubtu18cis_vartmp['fstype'] }}"
       opts: "{{ ubtu18cis_vartmp['opts'] }}"
-  
+
   when:
       - ubtu18cis_rule_1_1_8 or
         ubtu18cis_rule_1_1_9 or
@@ -678,8 +678,8 @@
 # ---------------
 # ---------------
 # The RHEL7 based control for this does not use a valid module
-# I need to research best way to set grub pw for Ubuntu using the 
-# grub-mkpasswd-pbkdf2 command and passing the data at the same time. 
+# I need to research best way to set grub pw for Ubuntu using the
+# grub-mkpasswd-pbkdf2 command and passing the data at the same time.
 # ---------------
 # ---------------
 # - name: "SCORED | 1.5.2 | PATCH | Ensure bootloader password is set"

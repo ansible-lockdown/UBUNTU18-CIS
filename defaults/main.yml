@@ -2,7 +2,7 @@
 # If you would like a report at the end accordin to OpenSCAP as to the report results
 # then you should set ubtu18cis_oscap_scan to true/yes.
 # NOTE: This requires the python_xmltojson package on the control host.
-ubtu18cis_oscap_scan: no
+ubtu18cis_oscap_scan: false
 ubtu18cis_report_dir: /tmp
 
 ubtu18cis_section1_patch: true
@@ -30,7 +30,7 @@ ubtu18cis_disruption_high: true
 
 # Show "changed" for disruptive items not remediated per disruption-high
 # setting to make them stand out.
-ubtu18cis_audit_disruptive: yes
+ubtu18cis_audit_disruptive: true
 
 ubtu18cis_skip_for_travis: false
 
@@ -358,7 +358,7 @@ ubtu18cis_vartmp:
     source: /tmp
     fstype: none
     opts: "defaults,nodev,nosuid,noexec,bind"
-    enabled: no
+    enabled: false
 
 # Control 1.3.1
 # ubtu18cis_sudo_package is the name of the sudo package to install
@@ -417,7 +417,7 @@ ubtu18cis_time_synchronization_servers:
 
 # Section 3 Control Variables
 # Control 3.3.2
-# values for the /etc/hosts.allow file for IP addresses permitted to connect to the host. 
+# values for the /etc/hosts.allow file for IP addresses permitted to connect to the host.
 ubtu18cis_host_allow:
     - "10.0.0.0/255.0.0.0"
     - "172.16.0.0/255.240.0.0"
@@ -428,7 +428,7 @@ ubtu18cis_host_allow:
 # the options are ufw, nftables, or iptables
 # you much chose only one firewall package
 ubtu18cis_firewall_package: "ufw"
-# ubtu18cis_iptables_v6 toggles iptables vs ip6tables CIS firewall rules and is used with 
+# ubtu18cis_iptables_v6 toggles iptables vs ip6tables CIS firewall rules and is used with
 # variable ubtu18cis_firewall_package set to iptables
 ubtu18cis_iptables_v6: true
 
@@ -441,7 +441,7 @@ ubtu18cis_save_iptables_cis_rules: true
 # Control 3.5.2.4
 # ubtu18cis_ufw_allow_out_ports are the ports for the firewall to allow
 # if you want to allow out on all ports set variable to "all", example ubtu18cis_ufw_allow_out_ports: "all"
-ubtu18cis_ufw_allow_out_ports: 
+ubtu18cis_ufw_allow_out_ports:
     - 53
     - 80
     - 443
@@ -470,8 +470,8 @@ ubtu18cis_auditd:
 
 # Control 4.2.1.3
 # ubtu18cis_rsyslog_ansible_managed will toggle ansible automated configurations of rsyslog
-# You should set the rsyslog to your side specific needs. This toggle will use the example from 
-# page 347 to set rsyslog loggin based on those configuration suggestions. Settings can be seen 
+# You should set the rsyslog to your side specific needs. This toggle will use the example from
+# page 347 to set rsyslog loggin based on those configuration suggestions. Settings can be seen
 # in control 4.2.1.3
 ubtu18cis_rsyslog_ansible_managed: true
 
