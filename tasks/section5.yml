@@ -683,7 +683,7 @@
             line: "{{ item.line }}"
             insertafter: '^# end of pam-auth-update config'
         with_items:
-            # - { regexp: '^accout.*requisite.*pam_deny.so', line: 'account    requisite pam_deny.so' }
+            # - { regexp: '^accout.*requisite.*pam_deny.so', line: 'account    requisite pam_george.so' }
             - { regexp: '^account.*required.*pam_tally.so', line: 'account    required pam_tally.so' }
   when:
       - ubtu18cis_rule_5_3_2

@@ -580,13 +580,14 @@
 
 # ---------------
 # ---------------
-# Need to circle back with best way to implement permenance with nft command settings
-# task 3.5.3.8 has the make it permanent stuff but that doesn't work when done by hand
+# NFTables is unsupported with this role. However I have the actions commented out as a guide
 # ---------------
 # ---------------
 - name: "NOTSCORED | 3.5.3.1 | PATCH | Ensure iptables are flushed"
-  iptables:
-      flush: yes
+  debug:
+      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  # iptables:
+  #     flush: yes
   when:
       - ubtu18cis_rule_3_5_3_1
       - ubtu18cis_firewall_package == "nfptables"
@@ -596,13 +597,16 @@
       - notscored
       - patch
       - rule_3.5.3.1
-      - iptables
+      - nftables
+      - notimplemented
 
-- name: "SCORED | 3.5.3.2 | PATCH | Ensure a table exists"      
-  command: "nft create table {{ ubtu18cis_nftables_table_name }}"
-  changed_when: ubtu18cis_3_5_3_2_new_table.rc == 0
-  failed_when: false
-  register: ubtu18cis_3_5_3_2_new_table
+- name: "SCORED | 3.5.3.2 | PATCH | Ensure a table exists"
+  debug:
+      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  # command: "nft create table {{ ubtu18cis_nftables_table_name }}"
+  # changed_when: ubtu18cis_3_5_3_2_new_table.rc == 0
+  # failed_when: false
+  # register: ubtu18cis_3_5_3_2_new_table
   when:
       - ubtu18cis_rule_3_5_3_2
       - ubtu18cis_firewall_package == "nftables"
@@ -613,26 +617,29 @@
       - patch
       - rule_3.5.3.2
       - nftables
+      - notimplemented
 
 - name: "SCORED | 3.5.3.3 | PATCH | Ensure base chains exist"
-  block:
-      - name: "SCORED | 3.5.3.3 | PATCH | Ensure base chains exist | Input entry"
-        shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} input { type filter hook input priority 0 \; }'
-        changed_when: ubtu18cis_3_5_3_3_base_chains_input.rc == 0
-        failed_when: false
-        register: ubtu18cis_3_5_3_3_base_chains_input
+  debug:
+      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  # block:
+  #     - name: "SCORED | 3.5.3.3 | PATCH | Ensure base chains exist | Input entry"
+  #       shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} input { type filter hook input priority 0 \; }'
+  #       changed_when: ubtu18cis_3_5_3_3_base_chains_input.rc == 0
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_3_base_chains_input
 
-      - name: "SCORED | 3.5.3.3 | PATCH | Ensure base chains exist | Forward entry"
-        shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} forward { type filter hook forward priority 0 \; }'
-        changed_when: ubtu18cis_3_5_3_3_base_chains_forward.rc == 0
-        failed_when: false
-        register: ubtu18cis_3_5_3_3_base_chains_forward
+  #     - name: "SCORED | 3.5.3.3 | PATCH | Ensure base chains exist | Forward entry"
+  #       shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} forward { type filter hook forward priority 0 \; }'
+  #       changed_when: ubtu18cis_3_5_3_3_base_chains_forward.rc == 0
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_3_base_chains_forward
 
-      - name: "SCORED | 3.5.3.3 | PATCH | Ensure base chains exist | Output entry"
-        shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} output { type filter hook output priority 0 \; }'
-        changed_when: ubtu18cis_3_5_3_3_base_chains_output.rc == 0
-        failed_when: false
-        register: ubtu18cis_3_5_3_3_base_chains_output
+  #     - name: "SCORED | 3.5.3.3 | PATCH | Ensure base chains exist | Output entry"
+  #       shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} output { type filter hook output priority 0 \; }'
+  #       changed_when: ubtu18cis_3_5_3_3_base_chains_output.rc == 0
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_3_base_chains_output
   when:
       - ubtu18cis_rule_3_5_3_3
       - ubtu18cis_firewall_package == "nftables"
@@ -643,51 +650,54 @@
       - patch
       - rule_3.5.3.3
       - nftables
+      - notimplemented
 
 - name: "SCORED | 3.5.3.4 | PATCH | Ensure loopback traffic is configured"
-  block:
-      - name: "SCORED | 3.5.3.4 | AUDIT | Ensure loopback traffic is configured | Get input iif lo accept status"
-        shell: nft list ruleset | awk '/hook input/,/}/' | grep 'iif "lo" accept'
-        changed_when: false
-        failed_when: false
-        register: ubtu18cis_3_5_3_4_loopback_iif_status
+  debug:
+      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  # block:
+  #     - name: "SCORED | 3.5.3.4 | AUDIT | Ensure loopback traffic is configured | Get input iif lo accept status"
+  #       shell: nft list ruleset | awk '/hook input/,/}/' | grep 'iif "lo" accept'
+  #       changed_when: false
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_4_loopback_iif_status
 
-      - name: "SCORED | 3.5.3.4 | AUDIT | Ensure loopback traffic is configured | Get input iif lo accept status"
-        shell: nft list ruleset | awk '/hook input/,/}/' | grep 'ip saddr'
-        changed_when: false
-        failed_when: false
-        register: ubtu18cis_3_5_3_4_loopback_input_drop_status
+  #     - name: "SCORED | 3.5.3.4 | AUDIT | Ensure loopback traffic is configured | Get input iif lo accept status"
+  #       shell: nft list ruleset | awk '/hook input/,/}/' | grep 'ip saddr'
+  #       changed_when: false
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_4_loopback_input_drop_status
 
-      - name: "SCORED | 3.5.3.4 | AUDIT | Ensure loopback traffic is configured | Get input iif lo accept status"
-        shell: nft list ruleset | awk '/hook input/,/}/' | grep 'ip6 saddr'
-        changed_when: false
-        failed_when: false
-        register: ubtu18cis_3_5_3_4_loopback_ipv6_drop_status
+  #     - name: "SCORED | 3.5.3.4 | AUDIT | Ensure loopback traffic is configured | Get input iif lo accept status"
+  #       shell: nft list ruleset | awk '/hook input/,/}/' | grep 'ip6 saddr'
+  #       changed_when: false
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_4_loopback_ipv6_drop_status
 
-      - name: "SCORED | 3.5.3.4 | PATCH | Ensure loopback traffic is configured | Loopback iif lo accept"
-        command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input iif lo accept'
-        changed_when: ubtu18cis_3_5_3_4_loopback_iif.rc == 0
-        failed_when: false
-        register: ubtu18cis_3_5_3_4_loopback_iif
-        when: "'iif \"lo\" accept' not in ubtu18cis_3_5_3_4_loopback_iif_status.stdout"
+  #     - name: "SCORED | 3.5.3.4 | PATCH | Ensure loopback traffic is configured | Loopback iif lo accept"
+  #       command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input iif lo accept'
+  #       changed_when: ubtu18cis_3_5_3_4_loopback_iif.rc == 0
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_4_loopback_iif
+  #       when: "'iif \"lo\" accept' not in ubtu18cis_3_5_3_4_loopback_iif_status.stdout"
 
-      - name: "SCORED | 3.5.3.4 | PATCH | Ensure loopback traffic is configured | Loopback input drop"
-        command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input ip saddr 127\.0\.0\.0\/8 counter drop'
-        changed_when: ubtu18cis_3_5_3_4_loopback_input_drop.rc == 0
-        failed_when: false
-        register: ubtu18cis_3_5_3_4_loopback_input_drop
-        when:
-         - "'ip saddr 127.0.0.0/8' not in ubtu18cis_3_5_3_4_loopback_input_drop_status.stdout"
-         - "'drop' not in ubtu18cis_3_5_3_4_loopback_input_drop_status.stdout"
+  #     - name: "SCORED | 3.5.3.4 | PATCH | Ensure loopback traffic is configured | Loopback input drop"
+  #       command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input ip saddr 127\.0\.0\.0\/8 counter drop'
+  #       changed_when: ubtu18cis_3_5_3_4_loopback_input_drop.rc == 0
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_4_loopback_input_drop
+  #       when:
+  #        - "'ip saddr 127.0.0.0/8' not in ubtu18cis_3_5_3_4_loopback_input_drop_status.stdout"
+  #        - "'drop' not in ubtu18cis_3_5_3_4_loopback_input_drop_status.stdout"
 
-      - name: "SCORED | 3.5.3.4 | PATCH | Ensure loopback traffic is configured | Loopback ipv6 drop"
-        command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input ip6 saddr ::1 counter drop'
-        changed_when: ubtu18cis_3_5_3_4_loopback_ipv6_drop.rc == 0
-        failed_when: false
-        register: ubtu18cis_3_5_3_4_loopback_ipv6_drop
-        when:
-            - "'ip6 saddr' not in ubtu18cis_3_5_3_4_loopback_ipv6_drop_status.stdout"
-            - "'drop' not in ubtu18cis_3_5_3_4_loopback_ipv6_drop_status.stdout"
+  #     - name: "SCORED | 3.5.3.4 | PATCH | Ensure loopback traffic is configured | Loopback ipv6 drop"
+  #       command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input ip6 saddr ::1 counter drop'
+  #       changed_when: ubtu18cis_3_5_3_4_loopback_ipv6_drop.rc == 0
+  #       failed_when: false
+  #       register: ubtu18cis_3_5_3_4_loopback_ipv6_drop
+  #       when:
+  #           - "'ip6 saddr' not in ubtu18cis_3_5_3_4_loopback_ipv6_drop_status.stdout"
+  #           - "'drop' not in ubtu18cis_3_5_3_4_loopback_ipv6_drop_status.stdout"
   when:
       - ubtu18cis_rule_3_5_3_4
       - ubtu18cis_firewall_package == "nftables"
@@ -698,16 +708,11 @@
       - patch
       - rule_3.5.3.4
       - nftables
+      - notimplemented
 
-# ----------
-# ----------
-# No support for nftables
-# ----------
-# ----------
 - name: "NOTSCORED | 3.5.3.5 | PATCH | Ensure outbound and established connections are configured"
-  command: /bin/true
-  changed_when: false
-  failed_when: false
+  debug:
+      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
   when:
       - ubtu18cis_rule_3_5_3_5
       - ubtu18cis_firewall_package == "nftables"
@@ -721,9 +726,8 @@
       - notimplemented
 
 - name: "SCORED | 3.5.3.6 | PATCH | Ensure default deny firewall policy"
-  command: /bin/true
-  changed_when: false
-  failed_when: false
+  debug:
+      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
   when:
       - ubtu18cis_rule_3_5_3_6
       - ubtu18cis_firewall_package == "nftables"
@@ -737,10 +741,12 @@
       - notimplemented
 
 - name: "SCORED | 3.5.3.7 | PATCH | Ensure nftables service is enabled"
-  service:
-      name: nftables
-      state: started
-      enabled: yes
+  debug:
+      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  # service:
+  #     name: nftables
+  #     state: started
+  #     enabled: yes
   when:
       - ubtu18cis_rule_3_5_3_7
       - ubtu18cis_firewall_package == "nftables"
@@ -751,11 +757,11 @@
       - patch
       - rule_3.5.3.7
       - nftables
+      - notimplemented
 
 - name: "SCORED | 3.5.3.8 | PATCH | Ensure nftables rules are permanent"
-  command: /bin/true
-  changed_when: false
-  failed_when: false
+  debug:
+      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
   when:
       - ubtu18cis_rule_3_5_3_8
       - ubtu18cis_firewall_package == "nftables"

@@ -200,24 +200,6 @@
             state: mounted
             fstype: tmpfs
             opts: "{{ ubtu18cis_tmp_fstab_options }}"
-
-      # Below is the systemd method but fstab is preferred
-      # - name: "SCORED | 1.1.2 | PATCH | Ensure /tmp is configured | Configure the tmp mount"
-      #   copy:
-      #       src: etc/systemd/system/tmp.mount
-      #       dest: /etc/systemd/system/tmp.mount
-      #       owner: root
-      #       group: root
-      #       mode: 0644
-      #   notify: systemd restart tmp.mount
-
-      # - name: "SCORED | 1.1.2 | PATCH | Ensure /tmp is configured | Enforce systemd enabled service"
-      #   systemd:
-      #       name: tmp.mount
-      #       daemon_reload: yes
-      #       enabled: yes
-      #       masked: no
-      #       state: started
   when:
       - ubtu18cis_rule_1_1_2
   tags:
@@ -253,42 +235,55 @@
       - rule_1.1.5
       - tmp
 
-# # -----------------------------
-# # -----------------------------
-# # Circle back on 1.1.6/1.1.7. This is how the RHEL CIS handles this task and I don't know what it's doing
-# # -----------------------------
-# # -----------------------------
-- name: "SCORED | 1.1.6 | PATCH | Ensure separate partition exists for /var"
-  shell: mount | grep "on /var "
-  args:
-      warn: false
-  register: var_mounted
-  changed_when: no
-  failed_when: no
+- name: "SCORED | 1.1.6 | AUDIT | Ensure separate partition exists for /var"
+  block:
+      - name: "SCORED | 1.1.6 | AUDIT | Ensure separate partition exists for /var | Gather /var partition"
+        shell: mount | grep "on /var "
+        changed_when: false
+        failed_when: false
+        args:
+            warn: false
+        register: ubtu18cis_1_1_6_var_mounted
+
+      - name: "SCORED | 1.1.6 | AUDIT | Ensure separate partition exists for /var | Alert if /var partition does not exist"
+        debug:
+            msg:
+                - "ALERT!!!! There is no separate partition for /var"
+                - "Please create a separate partition for /var"
+        when: ubtu18cis_1_1_6_var_mounted.stdout == ""
   when:
       - ubtu18cis_rule_1_1_6
   tags:
       - level2-server
       - level2-workstation
       - scored
-      - patch
+      - audit
       - rule_1.1.6
       - var
 
-- name: "SCORED | 1.1.7 | PATCH | Ensure separate partition exists for /var/tmp"
-  shell: mount | grep "on /var/tmp "
-  args:
-      warn: false
-  register: var_tmp_mounted
-  changed_when: no
-  failed_when: no
+- name: "SCORED | 1.1.7 | AUDIT | Ensure separate partition exists for /var/tmp"
+  block:
+      - name: "SCORED | 1.1.7 | AUDIT | Ensure separate partition exists for /var/tmp | Gather /var/tmp partition"
+        shell: mount | grep "on /var/tmp "
+        changed_when: false
+        failed_when: false
+        args:
+            warn: false
+        register: ubtu18cis_1_1_7_var_tmp_mounted
+
+      - name: "SCORED | 1.1.7 | AUDIT | Ensure separate partition exists for /var/tmp | Alert if /var/tmp partition does not exist"
+        debug:
+            msg:
+                - "ALERT!!!! There is no separate partition for /var/tmp"
+                - "Please create a separate partition for /var/tmp"
+        when: ubtu18cis_1_1_7_var_tmp_mounted.stdout == ""
   when:
       - ubtu18cis_rule_1_1_7
   tags:
       - level2-server
       - level2-workstation
       - scored
-      - patch
+      - audit
       - rule_1.1.7
       - var/tmp
 
@@ -307,7 +302,7 @@
       - ubtu18cis_rule_1_1_8 or
         ubtu18cis_rule_1_1_9 or
         ubtu18cis_rule_1_1_10
-      # - ubtu18cis_vartmp['enabled']
+      - ubtu18cis_vartmp['enabled']
   tags:
       - level1-server
       - level1-workstation
@@ -318,47 +313,74 @@
       - rule_1.1.10
       - var/tmp
 
-- name: "SCORED | 1.1.11 | PATCH | Ensure separate partition exists for /var/log"
-  shell: mount | grep "on /var/log "
-  register: var_log_mounted
-  changed_when: no
-  failed_when: no
+- name: "SCORED | 1.1.11 | AUDIT | Ensure separate partition exists for /var/log"
+  block:
+      - name: "SCORED | 1.1.11 | AUDIT | Ensure separate partition exists for /var/log | Gather /var/log partition"
+        shell: mount | grep "on /var/log "
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_1_1_11_var_log_mounted
+
+      - name: "SCORED | 1.1.11 | AUDIT | Ensure separate partition exists for /var/log | Alert if /var/log partition does not exist"
+        debug:
+            msg:
+                - "ALERT!!!! There is no separate partition for /var/log"
+                - "Please create a separate partition for /var/log"
+        when: ubtu18cis_1_1_11_var_log_mounted.stdout == ""
   when:
       - ubtu18cis_rule_1_1_11
   tags:
       - level2-server
       - level2-workstation
       - scored
-      - patch
+      - audit
       - rule_1.1.11
       - var/log
 
-- name: "SCORED | 1.1.12 | PATCH | Ensure separate partition exists for /var/log/audit"
-  shell: mount | grep "on /var/log/audit "
-  register: var_log_audit_mounted
-  changed_when: no
-  failed_when: no
+- name: "SCORED | 1.1.12 | AUDIT | Ensure separate partition exists for /var/log/audit"
+  block:
+      - name: "SCORED | 1.1.12 | AUDIT | Ensure separate partition exists for /var/log/audit | Gather /var/log/audit"
+        shell: mount | grep "on /var/log/audit "
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_1_1_12_var_log_audit_mounted
+
+      - name: "SCORED | 1.1.12 | AUDIT | Ensure separate partition exists for /var/log/audit | Alert if /var/log/audit partition does not exist"
+        debug:
+            msg:
+                - "ALERT!!!! There is no separate partition for /var/log/audit"
+                - "Please create a separate partition for /var/log/audit"
+        when: ubtu18cis_1_1_12_var_log_audit_mounted.stdout == ""
   when:
       - ubtu18cis_rule_1_1_12
   tags:
       - level2-server
       - level2-workstation
       - scored
-      - patch
+      - audit
       - var/log/audit
 
-- name: "SCORED | 1.1.13 | PATCH | Ensure separate partition exists for /home"
-  shell: mount | grep "on /home"
-  register: home_mounted
-  changed_when: no
-  failed_when: no
+- name: "SCORED | 1.1.13 | AUDIT | Ensure separate partition exists for /home"
+  block:
+      - name: "SCORED | 1.1.13 | AUDIT | Ensure separate partition exists for /home | Gather /home"
+        shell: mount | grep "on /home"
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_1_1_13_home_mounted
+
+      - name: "SCORED | 1.1.13 | AUDIT | Ensure separate partition exists for /home | Alert if /home partition does not exist"
+        debug:
+            msg:
+                - "ALERT!!!! There is no separate partition for /home"
+                - "Please create a separate partition for /home"
+        when: ubtu18cis_1_1_13_home_mounted.stdout == ""
   when:
       - ubtu18cis_rule_1_1_13
   tags:
       - level2-server
       - level2-workstation
       - scored
-      - patch
+      - audit
       - /home
 
 - name: "SCORED | 1.1.14 | PATCH | Ensure nodev option set on /home partition"
@@ -497,12 +519,6 @@
       - rule_1.1.23
       - usb_storage
 
-# ---------------
-# ---------------
-# The section commented out is how RHEL7 CIS handles this task. I'm not sure how it works
-# the registered varaible is not used anywehre in the role
-# ---------------
-# ---------------
 - name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured"
   block:
       - name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured | Get repositories"
@@ -514,14 +530,9 @@
       - name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured | Message out repository configs"
         debug:
             msg:
-                - "Alert!!!!Below are the apt package repositories"
+                - "Alert!!!! Below are the apt package repositories"
                 - "Please review to make sure they conform to your sites policies"
                 - "{{ ubtu18cis_1_2_1_apt_policy.stdout_lines }}"
-      
-      # - name: "NOTSCORED | 1.2.1 | PATCH | Ensure package manager repositories are configured"
-      #   apt:
-      #       update_cache: yes
-      #   register: apt_configured
   when:
       - ubtu18cis_rule_1_2_1
   tags:
@@ -532,13 +543,6 @@
       - rule_1.2.1
       - apt
 
-# ---------------
-# ---------------
-# revisit. The RHEL7 CIS task for this does the command below
-# gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-{{ ansible_distribution|lower }}-release
-# with ubuntu the command fails due to the file not existing
-# ---------------
-# ---------------
 - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured"
   block:
       - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured | Get apt gpg keys"
@@ -550,7 +554,7 @@
       - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured | Message out apt gpg keys"
         debug:
             msg:
-                - "Alert!!!!Below are the apt gpg kyes configured"
+                - "Alert!!!! Below are the apt gpg kyes configured"
                 - "Please review to make sure they are configured"
                 - "in accordance with site policy"
                 - "{{ ubtu18cis_1_2_2_apt_gpgkeys.stdout_lines }}"
@@ -678,25 +682,25 @@
 # grub-mkpasswd-pbkdf2 command and passing the data at the same time. 
 # ---------------
 # ---------------
-- name: "SCORED | 1.5.2 | PATCH | Ensure bootloader password is set"
-  block:
-      - name: "SCORED | 1.5.2 | PATCH | Ensure bootloader password is set"
-        grub_crypt:
-            password: "{{ ubtu18cis_bootloader_password }}"
-        register: grub_pass
+# - name: "SCORED | 1.5.2 | PATCH | Ensure bootloader password is set"
+#   block:
+#       - name: "SCORED | 1.5.2 | PATCH | Ensure bootloader password is set"
+#         grub_crypt:
+#             password: "{{ ubtu18cis_bootloader_password }}"
+#         register: grub_pass
 
-      - debug: var=grub_pass
+#       - debug: var=grub_pass
 
-  when:
-      - ubtu18cis_rule_1_5_2
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_1.5.2
-      - grub
-      - notimplemented
+#   when:
+#       - ubtu18cis_rule_1_5_2
+#   tags:
+#       - level1-server
+#       - level1-workstation
+#       - scored
+#       - patch
+#       - rule_1.5.2
+#       - grub
+#       - notimplemented
 
 - name: "SCORED | 1.5.3 | PATCH | Ensure authentication required for single user mode"
   user:
@@ -712,13 +716,6 @@
       - rule_1.5.3
       - passwd
 
-# ---------------
-# ---------------
-# I can't find the enable/disable interactive login settings for ubuntu 18
-# I used the example from the CIS control below
-# revisit this item
-# ---------------
-# ---------------
 - name: "SCORED | 1.5.4 | PATCH | Ensure interactive boot is not enabled"
   block:
       - name: "SCORED | 1.5.4 | PATCH | Ensure interactive boot is not enabled | Check for interactive login setting"
@@ -828,34 +825,13 @@
       - rule_1.6.4
       - coredump
 
-# ---------------
-# ---------------
-# install apparmor blocks ssh. I can aa-genprof or aa-autodep from the command line to fix it but
-# doing it in the role doesn't help. 
-# ---------------
-# ---------------
 - name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed"
   block:
       - name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed | Install AppArmor"
         apt:
-            name: ['apparmor', 'apparmor-utils', 'apparmor-profiles']
+            # name: ['apparmor', 'apparmor-utils', 'apparmor-profiles']
+            name: ['apparmor', 'apparmor-utils']
             state: present
-
-      # - name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed | Configure SSH"
-      #   copy:
-      #       src: etc/apparmor.d/usr.bin.ssh
-      #       dest: /etc/apparmor.d/usr.bin.ssh
-      #       owner: root
-      #       group: root
-      #       mode: 0600
-
-      # - name: test
-      #   command: aa-autodep ssh 
-
-      # - name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed | Reload service"
-      #   service:
-      #       name: apparmor
-      #       state: reloaded
   when:
       - ubtu18cis_rule_1_7_1_1
   tags:
@@ -867,14 +843,38 @@
       - apparmor
 
 - name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration"
-  lineinfile:
-      path: /etc/default/grub
-      regexp: '^GRUB_CMDLINE_LINUX'
-      line: 'GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor"'
-      insertafter: '^GRUB_'
-  notify: grub update
+  block:
+      - name: "SCORED | 1.7.1.2 | AUDIT | Ensure AppArmor is enabled in the bootloader configuration | Get current settings"
+        shell: grep "GRUB_CMDLINE_LINUX=" /etc/default/grub | cut -f2 -d'"'
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_1_7_1_2_cmdline_settings
+
+      - name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration | Set apparmor settings if none exist"
+        lineinfile:
+            path: /etc/default/grub
+            regexp: '^GRUB_CMDLINE_LINUX'
+            line: 'GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor {{ ubtu18cis_1_7_1_2_cmdline_settings.stdout }}"'
+            insertafter: '^GRUB_'
+        when:
+            - "'apparmor' not in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
+            - "'security' not in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
+        notify: grub update
+
+      - name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration | Set apparmor settings if none exist | Replace apparmor settings when exists"
+        replace:
+            path: /etc/default/grub
+            regexp: "{{ item.regexp }}"
+            replace: "{{ item.replace }}"
+        with_items:
+            - { regexp: 'apparmor=\S+', replace: 'apparmor=1' }
+            - { regexp: 'security=\S+', replace: 'security=apparmor' }
+        when:
+            - "'apparmor' in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
+            - "'security' in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
+        notify: grub update
   when:
-      - ubtu18cis_rule_1_7_1_1
+      - ubtu18cis_rule_1_7_1_2
   tags:
       - level1-server
       - level1-workstation
