@@ -904,8 +904,8 @@
   when:
       - ubtu18cis_rule_1_7_1_4
   tags:
-      - level1-server
-      - level1-workstation
+      - level2-server
+      - level2-workstation
       - scored
       - patch
       - rule_1.7.1.4
