@@ -192,14 +192,12 @@
       - vfat
 
 - name: "SCORED | 1.1.2 | PATCH | Ensure /tmp is configured"
-  block:
-      - name: "SCORED | 1.1.2 | PATCH | Ensure /tmp is configured | Configure fstab for /tmp"
-        mount:
-            path: /tmp
-            src: /tmp
-            state: mounted
-            fstype: tmpfs
-            opts: "{{ ubtu18cis_tmp_fstab_options }}"
+  mount:
+      path: /tmp
+      src: /tmp
+      state: mounted
+      fstype: tmpfs
+      opts: "{{ ubtu18cis_tmp_fstab_options }}"
   when:
       - ubtu18cis_rule_1_1_2
   tags:
