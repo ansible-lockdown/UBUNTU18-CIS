@@ -222,7 +222,7 @@
       - ubtu18cis_rule_1_1_3 or
         ubtu18cis_rule_1_1_4 or
         ubtu18cis_rule_1_1_5
-      # - ubtu18cis_vartmp['enabled']
+      - ubtu18cis_vartmp['enabled']
   tags:
       - level1-server
       - level1-workstation
@@ -423,6 +423,7 @@
       - rule_1.1.16
       - rule_1.1.17
       - /dev/shm
+
 - name: "NOTSCORED | 1.1.18 | AUDIT | Ensure nodev option set on removable media partitions"
   debug:
       msg: "Warning!!!! Not relevent control"
