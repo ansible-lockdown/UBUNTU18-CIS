@@ -385,7 +385,7 @@ ubtu18cis_aide_cron:
 ubtu18cis_bootloader_password: random
 rhel7cis_set_boot_pass: false
 
-# Control 1.5.
+# Control 1.5.3
 # THIS VARAIBLE SHOULD BE CHANGED AND INCORPROATED INTO VAULT
 # THIS VALUE IS WHAT THE ROOT PW WILL BECOME!!!!!!!!
 # HAVING THAT PW EXPOSED IN RAW TEXT IS NOT SECURE!!!!

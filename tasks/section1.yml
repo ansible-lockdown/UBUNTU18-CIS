@@ -318,6 +318,8 @@
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_1_11_var_log_mounted
+        args:
+            warn: false
 
       - name: "SCORED | 1.1.11 | AUDIT | Ensure separate partition exists for /var/log | Alert if /var/log partition does not exist"
         debug:
@@ -342,6 +344,8 @@
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_1_12_var_log_audit_mounted
+        args:
+            warn: false
 
       - name: "SCORED | 1.1.12 | AUDIT | Ensure separate partition exists for /var/log/audit | Alert if /var/log/audit partition does not exist"
         debug:
@@ -365,6 +369,8 @@
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_1_13_home_mounted
+        args:
+            warn: false
 
       - name: "SCORED | 1.1.13 | AUDIT | Ensure separate partition exists for /home | Alert if /home partition does not exist"
         debug:
@@ -825,12 +831,9 @@
       - coredump
 
 - name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed"
-  block:
-      - name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed | Install AppArmor"
-        apt:
-            # name: ['apparmor', 'apparmor-utils', 'apparmor-profiles']
-            name: ['apparmor', 'apparmor-utils']
-            state: present
+  apt:
+      name: ['apparmor', 'apparmor-utils']
+      state: present
   when:
       - ubtu18cis_rule_1_7_1_1
   tags:
