@@ -948,7 +948,7 @@
       - level1-server
       - level1-workstation
       - scored
-      - path
+      - patch
       - banner
 
 - name: "SCORED | 1.8.1.4 | PATCH | Ensure permissions on /etc/motd are configured"

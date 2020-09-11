@@ -497,7 +497,7 @@
       state: absent
   when:
       - ubtu18cis_rule_2_3_4
-      - ubtu18cis_telnet_required
+      - not ubtu18cis_telnet_required
   tags:
       - level1-server
       - level1-workstation
