@@ -595,7 +595,7 @@
       - level1-server
       - level1-workstation
       - notscored
-      - patch
+      - audit
       - rule_3.5.3.1
       - nftables
       - notimplemented
@@ -614,7 +614,7 @@
       - level1-server
       - level1-workstation
       - scored
-      - patch
+      - audit
       - rule_3.5.3.2
       - nftables
       - notimplemented
@@ -647,7 +647,7 @@
       - level1-server
       - level1-workstation
       - scored
-      - patch
+      - audit
       - rule_3.5.3.3
       - nftables
       - notimplemented
@@ -705,7 +705,7 @@
       - level1-server
       - level1-workstation
       - scored
-      - patch
+      - audit
       - rule_3.5.3.4
       - nftables
       - notimplemented
@@ -720,7 +720,7 @@
       - level1-server
       - level1-workstation
       - notscored
-      - patch
+      - audit
       - rule_3.5.3.5
       - nftables
       - notimplemented
@@ -735,7 +735,7 @@
       - level1-server
       - level1-workstation
       - scored
-      - patch
+      - audit
       - rule_3.5.3.6
       - nftables
       - notimplemented
@@ -754,7 +754,7 @@
       - level1-server
       - level1-workstation
       - scored
-      - patch
+      - audit
       - rule_3.5.3.7
       - nftables
       - notimplemented
@@ -769,7 +769,7 @@
       - level1-server
       - level1-workstation
       - scored
-      - patch
+      - audit
       - rule_3.5.3.8
       - nftables
       - notimplemented
@@ -903,7 +903,7 @@
                 - "Current Rules:"
                 - "{{ ubtu18cis_3_5_4_1_4_current_rules.stdout_lines }}"
   when:
-      - ubtu18cis_rule_3_5_4_1_3
+      - ubtu18cis_rule_3_5_4_1_4
       - ubtu18cis_firewall_package == "iptables"
       - not ubtu18cis_iptables_v6
   tags:
