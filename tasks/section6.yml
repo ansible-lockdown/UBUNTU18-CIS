@@ -502,7 +502,7 @@
                 - "This means no action was taken, you will need to have the UID's of the users below manually adjusted"
                 - "{{ ubtu18cis_6_2_6_uid_0_notroot.stdout_lines }}"
         when:
-            - ubtu18cis_disruption_high
+            - not ubtu18cis_disruption_high
             - ubtu18cis_6_2_6_uid_0_notroot.stdout != ""
   when:
       - ubtu18cis_rule_6_2_6
