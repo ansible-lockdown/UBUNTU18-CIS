@@ -72,10 +72,10 @@ ubtu18cis_is_router: false
 `ubtu18cis_ipv6_required`
 
 ##### X-Windows required
-`ubtu18cis_xwindows_required: false`
+`ubtu18cis_xwindows_required`
 
 ##### Is system a container
-ubtu18cis_system_is_container: false
+`ubtu18cis_system_is_container`
 
 Dependencies
 ------------
