@@ -327,6 +327,7 @@
       line: 'ALL: ALL'
   when:
       - ubtu18cis_rule_3_3_3
+      - not system_is_ec2
   tags:
       - level1-server
       - level1-workstation

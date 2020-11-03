@@ -43,6 +43,9 @@ ubtu18cis_system_is_chroot: "{{ ansible_is_chroot | default(False) }}"
 # tweak role to run in a non-privileged container
 ubtu18cis_system_is_container: false
 
+# disables controls that break under EC2 instance
+system_is_ec2: false
+
 # Section 1 Fixes
 # Section 1 is Iniitial setup (FileSystem Configuration, Configure Software Updates, Configure sudo, Filesystem Integrity Checking, Secure Boot Settings,
 # Additional Process Hardening, Mandatory Access Control, and Warning Banners)
