@@ -33,6 +33,6 @@ jobs:
           # Job ID
           job_id: 5f90ad90f9c74e6d1e606e33
           # Variables
-          variables: '{ "gitrepo": "https://github.com/ansible-lockdown/UBUNTU18-CIS.git", "image": "ami-0608f6bd6e0eec7cc", "githubBranch": "${{ github.head_ref }}", "username": "ubuntu" }'
+          variables: '{ "gitrepo": "https://github.com/ansible-lockdown/UBUNTU18-CIS.git", "image": "ami-0608f6bd6e0eec7cc", "username": "ubuntu" }'
           # Refactr API base URL
           api_url: # optional
