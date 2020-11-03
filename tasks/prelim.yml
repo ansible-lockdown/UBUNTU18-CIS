@@ -1,0 +1,161 @@
+---
+# - debug: var=ansible_facts
+# Preliminary tasks that should always be run
+# List users in order to look files inside each home directory
+- name: "PRELIM | List users accounts"
+  command: "awk -F: '{print $1}' /etc/passwd"
+  changed_when: false
+  register: ubtu18cis_users
+  when:
+      - ubtu18cis_rule_6_2_11 or
+        ubtu18cis_rule_6_2_12 or
+        ubtu18cis_rule_6_2_13 or
+        ubtu18cis_rule_6_2_14
+
+- name: "PRELIM | Check for autofs service"
+  shell: "systemctl show autofs | grep LoadState | cut -d = -f 2"
+  register: ubtu18cis_autofs_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Run apt update"
+  apt:
+      update_cache: yes
+  when:
+      - ubtu18cis_rule_1_4_1
+
+- name: "PRELIM | Check for avahi-daemon service"
+  shell: "systemctl show avahi-daemon | grep LoadState | cut -d = -f 2"
+  register: avahi_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for cups service"
+  shell: "systemctl show cups | grep LoadState | cut -d = -f 2"
+  register: cups_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for dhcpd service"
+  shell: "systemctl show isc-dhcp-server | grep LoadState | cut -d = -f 2"
+  register: dhcp_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for dhcp6 service"
+  shell: "systemctl show isc-dhcp-server6 | grep LoadState | cut -d = -f 2"
+  register: dhcp6_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for slapd service"
+  shell: "systemctl show slapd | grep LoadState | cut -d = -f 2"
+  register: slapd_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for nfs service"
+  shell: "systemctl show nfs | grep LoadState | cut -d = -f 2"
+  register: nfs_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for rpcbind service"
+  shell: "systemctl show rpcbind | grep LoadState | cut -d = -f 2"
+  register: rpcbind_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for named service"
+  shell: "systemctl show named | grep LoadState | cut -d = -f 2"
+  register: named_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for vsftpd service"
+  shell: "systemctl show vsftpd | grep LoadState | cut -d = -f 2"
+  register: vsftpd_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for httpd service"
+  shell: "systemctl show httpd | grep LoadState | cut -d = -f 2"
+  register: httpd_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for dovecot service"
+  shell: "systemctl show dovecot | grep LoadState | cut -d = -f 2"
+  register: dovecot_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for smb service"
+  shell: "systemctl show smb | grep LoadState | cut -d = -f 2"
+  register: smb_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for squid service"
+  shell: "systemctl show squid | grep LoadState | cut -d = -f 2"
+  register: squid_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for snmpd service"
+  shell: "systemctl show snmpd | grep LoadState | cut -d = -f 2"
+  register: snmpd_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for rsync service"
+  shell: "systemctl show rsync | grep LoadState | cut -d = -f 2"
+  register: rsync_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Check for nis service"
+  shell: "systemctl show nis | grep LoadState | cut -d = -f 2"
+  register: nis_service_status
+  changed_when: false
+  check_mode: false
+  tags:
+      - skip_ansible_lint
+
+- name: "PRELIM | Install nftables"
+  apt:
+      name: nftables
+      state: present
+  when: ubtu18cis_firewall_package == "nftables"
