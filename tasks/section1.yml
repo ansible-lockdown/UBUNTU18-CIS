@@ -667,7 +667,7 @@
             path: /boot/grub/grub.cfg
             owner: root
             group: root
-            mode: 0600
+            mode: 0400
         when:
             - ubtu18cis_1_5_1_grub_cfg_status.stat.exists
   when:
@@ -721,15 +721,15 @@
       - rule_1.5.3
       - passwd
 
-- name: "SCORED | 1.5.4 | PATCH | Ensure interactive boot is not enabled"
+- name: "NOTSCORED | 1.5.4 | PATCH | Ensure interactive boot is not enabled"
   block:
-      - name: "SCORED | 1.5.4 | PATCH | Ensure interactive boot is not enabled | Check for interactive login setting"
+      - name: "NOTSCORED | 1.5.4 | PATCH | Ensure interactive boot is not enabled | Check for interactive login setting"
         shell: grep "^PROMPT_FOR_CONFIRM=" /etc/sysconfig/boot
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_5_4_interactive_login_status
 
-      - name: "SCORED | 1.5.4 | PATCH | Ensure interactive boot is not enabled | Set interactive login to no"
+      - name: "NOTSCORED | 1.5.4 | PATCH | Ensure interactive boot is not enabled | Set interactive login to no"
         lineinfile:
             path: /etc/sysconfig/boot
             regexp: '^PROMPT_FOR_CONFIRM'
@@ -740,7 +740,7 @@
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - notscored
       - patch
       - rule_1.5.4
       - interactive_boot
@@ -758,7 +758,7 @@
             msg:
                 - "ALERT!!!!You do not have XD/NX (Execute Disable/No Execute) enabled"
                 - "To conform to CIS standards this needs to be enabled"
-        when: "'active'not in ubtu18cis_1_6_1_xdnx_status.stdout"
+        when: "'active' not in ubtu18cis_1_6_1_xdnx_status.stdout"
   when:
       - ubtu18cis_rule_1_6_1
   tags:

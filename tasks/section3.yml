@@ -171,7 +171,7 @@
       - net.ipv4.conf.default.log_martians
   notify: sysctl flush ipv4 route table
   when:
-      - ubtu18cis_rule_3_2_3
+      - ubtu18cis_rule_3_2_4
   tags:
       - level1-server
       - level1-workstation
@@ -417,7 +417,7 @@
   lineinfile:
       path: /etc/modprobe.d/tipc.conf
       regexp: '^(#)?install tipc(\\s|$)'
-      line: install tipc /bin/true
+      line: 'install tipc /bin/true'
       create: yes
   when:
       - ubtu18cis_rule_3_4_4
@@ -1079,7 +1079,7 @@
       - level1-workstation
       - notscored
       - audit
-      - rule_3.5.4.2.3
+      - rule_3.5.4.2.4
       - ip6tables
 
 # ---------------
@@ -1113,7 +1113,7 @@
 - name: "SCORED | 3.6 | SCORED | Ensure wireless interfaces are disabled"
   block:
       - name: "SCORED | 3.6 | SCORED | Ensure wireless interfaces are disabled | Check if nmcli command is available"
-        command: rpm -q NetworkManager
+        command: dpkg -s network-manager
         args:
             warn: no
         check_mode: false
@@ -1153,7 +1153,7 @@
       - not ubtu18cis_ipv6_required
   tags:
       - level2-server
-      - level1-workstation
+      - level2-workstation
       - notscored
       - patch
       - rule_3.7
