@@ -528,9 +528,9 @@
         when: ubtu18cis_ufw_allow_out_ports != "all"
 
       - name: "NOTSCORED | 3.5.2.4 | PATCH | Ensure outbound connections are configured | Allow all"
-        command: ufw allow out on all
-        changed_when: "'Rule added' in ubtu18cis_3_5_2_4_allow_all.stdout"
-        register: ubtu18cis_3_5_2_4_allow_all
+        ufw:
+            default: allow
+            direction: outgoing
         notify: reload ufw
         when: "'all' in ubtu18cis_ufw_allow_out_ports"
   when:

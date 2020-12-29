@@ -443,8 +443,8 @@ ubtu18cis_save_iptables_cis_rules: true
 
 # Control 3.5.2.4
 # ubtu18cis_ufw_allow_out_ports are the ports for the firewall to allow
-# if you want to allow out on all ports set variable to "all", example ubtu18cis_ufw_allow_out_ports: "all"
-# ubtu18cis_ufw_allow_out_ports: "all"
+# if you want to allow out on all ports set variable to "all", example ubtu18cis_ufw_allow_out_ports: all
+# ubtu18cis_ufw_allow_out_ports: all
 ubtu18cis_ufw_allow_out_ports:
     - 53
     - 80
@@ -529,8 +529,8 @@ ubtu18cis_sshd:
     max_sessions: 4
     # WARNING: make sure you understand the precedence when working with these values!!
     # allow_users and allow_groups can be single user/group or multiple users/groups. For multiple list them with a space seperating them
-    allow_users: "vagrant ubuntu"
-    allow_groups: "vagrant ubuntu"
+    allow_users: "vagrant"
+    allow_groups: "vagrant"
     # deny_users:
     # deny_groups:
 
