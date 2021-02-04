@@ -237,7 +237,6 @@ ubtu18cis_rule_5_2_2: true
 ubtu18cis_rule_5_2_3: true
 ubtu18cis_rule_5_2_4: true
 ubtu18cis_rule_5_2_5: true
-# 5.2.6 I had disabled because it messes with gnome
 ubtu18cis_rule_5_2_6: true
 ubtu18cis_rule_5_2_7: true
 ubtu18cis_rule_5_2_8: true
