@@ -237,6 +237,7 @@ ubtu18cis_rule_5_2_2: true
 ubtu18cis_rule_5_2_3: true
 ubtu18cis_rule_5_2_4: true
 ubtu18cis_rule_5_2_5: true
+# 5.2.6 I had disabled because it messes with gnome
 ubtu18cis_rule_5_2_6: true
 ubtu18cis_rule_5_2_7: true
 ubtu18cis_rule_5_2_8: true
@@ -398,7 +399,7 @@ ubtu18cis_root_pw: "Password1"
 # This will be the motd banner must not contain the below items in order to be compliant with Ubuntu 18 CIS
 # \m, \r, \s, \v or references to the OS platform
 ubtu18cis_warning_banner: |
-        Authorized uses only. All activity may be monitored and reported.
+        'Authorized uses only. All activity may be monitored and reported.'
 
 # Section 2 Control Variables
 # Control 2.2.1.1
