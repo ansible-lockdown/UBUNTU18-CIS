@@ -718,7 +718,7 @@
         lineinfile:
             path: /etc/pam.d/common-password
             line: 'password        required                        pam_pwhistory.so remember={{ ubtu18cis_pamd_pwhistory_remember }}'
-            insertafter: '^# end of pam-auth-update config'
+            insertbefore: 'pam_unix.so'
         when: ubtu18cis_5_3_3_pam_pwhistory_state.stdout == ""
   when:
       - ubtu18cis_rule_5_3_3
@@ -752,7 +752,7 @@
         lineinfile:
             path: /etc/pam.d/common-password
             line: 'password        [success=1 default=ignore]      pam_unix.so sha512'
-            insertafter: '^# end of pam-auth-update config'
+            insertbefore: '^# end of pam-auth-update config'
         when: ubtu18cis_5_3_4_pam_unix_state.stdout == ""
   when:
       - ubtu18cis_rule_5_3_4
