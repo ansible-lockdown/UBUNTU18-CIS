@@ -1,4 +1,3 @@
-# ubuntu-18
 Ubuntu 18 CIS
 =========
 ![Build Status](https://img.shields.io/github/workflow/status/ansible-lockdown/UBUNTU18-CIS/CommunityToDevel?label=Devel%20Build%20Status&style=plastic)
