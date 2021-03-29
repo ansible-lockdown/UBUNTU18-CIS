@@ -24,8 +24,8 @@ Documentation
 [Customizing Roles](https://www.lockdownenterprise.com/docs/customizing-lockdown-enterprise)<br>
 [Per-Host Configuration](https://www.lockdownenterprise.com/docs/per-host-lockdown-enterprise-configuration)<br>
 [Getting the Most Out of the Role](https://www.lockdownenterprise.com/docs/get-the-most-out-of-lockdown-enterprise)<br>
-[Wiki](https://github.com/ansible-lockdown/POSTGRES-12-CIS/wiki)<br>
-[Repo GitHub Page](https://ansible-lockdown.github.io/POSTGRES-12-CIS/)<br>
+[Wiki](https://github.com/ansible-lockdown/UBUNTU18-CIS/wiki)<br>
+[Repo GitHub Page](https://ansible-lockdown.github.io/UBUNTU18-CIS/)<br>
 
 Requirements
 ------------
