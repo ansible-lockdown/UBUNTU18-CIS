@@ -1,0 +1,50 @@
+---
+- name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured"
+  block:
+      - name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured | Get repositories"
+        command: apt-cache policy
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_1_2_1_apt_policy
+
+      - name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured | Message out repository configs"
+        debug:
+            msg:
+                - "Alert!!!! Below are the apt package repositories"
+                - "Please review to make sure they conform to your sites policies"
+                - "{{ ubtu18cis_1_2_1_apt_policy.stdout_lines }}"
+  when:
+      - ubtu18cis_rule_1_2_1
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - audit
+      - rule_1.2.1
+      - apt
+
+- name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured"
+  block:
+      - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured | Get apt gpg keys"
+        command: apt-key list
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_1_2_2_apt_gpgkeys
+
+      - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured | Message out apt gpg keys"
+        debug:
+            msg:
+                - "Alert!!!! Below are the apt gpg kyes configured"
+                - "Please review to make sure they are configured"
+                - "in accordance with site policy"
+                - "{{ ubtu18cis_1_2_2_apt_gpgkeys.stdout_lines }}"
+  when:
+      - ubtu18cis_rule_1_2_2
+  tags:
+      - level1-server
+      - level1-workstation
+      - notscored
+      - audit
+      - rule_1.2.2
+      - gpg
+      - keys
