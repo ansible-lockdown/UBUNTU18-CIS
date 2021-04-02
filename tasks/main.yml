@@ -51,7 +51,7 @@
       - section3
 
 - name: Include section 4 patches
-  import_tasks: section4.yml
+  import_tasks: section_4/main.yml
   when: ubtu18cis_section4_patch
   tags:
       - section4
