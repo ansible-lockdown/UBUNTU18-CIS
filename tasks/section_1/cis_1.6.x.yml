@@ -67,13 +67,22 @@
       - prelink
 
 - name: "SCORED | 1.6.4 | PATCH | Ensure core dumps are restricted"
-  sysctl:
-      name: fs.suid_dumpable
-      value: '0'
-      state: present
-      reload: yes
-      sysctl_set: yes
-      ignoreerrors: yes
+  block:
+      - name: "SCORED | 1.6.4 | PATCH | Ensure core dumps are restricted"
+        lineinfile:
+            path: /etc/security/limits.conf
+            regexp: '^#?\\*.*core'
+            line: '*                hard    core            0'
+            insertbefore: '^# End of file'
+
+      - name: "SCORED | 1.6.4 | PATCH | Ensure core dumps are restricted"
+        sysctl:
+            name: fs.suid_dumpable
+            value: '0'
+            state: present
+            reload: yes
+            sysctl_set: yes
+            ignoreerrors: yes
   when:
       - ubtu18cis_rule_1_6_4
   tags:
