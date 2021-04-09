@@ -214,7 +214,7 @@
       mode: 0600
   notify: restart auditd
   when:
-      - ubtu18cis_rule_4_1_13
+      - ubtu18cis_rule_4_1_14
   tags:
       - level2-server
       - level2-workstation
