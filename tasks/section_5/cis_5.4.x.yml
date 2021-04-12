@@ -56,10 +56,10 @@
       - system
 
 - name: "SCORED | 5.4.4 | PATCH | Ensure default user umask is 027 or more restrictive"
-  replace:
+  lineinfile:
       path: "{{ item }}"
-      regexp: '(^\s+umask) 002'
-      replace: '\1 027'
+      regexp: '^umask '
+      line: "umask {{ ubtu18cis_bash_umask }}"
   with_items:
       - /etc/bash.bashrc
       - /etc/profile
