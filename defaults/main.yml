@@ -434,6 +434,10 @@ ubtu18cis_firewall_package: "ufw"
 # ubtu18cis_iptables_v6 toggles iptables vs ip6tables CIS firewall rules and is used with
 # variable ubtu18cis_firewall_package set to iptables
 ubtu18cis_iptables_v6: true
+# ubtu18cis_ufw_system_sysctlconf changes the /etc/default/ufw IPT_SYSCTL to use the main /etc/sysctl.conf file
+# By default UFW will use it's own sysctl.conf file located in /etc/ufw which could/will override /etc/sysctl.conf
+# Setting this value to true will change the UFW configuration to use the /etc/sysctl.conf file
+ubtu18cis_ufw_system_sysctlconf: true
 
 # Controls 3.5.4.1.1 through 3.5.4.1.4
 # The iptables module only writes to memory which means a reboot could revert settings
