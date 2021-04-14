@@ -1,8 +1,19 @@
 ---
 - name: "SCORED | 3.5.1.1 | PATCH | Ensure a Firewall package is installed"
-  apt:
-      name: "{{ ubtu18cis_firewall_package }}"
-      state: present
+  block:
+    - name: "SCORED | 3.5.1.1 | PATCH | Ensure a Firewall package is installed | Install firewall package"
+      apt:
+          name: "{{ ubtu18cis_firewall_package }}"
+          state: present
+
+    - name: "SCORED | 3.5.1.1 | PATCH | Ensure a Firewall package is installed | Adjust sysctl.conf for UFW"
+      lineinfile:
+          path: /etc/default/ufw
+          regexp: '^IPT_SYSCTL='
+          line: 'IPT_SYSCTL=/etc/sysctl.conf'
+      when:
+          - ubtu18cis_firewall_package == "ufw"
+          - ubtu18cis_ufw_system_sysctlconf
   when:
       - ubtu18cis_rule_3_5_1_1
   tags:
