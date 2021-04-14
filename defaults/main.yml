@@ -434,6 +434,10 @@ ubtu18cis_firewall_package: "ufw"
 # ubtu18cis_iptables_v6 toggles iptables vs ip6tables CIS firewall rules and is used with
 # variable ubtu18cis_firewall_package set to iptables
 ubtu18cis_iptables_v6: true
+# ubtu18cis_ufw_system_sysctlconf changes the /etc/default/ufw IPT_SYSCTL to use the main /etc/sysctl.conf file
+# By default UFW will use it's own sysctl.conf file located in /etc/ufw which could/will override /etc/sysctl.conf
+# Setting this value to true will change the UFW configuration to use the /etc/sysctl.conf file
+ubtu18cis_ufw_system_sysctlconf: true
 
 # Controls 3.5.4.1.1 through 3.5.4.1.4
 # The iptables module only writes to memory which means a reboot could revert settings
@@ -554,6 +558,11 @@ ubtu18cis_pass:
     min_days: 1
     warn_age: 7
     inactive: 30
+
+# Control 5.4.4
+# ubtu18cis_bash_umask is the umask to set in the /etc/bash.bashrc and /etc/profile. 
+# The value needs to be 027 or more restrictive to comply with CIS standards
+ubtu18cis_bash_umask: '027'
 
 # Control 5.4.5
 # Session timeout setting file (TMOUT setting can be set in multiple files)

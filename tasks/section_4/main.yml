@@ -1,0 +1,21 @@
+---
+- name: "SECTION | 4.1.1 | Configure System Accounting"
+  include: cis_4.1.1.x.yml
+
+- name: "SECTION | 4.1.2 | Configure Data Retention"
+  include: cis_4.1.2.x.yml
+
+- name: "SECTION | 4.1.x | Login Settings"
+  include: cis_4.1.x.yml
+
+- name: "SECTION | 4.2.1 | Configure rsyslog"
+  include: cis_4.2.1.x.yml
+
+- name: "SECTION | 4.2.2 | Configure journald"
+  include: cis_4.2.2.x.yml
+
+- name: "SECTION | 4.2.3 | Ensure permissions on all logfiles are configured"
+  include: cis_4.2.3.x.yml
+
+- name: "SECTION | 4.3 | Ensure logrotate is configured"
+  include: cis_4.3.x.yml
