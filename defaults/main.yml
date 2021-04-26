@@ -94,21 +94,23 @@ ubtu18cis_rule_1_5_1: true
 ubtu18cis_rule_1_5_2: true
 ubtu18cis_rule_1_5_3: true
 ubtu18cis_rule_1_5_4: true
-ubtu18cis_rule_1_6_1: true
-ubtu18cis_rule_1_6_2: true
-ubtu18cis_rule_1_6_3: true
-ubtu18cis_rule_1_6_4: true
-ubtu18cis_rule_1_7_1_1: true
-ubtu18cis_rule_1_7_1_2: true
-ubtu18cis_rule_1_7_1_3: true
-ubtu18cis_rule_1_7_1_4: true
-ubtu18cis_rule_1_8_1_1: true
-ubtu18cis_rule_1_8_1_2: true
-ubtu18cis_rule_1_8_1_3: true
-ubtu18cis_rule_1_8_1_4: true
-ubtu18cis_rule_1_8_1_5: true
-ubtu18cis_rule_1_8_1_6: true
+ubtu18cis_rule_1_6_1_1: true
+ubtu18cis_rule_1_6_1_2: true
+ubtu18cis_rule_1_6_1_3: true
+ubtu18cis_rule_1_6_1_4: true
+ubtu18cis_rule_1_7_1: true
+ubtu18cis_rule_1_7_2: true
+ubtu18cis_rule_1_7_3: true
+ubtu18cis_rule_1_7_4: true
+ubtu18cis_rule_1_7_5: true
+ubtu18cis_rule_1_7_6: true
+ubtu18cis_rule_1_8_1: true
 ubtu18cis_rule_1_8_2: true
+ubtu18cis_rule_1_8_3: true
+ubtu18cis_rule_1_8_4: true
+# ubtu18cis_rule_1_8_1_5: true
+# ubtu18cis_rule_1_8_1_6: true
+# ubtu18cis_rule_1_8_2: true
 ubtu18cis_rule_1_9: true
 
 # Section 2 Fixes
