@@ -284,7 +284,7 @@
       src: tmpfs
       state: mounted
       fstype: tmpfs
-      opts: "defaults,nodev,nosuid,noexec"
+      opts: "{{ ubtu18cis_shm_fstab_options }}"
   when:
       - ubtu18cis_rule_1_1_7 or
         ubtu18cis_rule_1_1_8 or
