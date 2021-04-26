@@ -85,7 +85,7 @@ ubtu18cis_rule_1_2_1: true
 ubtu18cis_rule_1_2_2: true
 ubtu18cis_rule_1_3_1: true
 ubtu18cis_rule_1_3_2: true
-ubtu18cis_rule_1_3_3: true
+# ubtu18cis_rule_1_3_3: true
 ubtu18cis_rule_1_4_1: true
 ubtu18cis_rule_1_4_2: true
 ubtu18cis_rule_1_5_1: true
