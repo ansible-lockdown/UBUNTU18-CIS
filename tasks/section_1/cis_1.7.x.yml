@@ -1,81 +1,175 @@
 ---
-- name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed"
-  apt:
-      name: ['apparmor', 'apparmor-utils']
-      state: present
+- name: "AUTOMATED | 1.7.1 | PATCH | Ensure message of the day is configured properly"
+  template:
+      src: etc/motd.j2
+      dest: /etc/motd
   when:
-      - ubtu18cis_rule_1_7_1_1
+      - ubtu18cis_rule_1_7_1
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
-      - rule_1.7.1.1
-      - apparmor
+      - rule_1.7.1
+      - motd
 
-- name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration"
-  block:
-      - name: "SCORED | 1.7.1.2 | AUDIT | Ensure AppArmor is enabled in the bootloader configuration | Get current settings"
-        shell: grep "GRUB_CMDLINE_LINUX=" /etc/default/grub | cut -f2 -d'"'
-        changed_when: false
-        failed_when: false
-        register: ubtu18cis_1_7_1_2_cmdline_settings
-
-      - name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration | Set apparmor settings if none exist"
-        lineinfile:
-            path: /etc/default/grub
-            regexp: '^GRUB_CMDLINE_LINUX'
-            line: 'GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor {{ ubtu18cis_1_7_1_2_cmdline_settings.stdout }}"'
-            insertafter: '^GRUB_'
-        when:
-            - "'apparmor' not in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
-            - "'security' not in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
-        notify: grub update
-
-      - name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration | Set apparmor settings if none exist | Replace apparmor settings when exists"
-        replace:
-            path: /etc/default/grub
-            regexp: "{{ item.regexp }}"
-            replace: "{{ item.replace }}"
-        with_items:
-            - { regexp: 'apparmor=\S+', replace: 'apparmor=1' }
-            - { regexp: 'security=\S+', replace: 'security=apparmor' }
-        when:
-            - "'apparmor' in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
-            - "'security' in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
-        notify: grub update
+- name: "AUTOMATED | 1.7.2 | PATCH | Ensure permissions on /etc/issue.net are configured"
+  file:
+      path: /etc/issue.net
+      owner: root
+      group: root
+      mode: 0644
   when:
-      - ubtu18cis_rule_1_7_1_2
+      - ubtu18cis_rule_1_7_2
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
-      - rule_1.7.1.2
-      - apparmor
+      - rule_1.7.2
+      - permissions
+      - banner
 
-- name: "SCORED | 1.7.1.3 | PATCH | Ensure all AppArmor Profiles are in enforce or complain mode"
-  command: aa-enforce /etc/apparmor.d/*
-  failed_when: false
+- name: "AUTOMATED | 1.7.3 | PATCH | Ensure permissions on /etc/issue are configured"
+  file:
+      path: /etc/issue
+      owner: root
+      group: root
+      mode: 0644
   when:
-      - ubtu18cis_rule_1_7_1_3
+      - ubtu18cis_rule_1_7_3
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
-      - rule_1.7.1.3
-      - apparmor
+      - rule_1.7.3
+      - permissions
+      - banner
 
-- name: "SCORED | 1.7.1.4 | PATCH | Ensure all AppArmor Profiles are enforcing"
-  command: aa-enforce /etc/apparmor.d/*
-  failed_when: false
+- name: "AUTOMATED | 1.7.4 | PATCH | Ensure permissions on /etc/motd are configured"
+  file:
+      path: /etc/motd
+      owner: root
+      group: root
+      mode: 0644
   when:
-      - ubtu18cis_rule_1_7_1_4
+      - ubtu18cis_rule_1_7_4
   tags:
-      - level2-server
-      - level2-workstation
-      - scored
+      - level1-server
+      - level1-workstation
+      - automated
       - patch
-      - rule_1.7.1.4
-      - apparmor
+      - rule_1.7.4
+      - permissions
+      - motd
+
+- name: "AUTOMATED | 1.7.5 | PATCH | Ensure remote login warning banner is configured properly"
+  template:
+      src: etc/issue.net.j2
+      dest: /etc/issue.net
+  when:
+      - ubtu18cis_rule_1_7_5
+  tags:
+      - level1-server
+      - level1-workstation
+      - automated
+      - patch
+      - rule_1.7.5
+      - banner
+
+- name: "AUTOMATED | 1.7.6 | PATCH | Ensure local login warning banner is configured properly"
+  template:
+      src: etc/issue.j2
+      dest: /etc/issue
+  when:
+      - ubtu18cis_rule_1_7_6
+  tags:
+      - level1-server
+      - level1-workstation
+      - automated
+      - patch
+      - rule_1.7.6
+      - banner
+
+# all moved to 1.6.x.yml
+# - name: "SCORED | 1.7.1.1 | PATCH | Ensure AppArmor is installed"
+#   apt:
+#       name: ['apparmor', 'apparmor-utils']
+#       state: present
+#   when:
+#       - ubtu18cis_rule_1_7_1_1
+#   tags:
+#       - level1-server
+#       - level1-workstation
+#       - scored
+#       - patch
+#       - rule_1.7.1.1
+#       - apparmor
+
+# - name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration"
+#   block:
+#       - name: "SCORED | 1.7.1.2 | AUDIT | Ensure AppArmor is enabled in the bootloader configuration | Get current settings"
+#         shell: grep "GRUB_CMDLINE_LINUX=" /etc/default/grub | cut -f2 -d'"'
+#         changed_when: false
+#         failed_when: false
+#         register: ubtu18cis_1_7_1_2_cmdline_settings
+
+#       - name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration | Set apparmor settings if none exist"
+#         lineinfile:
+#             path: /etc/default/grub
+#             regexp: '^GRUB_CMDLINE_LINUX'
+#             line: 'GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor {{ ubtu18cis_1_7_1_2_cmdline_settings.stdout }}"'
+#             insertafter: '^GRUB_'
+#         when:
+#             - "'apparmor' not in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
+#             - "'security' not in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
+#         notify: grub update
+
+#       - name: "SCORED | 1.7.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration | Set apparmor settings if none exist | Replace apparmor settings when exists"
+#         replace:
+#             path: /etc/default/grub
+#             regexp: "{{ item.regexp }}"
+#             replace: "{{ item.replace }}"
+#         with_items:
+#             - { regexp: 'apparmor=\S+', replace: 'apparmor=1' }
+#             - { regexp: 'security=\S+', replace: 'security=apparmor' }
+#         when:
+#             - "'apparmor' in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
+#             - "'security' in ubtu18cis_1_7_1_2_cmdline_settings.stdout"
+#         notify: grub update
+#   when:
+#       - ubtu18cis_rule_1_7_1_2
+#   tags:
+#       - level1-server
+#       - level1-workstation
+#       - scored
+#       - patch
+#       - rule_1.7.1.2
+#       - apparmor
+
+# - name: "SCORED | 1.7.1.3 | PATCH | Ensure all AppArmor Profiles are in enforce or complain mode"
+#   command: aa-enforce /etc/apparmor.d/*
+#   failed_when: false
+#   when:
+#       - ubtu18cis_rule_1_7_1_3
+#   tags:
+#       - level1-server
+#       - level1-workstation
+#       - scored
+#       - patch
+#       - rule_1.7.1.3
+#       - apparmor
+
+# - name: "SCORED | 1.7.1.4 | PATCH | Ensure all AppArmor Profiles are enforcing"
+#   command: aa-enforce /etc/apparmor.d/*
+#   failed_when: false
+#   when:
+#       - ubtu18cis_rule_1_7_1_4
+#   tags:
+#       - level2-server
+#       - level2-workstation
+#       - scored
+#       - patch
+#       - rule_1.7.1.4
+#       - apparmor
