@@ -47,8 +47,8 @@ ubtu18cis_system_is_container: false
 system_is_ec2: false
 
 # Section 1 Fixes
-# Section 1 is Iniitial setup (FileSystem Configuration, Configure Software Updates, Configure sudo, Filesystem Integrity Checking, Secure Boot Settings,
-# Additional Process Hardening, Mandatory Access Control, and Warning Banners)
+# Section 1 is Initial setup (FileSystem Configuration, Configure Software Updates, Filesystem Integrity Checking, Secure Boot Settings,
+# Additional Process Hardening, Mandatory Access Control, Warning Banners, and GNOME Display Manager)
 ubtu18cis_rule_1_1_1_1: true
 ubtu18cis_rule_1_1_1_2: true
 ubtu18cis_rule_1_1_1_3: true
@@ -109,7 +109,7 @@ ubtu18cis_rule_1_8_2: true
 ubtu18cis_rule_1_9: true
 
 # Section 2 Fixes
-# Section 2 is Services (inetd, special purpose, and service clients)
+# Section 2 is Services (Special Purpose, and Service Clients)
 ubtu18cis_rule_2_1_1: true
 ubtu18cis_rule_2_1_2: true
 ubtu18cis_rule_2_2_1_1: true
@@ -139,7 +139,7 @@ ubtu18cis_rule_2_3_4: true
 ubtu18cis_rule_2_3_5: true
 
 # Section 3 Fixes
-# Section 3 is Network Configuration (network parameters(host), network parameters (host and router), tcp rappers, uncommon network protocols, and firewall configuration)
+# Section 3 is Network Configuration (Disable unused network protocols and devices, Network Parameters(host), Network Parameters (host and router), Uncommon Network Protocols, and Firewall Configuration)
 ubtu18cis_rule_3_1_1: true
 ubtu18cis_rule_3_1_2: true
 ubtu18cis_rule_3_2_1: true
@@ -186,7 +186,7 @@ ubtu18cis_rule_3_6: true
 ubtu18cis_rule_3_7: true
 
 # Section 4 Fixes
-# Section 4 is Logging and Auditing (configure system accounting and configure logging)
+# Section 4 is Logging and Auditing (Configure System Accounting and Configure Logging)
 ubtu18cis_rule_4_1_1_1: true
 ubtu18cis_rule_4_1_1_2: true
 ubtu18cis_rule_4_1_1_3: true
@@ -222,8 +222,8 @@ ubtu18cis_rule_4_2_3: true
 ubtu18cis_rule_4_3: true
 
 # Section 5 Fixes
-# Section 5 is Acces, Authentication, and Authorization (configure cron, SSH server config, configure PAM
-# and user accounts and environment)
+# Section 5 is Access, Authentication, and Authorization (Configure Time-Based Job Schedulers, Configure sudo, Configure SSH Server, Configure PAM
+# and User Accounts and Environment)
 ubtu18cis_rule_5_1_1: true
 ubtu18cis_rule_5_1_2: true
 ubtu18cis_rule_5_1_3: true
@@ -273,7 +273,7 @@ ubtu18cis_rule_5_5: true
 ubtu18cis_rule_5_6: true
 
 # Section 6 Fixes
-# Section 6 is System Maintenance (system file permissions and user and group settings)
+# Section 6 is System Maintenance (System File Permissions and User and Group Settings)
 ubtu18cis_rule_6_1_1: true
 ubtu18cis_rule_6_1_2: true
 ubtu18cis_rule_6_1_3: true
