@@ -149,13 +149,13 @@ ubtu18cis_rule_3_1_1: true
 ubtu18cis_rule_3_1_2: true
 ubtu18cis_rule_3_2_1: true
 ubtu18cis_rule_3_2_2: true
-ubtu18cis_rule_3_2_3: true
-ubtu18cis_rule_3_2_4: true
-ubtu18cis_rule_3_2_5: true
-ubtu18cis_rule_3_2_6: true
-ubtu18cis_rule_3_2_7: true
-ubtu18cis_rule_3_2_8: true
-ubtu18cis_rule_3_2_9: true
+# ubtu18cis_rule_3_2_3: true
+# ubtu18cis_rule_3_2_4: true
+# ubtu18cis_rule_3_2_5: true
+# ubtu18cis_rule_3_2_6: true
+# ubtu18cis_rule_3_2_7: true
+# ubtu18cis_rule_3_2_8: true
+# ubtu18cis_rule_3_2_9: true
 ubtu18cis_rule_3_3_1: true
 ubtu18cis_rule_3_3_2: true
 ubtu18cis_rule_3_3_3: true
