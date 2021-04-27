@@ -30,6 +30,7 @@
       - { regexp: 'banner-message-text', line: 'banner-message-text={{ ubtu18cis_warning_banner }}', insertafter: 'banner-message-enable' }
   when:
       - ubtu18cis_rule_1_8_2
+      - ubtu18cis_desktop_required
   tags:
       - level1-server
       - level1-workstation
@@ -51,6 +52,7 @@
   notify: reload gdm
   when:
       - ubtu18cis_rule_1_8_3
+      - ubtu18cis_desktop_required
   tags:
       - level1-server
       - level1-workstation

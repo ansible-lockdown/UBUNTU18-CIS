@@ -117,8 +117,6 @@ ubtu18cis_rule_1_9: true
 # Section 2 is Services (Special Purpose, and Service Clients)
 ubtu18cis_rule_2_1_1_1: true
 ubtu18cis_rule_2_1_1_2: true
-ubtu18cis_rule_2_1_1_1: true
-ubtu18cis_rule_2_1_1_2: true
 ubtu18cis_rule_2_1_1_3: true
 ubtu18cis_rule_2_1_1_4: true
 ubtu18cis_rule_2_1_2: true
@@ -143,6 +141,7 @@ ubtu18cis_rule_2_2_3: true
 ubtu18cis_rule_2_2_4: true
 ubtu18cis_rule_2_2_5: true
 ubtu18cis_rule_2_2_6: true
+ubtu18cis_rule_2_3: true
 
 # Section 3 Fixes
 # Section 3 is Network Configuration (Disable unused network protocols and devices, Network Parameters(host), Network Parameters (host and router), Uncommon Network Protocols, and Firewall Configuration)
@@ -343,6 +342,10 @@ ubtu18cis_telnet_required: false
 ubtu18cis_ldap_clients_required: false
 ubtu18cis_is_router: false
 
+# Toggle to have automation install gdm3. 
+# The gdm related handlers won't run if you have this set to true but gdm3 is not installed. 
+ubtu18cis_install_gdm3: true
+
 # IPv6 requirement toggle
 ubtu18cis_ipv6_required: true
 
@@ -350,6 +353,9 @@ ubtu18cis_ipv6_required: true
 # ubtu18cis_desktop_required is the toggle for requiring desktop environments. True means you use a desktop and will not disable/remove needed items to run a desktop (not recommented for servers)
 # false means you do not require a desktop
 ubtu18cis_desktop_required: false
+# Toggle to have automation install gdm3. 
+# The gdm related handlers won't run if you have this set to true but gdm3 is not installed. 
+ubtu18cis_install_gdm3: true
 
 # Section 1 Control Variables
 # Control 1.1.2/1.1.3/1.1.4/1.1.5
@@ -421,24 +427,25 @@ ubtu18cis_warning_banner: |
 # The two options are chrony or ntp
 ubtu18cis_time_sync_tool: "ntp"
 
+# Control 2.1.1.4
+# ubtu18cis_chrony_server_options is the server options for chrony
+ubtu18cis_chrony_server_options: "minpoll 8"
+# ubtu18cis_ntp_server_options is the server options for ntp
+ubtu18cis_ntp_server_options: "iburst"
+# ubtu18cis_time_synchronization_servers are the synchronization servers
+ubtu18cis_time_synchronization_servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+    - 3.pool.ntp.org
+
 # Control 2.1.15
 # ubtu18cis_mail_server_type is the type of mail server in use
 # This control only automates exim4 or postfix, please address other mail servers manually
 # The values for this var are 'exim4' or 'postfix'
 ubtu18cis_mail_server_type: 'exim4'
 
-# !!!!!!!!!!!!!!!!!!!!!!! the below vars I can't find in the role, remove if not used
-# # Control 2.2.1.3
-# # ubtu18cis_chrony_server_options is the server options for chrony
-# ubtu18cis_chrony_server_options: "minpoll 8"
-# # ubtu18cis_ntp_server_options is the server options for ntp
-# ubtu18cis_ntp_server_options: "iburst"
-# # ubtu18cis_time_synchronization_servers are the synchronization servers
-# ubtu18cis_time_synchronization_servers:
-#     - 0.pool.ntp.org
-#     - 1.pool.ntp.org
-#     - 2.pool.ntp.org
-#     - 3.pool.ntp.org
+
 
 # Section 3 Control Variables
 # Control 3.3.2

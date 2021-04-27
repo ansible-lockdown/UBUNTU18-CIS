@@ -276,7 +276,7 @@
       name: ['dovecot-imapd', 'dovecot-pop3d']
       state: absent
   when:
-      - ubtu18cis_rule_2_2_11
+      - ubtu18cis_rule_2_1_11
       - not ubtu18cis_dovecot_server
   tags:
       - level1-server
@@ -336,7 +336,7 @@
       - service
 
 - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode"
-  bock:
+  block:
       - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | For postfix"
         lineinfile:
             path: /etc/postfix/main.cf
@@ -352,17 +352,17 @@
             line: "{{ item.line }}"
         notify: restart exim4
         with_items:
-            - { regexp: '^dc_eximconfig_configtype=', line: "dc_eximconfig_configtype='local'" }
-            - { regexp: '^dc_local_interfaces=', line: "dc_local_interfaces='127.0.0.1 ; ::1'" }
-            - { regexp: '^dc_readhost=', line: "dc_readhost=''" }
-            - { regexp: '^dc_relay_domains=', line:"dc_relay_domains=''" }
-            - { regexp: '^dc_minimaldns=', line: "dc_minimaldns='false'" }
-            - { regexp: '^dc_relay_nets=', line: "dc_relay_nets=''" }
-            - { regexp: '^dc_smarthost=', line: "dc_smarthost=''" }
-            - { regexp: '^dc_use_split_config=', line: "dc_use_split_config='false'" }
-            - { regexp: '^dc_hide_mailname=', line: "dc_hide_mailname=''" }
-            - { regexp: '^dc_mailname_in_oh=', line: "dc_mailname_in_oh='true'" }
-            - { regexp: '^dc_localdelivery=', line: "dc_localdelivery='mail_spool'" }
+            - { regexp: '^dc_eximconfig_configtype=', line: dc_eximconfig_configtype='local' }
+            - { regexp: '^dc_local_interfaces=', line: dc_local_interfaces='127.0.0.1 ; ::1' }
+            - { regexp: '^dc_readhost=', line: dc_readhost='' }
+            - { regexp: '^dc_relay_domains=', line: dc_relay_domains='' }
+            - { regexp: '^dc_minimaldns=', line: dc_minimaldns='false' }
+            - { regexp: '^dc_relay_nets=', line: dc_relay_nets='' }
+            - { regexp: '^dc_smarthost=', line: dc_smarthost='' }
+            - { regexp: '^dc_use_split_config=', line: dc_use_split_config='false' }
+            - { regexp: '^dc_hide_mailname=', line: dc_hide_mailname='' }
+            - { regexp: '^dc_mailname_in_oh=', line: dc_mailname_in_oh='true' }
+            - { regexp: '^dc_localdelivery=', line: dc_localdelivery='mail_spool' }
         when: ubtu18cis_mail_server_type == "exim4"
   when:
       - ubtu18cis_rule_2_1_15

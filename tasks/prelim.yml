@@ -34,6 +34,16 @@
   tags:
       - skip_ansible_lint
 
+- name: "PRELIM | Install gdm3"
+  apt:
+      name: gdm3
+      state: present
+  when:
+      - ubtu18cis_desktop_required
+      - ubtu18cis_install_gdm3
+      - ubtu18cis_rule_1_8_2 or
+        ubtu18cis_rule_1_8_3
+
 - name: "PRELIM | Install nftables"
   apt:
       name: nftables
