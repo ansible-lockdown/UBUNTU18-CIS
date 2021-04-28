@@ -1,5 +1,5 @@
 ---
-- name: "SCORED | 4.2.1.1 | PATCH | Ensure rsyslog is installed"
+- name: "AUTOMATED | 4.2.1.1 | PATCH | Ensure rsyslog is installed"
   apt:
       name: rsyslog
       state: present
@@ -8,13 +8,13 @@
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_4.2.1.1
       - rsyslog
       - apt
 
-- name: "SCORED | 4.2.1.2 | PATCH | Ensure rsyslog Service is enabled"
+- name: "AUTOMATED | 4.2.1.2 | PATCH | Ensure rsyslog Service is enabled"
   service:
       name: rsyslog
       enabled: yes
@@ -23,33 +23,33 @@
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_4.2.1.2
       - rsyslog
 
-- name: "NOTSCORED | 4.2.1.3 | PATCH | Ensure logging is configured"
+- name: "MANUAL | 4.2.1.3 | PATCH | Ensure logging is configured"
   block:
-      - name: "NOTSCORED | 4.2.1.3 | PATCH | Ensure logging is configured | Find configuration file"
+      - name: "MANUAL | 4.2.1.3 | PATCH | Ensure logging is configured | Find configuration file"
         shell: grep -r "*.emerg" /etc/* | cut -f1 -d":"
         changed_when: false
         failed_when: false
         register: ubtu18cis_4_2_1_3_rsyslog_config_path
 
-      - name: "NOTSCORED | 4.2.1.3 | PATCH | Ensure logging is configured | Gather rsyslog current config"
+      - name: "MANUAL | 4.2.1.3 | PATCH | Ensure logging is configured | Gather rsyslog current config"
         command: "cat {{ ubtu18cis_4_2_1_3_rsyslog_config_path.stdout }}"
         changed_when: false
         failed_when: false
         register: ubtu18cis_4_2_1_3_rsyslog_config
 
-      - name: "NOTSCORED | 4.2.1.3 | PATCH | Ensure logging is configured | Message out config"
+      - name: "MANUAL | 4.2.1.3 | PATCH | Ensure logging is configured | Message out config"
         debug:
             msg:
                 - "Alert!!!Below is the current logging configurations for rsyslog, please review"
                 - "{{ ubtu18cis_4_2_1_3_rsyslog_config.stdout_lines }}"
         when: not ubtu18cis_rsyslog_ansible_managed
 
-      - name: "NOTSCORED | 4.2.1.3 | PATCH | Ensure logging is configured | Automated rsyslog configuration"
+      - name: "MANUAL | 4.2.1.3 | PATCH | Ensure logging is configured | Automated rsyslog configuration"
         lineinfile:
             path: "{{ ubtu18cis_4_2_1_3_rsyslog_config_path.stdout }}"
             regexp: "{{ item.regexp }}"
@@ -79,12 +79,12 @@
   tags:
       - level1-server
       - level1-workstation
-      - notscored
+      - manual
       - patch
       - rule_4.2.1.3
       - rsyslog
 
-- name: "SCORED | 4.2.1.4 | PATCH | Ensure rsyslog default file permissions configured"
+- name: "AUTOMATED | 4.2.1.4 | PATCH | Ensure rsyslog default file permissions configured"
   lineinfile:
       path: /etc/rsyslog.conf
       regexp: '^\$FileCreateMode|^#\$FileCreateMode'
@@ -95,12 +95,12 @@
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_4.2.1.4
       - rsyslog
 
-- name: "SCORED | 4.2.1.5 | PATCH | Ensure rsyslog is configured to send logs to a remote log host"
+- name: "AUTOMATED | 4.2.1.5 | PATCH | Ensure rsyslog is configured to send logs to a remote log host"
   blockinfile:
       path: /etc/rsyslog.conf
       block: |
@@ -112,14 +112,14 @@
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_4.2.1.5
       - rsyslog
 
-- name: "NOTSCORED | 4.2.1.6 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts"
+- name: "MANUAL | 4.2.1.6 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts"
   block:
-      - name: "NOTSCORED | 4.2.1.6 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts | When not a log host"
+      - name: "MANUAL | 4.2.1.6 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts | When not a log host"
         replace:
             path: /etc/rsyslog.conf
             regexp: '({{ item }})'
@@ -130,7 +130,7 @@
         notify: restart rsyslog
         when: not ubtu18cis_system_is_log_server
 
-      - name: "NOTSCORED | 4.2.1.6 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts | When a log server"
+      - name: "MANUAL | 4.2.1.6 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts | When a log server"
         lineinfile:
             path: /etc/rsyslog.conf
             regexp: "{{ item.regexp }}"
@@ -145,7 +145,7 @@
   tags:
       - level1-server
       - level1-workstation
-      - notscored
+      - manual
       - patch
       - rule_4.2.1.6
       - rsyslog
