@@ -1,12 +1,12 @@
 ---
-- name: "NOTSCORED | 4.3 | PATCH | Ensure logrotate is configured"
+- name: "MANUAL | 4.3 | PATCH | Ensure logrotate is configured"
   block:
-      - name: "NOTSCORED | 4.3 | PATCH | Ensure logrotate is configured | Get logrotate files"
+      - name: "MANUAL | 4.3 | PATCH | Ensure logrotate is configured | Get logrotate files"
         find:
             paths: /etc/logrotate.d/
         register: ubtu18cis_4_3_logrotate_files
 
-      - name: "NOTSCORED | 4.3 | PATCH | Ensure logrotate is configured | Set rotation configurations"
+      - name: "MANUAL | 4.3 | PATCH | Ensure logrotate is configured | Set rotation configurations"
         replace:
             path: "{{ item.path }}"
             regexp: '^(\s*)(daily|weekly|monthly|yearly)$'
@@ -19,7 +19,7 @@
   tags:
       - level1-server
       - level1-workstation
-      - notscored
+      - manual
       - patch
       - rule_4.3
       - logrotate
