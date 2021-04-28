@@ -1,5 +1,5 @@
 ---
-- name: "SCORED | 4.2.2.1 | PATCH | Ensure journald is configured to send logs to rsyslog"
+- name: "AUTOMATED | 4.2.2.1 | PATCH | Ensure journald is configured to send logs to rsyslog"
   lineinfile:
       path: /etc/systemd/journald.conf
       regexp: '^ForwardToSyslog|^#ForwardToSyslog'
@@ -10,13 +10,13 @@
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_4.2.2.1
       - rsyslog
       - journald
 
-- name: "SCORED | 4.2.2.2 | PATCH | Ensure journald is configured to compress large log files"
+- name: "AUTOMATED | 4.2.2.2 | PATCH | Ensure journald is configured to compress large log files"
   lineinfile:
       path: /etc/systemd/journald.conf
       regexp: '^Compress|^#Compress'
@@ -27,13 +27,13 @@
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_4.2.2.2
       - rsyslog
       - journald
 
-- name: "SCORED | 4.2.2.3 | PATCH | Ensure journald is configured to write logfiles to persistent disk"
+- name: "AUTOMATED | 4.2.2.3 | PATCH | Ensure journald is configured to write logfiles to persistent disk"
   lineinfile:
       path: /etc/systemd/journald.conf
       regexp: '^Storage|^#Storage'
@@ -44,7 +44,7 @@
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_4.2.2.3
       - rsyslog
