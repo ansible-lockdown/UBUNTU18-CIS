@@ -307,16 +307,16 @@ ubtu18cis_rule_5_3_19: true
 ubtu18cis_rule_5_3_20: true
 ubtu18cis_rule_5_3_21: true
 ubtu18cis_rule_5_3_22: true
-ubtu18cis_rule_5_4_1_1: true
-ubtu18cis_rule_5_4_1_2: true
-ubtu18cis_rule_5_4_1_3: true
-ubtu18cis_rule_5_4_1_4: true
-ubtu18cis_rule_5_4_1_5: true
+# ubtu18cis_rule_5_4_1_1: true
+# ubtu18cis_rule_5_4_1_2: true
+# ubtu18cis_rule_5_4_1_3: true
+# ubtu18cis_rule_5_4_1_4: true
+# ubtu18cis_rule_5_4_1_5: true
 ubtu18cis_rule_5_4_1: true
 ubtu18cis_rule_5_4_2: true
 ubtu18cis_rule_5_4_3: true
 ubtu18cis_rule_5_4_4: true
-ubtu18cis_rule_5_4_5: true
+# ubtu18cis_rule_5_4_5: true
 ubtu18cis_rule_5_5: true
 ubtu18cis_rule_5_6: true
 
@@ -611,7 +611,7 @@ ubtu18cis_sshd:
     # deny_users:
     # deny_groups:
 
-# Control 5.3.3
+# Control 5.4.3
 # ubtu18cis_pamd_pwhistory_remember is number of password chnage cycles a user can re-use a password
 # This needs to be 5 or more to conform to CIS standards
 ubtu18cis_pamd_pwhistory_remember: 5
