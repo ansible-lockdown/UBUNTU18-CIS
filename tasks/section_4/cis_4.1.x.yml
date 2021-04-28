@@ -1,5 +1,5 @@
 ---
-- name: "SCORED | 4.1.3 | PATCH | Ensure events that modify date and time information are collected"
+- name: "AUTOMATED | 4.1.3 | PATCH | Ensure events that modify date and time information are collected"
   template:
       src: audit/ubtu18cis_4_1_3_timechange.rules.j2
       dest: /etc/audit/rules.d/time-change.rules
@@ -12,12 +12,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.3
       - auditd
 
-- name: "SCORED | 4.1.4 | PATCH | Ensure events that modify user/group information are collected"
+- name: "AUTOMATED | 4.1.4 | PATCH | Ensure events that modify user/group information are collected"
   template:
       src: audit/ubtu18cis_4_1_4_identity.rules.j2
       dest: /etc/audit/rules.d/identity.rules
@@ -30,12 +30,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.4
       - auditd
 
-- name: "SCORED | 4.1.5 | PATCH | Ensure events that modify the system's network environment are collected"
+- name: "AUTOMATED | 4.1.5 | PATCH | Ensure events that modify the system's network environment are collected"
   template:
       src: audit/ubtu18cis_4_1_5_systemlocale.rules.j2
       dest: /etc/audit/rules.d/system-locale.rules
@@ -48,12 +48,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.5
       - auditd
 
-- name: "SCORED | 4.1.6 | PATCH | Ensure events that modify the system's Mandatory Access Controls are collected"
+- name: "AUTOMATED | 4.1.6 | PATCH | Ensure events that modify the system's Mandatory Access Controls are collected"
   template:
       src: audit/ubtu18cis_4_1_6_macpolicy.rules.j2
       dest: /etc/audit/rules.d/MAC-policy.rules
@@ -66,12 +66,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.6
       - auditd
 
-- name: "SCORED | 4.1.7 | PATCH | Ensure login and logout events are collected"
+- name: "AUTOMATED | 4.1.7 | PATCH | Ensure login and logout events are collected"
   template:
       src: audit/ubtu18cis_4_1_7_logins.rules.j2
       dest: /etc/audit/rules.d/logins.rules
@@ -84,12 +84,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.7
       - auditd
 
-- name: "SCORED | 4.1.8 | PATCH | Ensure session initiation information is collected"
+- name: "AUTOMATED | 4.1.8 | PATCH | Ensure session initiation information is collected"
   template:
       src: audit/ubtu18cis_4_1_8_session.rules.j2
       dest: /etc/audit/rules.d/session.rules
@@ -102,12 +102,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.8
       - auditd
 
-- name: "SCORED | 4.1.9 | PATCH | Ensure discretionary access control permission modification events are collected"
+- name: "AUTOMATED | 4.1.9 | PATCH | Ensure discretionary access control permission modification events are collected"
   template:
       src: audit/ubtu18cis_4_1_9_permmod.rules.j2
       dest: /etc/audit/rules.d/perm_mod.rules
@@ -120,12 +120,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.9
       - auditd
 
-- name: "SCORED | 4.1.10 | PATCH | Ensure unsuccessful unauthorized file access attempts are collected"
+- name: "AUTOMATED | 4.1.10 | PATCH | Ensure unsuccessful unauthorized file access attempts are collected"
   template:
       src: audit/ubtu18cis_4_1_10_access.rules.j2
       dest: /etc/audit/rules.d/access.rules
@@ -138,20 +138,20 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.10
       - auditd
 
-- name: "SCORED | 4.1.11 | PATCH | Ensure use of privileged commands is collected"
+- name: "AUTOMATED | 4.1.11 | PATCH | Ensure use of privileged commands is collected"
   block:
-      - name: "SCORED | 4.1.11 | AUDIT | Ensure use of privileged commands is collected | Get list of privileged programs"
+      - name: "AUTOMATED | 4.1.11 | AUDIT | Ensure use of privileged commands is collected | Get list of privileged programs"
         shell: for i in  $(df | grep '^/dev' | awk '{ print $NF }'); do find $i -xdev -type f -perm -4000 -o -type f -perm -2000 2>/dev/null; done
         register: priv_procs
         changed_when: no
         check_mode: no
 
-      - name: "SCORED | 4.1.11 | PATCH | Ensure use of privileged commands is collected | Set privileged rules"
+      - name: "AUTOMATED | 4.1.11 | PATCH | Ensure use of privileged commands is collected | Set privileged rules"
         template:
             src: audit/ubtu18cis_4_1_11_privileged.rules.j2
             dest: /etc/audit/rules.d/privileged.rules
@@ -164,12 +164,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.11
       - auditd
 
-- name: "SCORED | 4.1.12 | PATCH | Ensure successful file system mounts are collected"
+- name: "AUTOMATED | 4.1.12 | PATCH | Ensure successful file system mounts are collected"
   template:
       src: audit/ubtu18cis_4_1_12_audit.rules.j2
       dest: /etc/audit/rules.d/audit.rules
@@ -182,12 +182,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.12
       - auditd
 
-- name: "SCORED | 4.1.13 | PATCH | Ensure file deletion events by users are collected"
+- name: "AUTOMATED | 4.1.13 | PATCH | Ensure file deletion events by users are collected"
   template:
       src: audit/ubtu18cis_4_1_13_delete.rules.j2
       dest: /etc/audit/rules.d/delete.rules
@@ -200,12 +200,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.13
       - auditd
 
-- name: "SCORED | 4.1.14 | PATCH | Ensure changes to system administration scope (sudoers) is collected"
+- name: "AUTOMATED | 4.1.14 | PATCH | Ensure changes to system administration scope (sudoers) is collected"
   template:
       src: audit/ubtu18cis_4_1_14_scope.rules.j2
       dest: /etc/audit/rules.d/scope.rules
@@ -218,12 +218,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.14
       - auditd
 
-- name: "SCORED | 4.1.15 | PATCH | Ensure system administrator actions (sudolog) are collected"
+- name: "AUTOMATED | 4.1.15 | PATCH | Ensure system administrator command executions (sudo) are collected"
   template:
       src: audit/ubtu18cis_4_1_15_actions.rules.j2
       dest: /etc/audit/rules.d/actions.rules
@@ -236,12 +236,30 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.15
       - auditd
 
-- name: "SCORED | 4.1.16 | PATCH | Ensure kernel module loading and unloading is collected"
+# - name: "SCORED | 4.1.15 | PATCH | Ensure system administrator actions (sudolog) are collected"
+#   template:
+#       src: audit/ubtu18cis_4_1_15_actions.rules.j2
+#       dest: /etc/audit/rules.d/actions.rules
+#       owner: root
+#       group: root
+#       mode: 0600
+#   notify: restart auditd
+#   when:
+#       - ubtu18cis_rule_4_1_15
+#   tags:
+#       - level2-server
+#       - level2-workstation
+#       - scored
+#       - patch
+#       - rule_4.1.15
+#       - auditd
+
+- name: "AUTOMATED | 4.1.16 | PATCH | Ensure kernel module loading and unloading is collected"
   template:
       src: audit/ubtu18cis_4_1_16_modules.rules.j2
       dest: /etc/audit/rules.d/modules.rules
@@ -254,12 +272,12 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.16
       - auditd
 
-- name: "SCORED | 4.1.17 | PATCH | Ensure the audit configuration is immutable"
+- name: "AUTOMATED | 4.1.17 | PATCH | Ensure the audit configuration is immutable"
   template:
       src: audit/ubtu18cis_4_1_17_99finalize.rules.j2
       dest: /etc/audit/rules.d/99-finalize.rules
@@ -272,7 +290,7 @@
   tags:
       - level2-server
       - level2-workstation
-      - scored
+      - automated
       - patch
       - rule_4.1.17
       - auditd
