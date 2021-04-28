@@ -14,8 +14,8 @@
 - name: "SECTION | 3.5 | Firewall Configuration"
   include: cis_3.5.x.yml
 
-- name: "SECTION | 3.6 | Ensure wireless interfaces are disabled"
-  include: cis_3.6.x.yml
+# - name: "SECTION | 3.6 | Ensure wireless interfaces are disabled"
+#   include: cis_3.6.x.yml
 
-- name: "SECTION | 3.7 | Disable IPv6"
-  include: cis_3.7.x.yml
+# - name: "SECTION | 3.7 | Disable IPv6"
+#   include: cis_3.7.x.yml
