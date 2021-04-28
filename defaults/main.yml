@@ -161,6 +161,10 @@ ubtu18cis_rule_3_3_2: true
 ubtu18cis_rule_3_3_3: true
 ubtu18cis_rule_3_3_4: true
 ubtu18cis_rule_3_3_5: true
+ubtu18cis_rule_3_3_6: true
+ubtu18cis_rule_3_3_7: true
+ubtu18cis_rule_3_3_8: true
+ubtu18cis_rule_3_3_9: true
 ubtu18cis_rule_3_4_1: true
 ubtu18cis_rule_3_4_2: true
 ubtu18cis_rule_3_4_3: true
@@ -185,21 +189,29 @@ ubtu18cis_rule_3_5_2_10: true
 ubtu18cis_rule_3_5_3_1_1: true
 ubtu18cis_rule_3_5_3_1_2: true
 ubtu18cis_rule_3_5_3_1_3: true
-ubtu18cis_rule_3_5_3_4: true
-ubtu18cis_rule_3_5_3_5: true
-ubtu18cis_rule_3_5_3_6: true
-ubtu18cis_rule_3_5_3_7: true
-ubtu18cis_rule_3_5_3_8: true
-ubtu18cis_rule_3_5_4_1_1: true
-ubtu18cis_rule_3_5_4_1_2: true
-ubtu18cis_rule_3_5_4_1_3: true
-ubtu18cis_rule_3_5_4_1_4: true
-ubtu18cis_rule_3_5_4_2_1: true
-ubtu18cis_rule_3_5_4_2_2: true
-ubtu18cis_rule_3_5_4_2_3: true
-ubtu18cis_rule_3_5_4_2_4: true
-ubtu18cis_rule_3_6: true
-ubtu18cis_rule_3_7: true
+ubtu18cis_rule_3_5_3_2_1: true
+ubtu18cis_rule_3_5_3_2_2: true
+ubtu18cis_rule_3_5_3_2_3: true
+ubtu18cis_rule_3_5_3_2_4: true
+ubtu18cis_rule_3_5_3_3_1: true
+ubtu18cis_rule_3_5_3_3_2: true
+ubtu18cis_rule_3_5_3_3_3: true
+ubtu18cis_rule_3_5_3_3_4: true
+# ubtu18cis_rule_3_5_3_4: true
+# ubtu18cis_rule_3_5_3_5: true
+# ubtu18cis_rule_3_5_3_6: true
+# ubtu18cis_rule_3_5_3_7: true
+# ubtu18cis_rule_3_5_3_8: true
+# ubtu18cis_rule_3_5_4_1_1: true
+# ubtu18cis_rule_3_5_4_1_2: true
+# ubtu18cis_rule_3_5_4_1_3: true
+# ubtu18cis_rule_3_5_4_1_4: true
+# ubtu18cis_rule_3_5_4_2_1: true
+# ubtu18cis_rule_3_5_4_2_2: true
+# ubtu18cis_rule_3_5_4_2_3: true
+# ubtu18cis_rule_3_5_4_2_4: true
+# ubtu18cis_rule_3_6: true
+# ubtu18cis_rule_3_7: true
 
 # Section 4 Fixes
 # Section 4 is Logging and Auditing (Configure System Accounting and Configure Logging)
@@ -352,10 +364,6 @@ ubtu18cis_talk_required: false
 ubtu18cis_telnet_required: false
 ubtu18cis_ldap_clients_required: false
 ubtu18cis_is_router: false
-
-# Toggle to have automation install gdm3. 
-# The gdm related handlers won't run if you have this set to true but gdm3 is not installed. 
-ubtu18cis_install_gdm3: true
 
 # IPv6 requirement toggle
 ubtu18cis_ipv6_required: true
