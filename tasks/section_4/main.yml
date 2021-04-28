@@ -18,4 +18,7 @@
   include: cis_4.2.3.x.yml
 
 - name: "SECTION | 4.3 | Ensure logrotate is configured"
-  include: cis_4.3.x.yml
+  include: cis_4.3.yml
+
+- name: "SECTION | 4.4 | Ensure assigns appropriate permissions"
+  include: cis_4.4.yml
