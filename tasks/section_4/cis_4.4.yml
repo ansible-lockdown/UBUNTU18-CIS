@@ -2,7 +2,7 @@
 - name: "AUTOMATED | 4.4 | PATCH | Ensure logrotate assigns appropriate permissions"
   lineinfile:
       path: /etc/logrotate.conf
-      regex: '^create '
+      regex: '^create'
       line: 'create 0640 root utmp'
   when:
       - ubtu18cis_rule_4_4
