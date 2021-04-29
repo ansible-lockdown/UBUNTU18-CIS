@@ -45,7 +45,7 @@
             name: root
             group: root
   when:
-      - ubtu18cis_rule_5_4_3
+      - ubtu18cis_rule_5_5_3
   tags:
       - level1-server
       - level1-workstation
