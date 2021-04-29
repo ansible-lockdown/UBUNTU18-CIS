@@ -317,6 +317,11 @@ ubtu18cis_rule_5_4_2: true
 ubtu18cis_rule_5_4_3: true
 ubtu18cis_rule_5_4_4: true
 # ubtu18cis_rule_5_4_5: true
+ubtu18cis_rule_5_5_1_1: true
+ubtu18cis_rule_5_5_1_2: true
+ubtu18cis_rule_5_5_1_3: true
+ubtu18cis_rule_5_5_1_4: true
+ubtu18cis_rule_5_5_1_5: true
 ubtu18cis_rule_5_5: true
 ubtu18cis_rule_5_6: true
 
@@ -632,12 +637,12 @@ ubtu18cis_pass:
     warn_age: 7
     inactive: 30
 
-# Control 5.4.4
+# Control 5.5.4
 # ubtu18cis_bash_umask is the umask to set in the /etc/bash.bashrc and /etc/profile. 
 # The value needs to be 027 or more restrictive to comply with CIS standards
 ubtu18cis_bash_umask: '027'
 
-# Control 5.4.5
+# Control 5.5.5
 # Session timeout setting file (TMOUT setting can be set in multiple files)
 # Timeout value is in seconds. Set value to 900 seconds or less
 ubtu18cis_shell_session_timeout:
