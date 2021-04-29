@@ -362,9 +362,9 @@ ubtu18cis_rule_6_2_14: true
 ubtu18cis_rule_6_2_15: true
 ubtu18cis_rule_6_2_16: true
 ubtu18cis_rule_6_2_17: true
-ubtu18cis_rule_6_2_18: true
-ubtu18cis_rule_6_2_19: true
-ubtu18cis_rule_6_2_20: true
+# ubtu18cis_rule_6_2_18: true
+# ubtu18cis_rule_6_2_19: true
+# ubtu18cis_rule_6_2_20: true
 
 # Service configuration variables, set to true to keep service
 ubtu18cis_allow_autofs: false
@@ -680,6 +680,11 @@ ubtu18cis_no_group_adjust: true
 # ubtu18cis_suid_adjust is the toggle to remove the SUID bit from all files on all mounts
 # Set to true this role will remove that bit, set to false we will just warn about the files
 ubtu18cis_suid_adjust: false
+
+# Control 6.2.7
+# This control toggles automation to set all users dot files to not group or world writable
+# Value of true will change file permissiosn, value of false will skip the automation changing permissions. 
+ubtu18cis_dotperm_ansibleManaged: true
 
 # Control 6.2.9 Allow ansible to adjust world-writable files. False will just display world-writable files, True will remove world-writable
 ubtu18cis_passwd_label: "{{ (this_item | default(item)).id }}: {{ (this_item | default(item)).dir }}"
