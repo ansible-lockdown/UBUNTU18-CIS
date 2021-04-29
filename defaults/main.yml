@@ -649,7 +649,7 @@ ubtu18cis_shell_session_timeout:
     file: /etc/profile.d/tmout.sh
     timeout: 900
 
-# Control 5.6
+# Control 5.7
 # ubtu18cis_su_group is the su group to use with pam_wheel
 ubtu18cis_su_group: "wheel"
 
