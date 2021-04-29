@@ -314,7 +314,7 @@
             msg:
                 - "ALERT!!!! There is no separate partition for /var"
                 - "Please create a separate partition for /var"
-        when: ubtu18cis_1_1_10_var_mounted.stdout == ""
+        when: ubtu18cis_1_1_10_var_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_10
   tags:
@@ -340,7 +340,7 @@
             msg:
                 - "ALERT!!!! There is no separate partition for /var/tmp"
                 - "Please create a separate partition for /var/tmp"
-        when: ubtu18cis_1_1_11_var_tmp_mounted.stdout == ""
+        when: ubtu18cis_1_1_11_var_tmp_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_11
   tags:
@@ -392,7 +392,7 @@
             msg:
                 - "ALERT!!!! There is no separate partition for /var/log"
                 - "Please create a separate partition for /var/log"
-        when: ubtu18cis_1_1_15_var_log_mounted.stdout == ""
+        when: ubtu18cis_1_1_15_var_log_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_15
   tags:
@@ -418,7 +418,7 @@
             msg:
                 - "ALERT!!!! There is no separate partition for /var/log/audit"
                 - "Please create a separate partition for /var/log/audit"
-        when: ubtu18cis_1_1_16_var_log_audit_mounted.stdout == ""
+        when: ubtu18cis_1_1_16_var_log_audit_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_16
   tags:
@@ -444,7 +444,7 @@
             msg:
                 - "ALERT!!!! There is no separate partition for /home"
                 - "Please create a separate partition for /home"
-        when: ubtu18cis_1_1_17_home_mounted.stdout == ""
+        when: ubtu18cis_1_1_17_home_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_17
   tags:
