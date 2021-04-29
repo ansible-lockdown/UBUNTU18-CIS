@@ -128,7 +128,7 @@
         command: grep 'password.*required.*pam_pwhistory.so' /etc/pam.d/common-password
         changed_when: false
         failed_when: false
-        register: ubtu18cis_5_3_3_pam_pwhistory_state
+        register: ubtu18cis_5_4_3_pam_pwhistory_state
 
       - name: "AUTOMATED | 5.4.3 | PATCH | Ensure password reuse is limited | Set remember value if pam_pwhistory exists"
         pamd:
@@ -189,13 +189,6 @@
       - patch
       - rule_5.4.4
       - pamd
-
-
-
-
-
-
-
 
 # - name: "SCORED | 5.4.2 | PATCH | Ensure system accounts are secured"
 #   block:
