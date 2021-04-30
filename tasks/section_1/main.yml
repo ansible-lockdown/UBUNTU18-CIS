@@ -24,4 +24,4 @@
   include: cis_1.8.x.yml
 
 - name: "SECTION | 1.9 | Ensure updates, patches, and additional security software are installed"
-  include: cis_1.9.x.yml
+  include: cis_1.9.yml
