@@ -353,7 +353,7 @@
         notify: restart exim4
         with_items:
             - { regexp: '^dc_eximconfig_configtype=', line: dc_eximconfig_configtype='local' }
-            - { regexp: '^dc_local_interfaces=', line: dc_local_interfaces='127.0.0.1 ; ::1' }
+            - { regexp: '^dc_local_interfaces=', line: "dc_local_interfaces='127.0.0.1 ; ::1'" }
             - { regexp: '^dc_readhost=', line: dc_readhost='' }
             - { regexp: '^dc_relay_domains=', line: dc_relay_domains='' }
             - { regexp: '^dc_minimaldns=', line: dc_minimaldns='false' }
