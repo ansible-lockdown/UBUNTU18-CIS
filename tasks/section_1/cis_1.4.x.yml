@@ -1,35 +1,84 @@
 ---
-- name: "SCORED | 1.4.1 | PATCH | Ensure AIDE is installed"
-  apt:
-      name: ['aide', 'aide-common']
-      state: present
+- name: "AUTOMATED | 1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden"
+  block:
+      - name: "AUTOMATED | 1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden | Change chmod setting"
+        replace:
+            path: /usr/sbin/grub-mkconfig
+            regexp: 'chmod\s\d\d\d\s\${grub_cfg}.new'
+            replace: 'chmod 400 ${grub_cfg}.new'
+
+      - name: "AUTOMATED | 1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden | Remove check on password"
+        lineinfile:
+            path: /usr/sbin/grub-mkconfig
+            regexp: 'if \[ \"x\$\{grub_cfg\}\" != "x" \] && ! grep "\^password" \${grub_cfg}.new'
+            line: if [ "x${grub_cfg}" != "x" ]; then
   when:
       - ubtu18cis_rule_1_4_1
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_1.4.1
-      - aide
+      - grub
 
-- name: "SCORED | 1.4.2 | PATCH | Ensure filesystem integrity is regularly checked"
-  cron:
-      name: Run AIDE integrity check
-      cron_file: "{{ ubtu18cis_aide_cron['cron_file'] }}"
-      user: "{{ ubtu18cis_aide_cron['cron_user'] }}"
-      minute: "{{ ubtu18cis_aide_cron['aide_minute'] | default('0') }}"
-      hour: "{{ ubtu18cis_aide_cron['aide_hour'] | default('5') }}"
-      day: "{{ ubtu18cis_aide_cron['aide_day'] | default('*') }}"
-      month: "{{ ubtu18cis_aide_cron['aide_month'] | default('*') }}"
-      weekday: "{{ ubtu18cis_aide_cron['aide_weekday'] | default('*') }}"
-      job: "{{ ubtu18cis_aide_cron['aide_job'] }}"
+# ---------------
+# ---------------
+# The RHEL7 based control for this does not use a valid module
+# I need to research best way to set grub pw for Ubuntu using the
+# grub-mkpasswd-pbkdf2 command and passing the data at the same time.
+# ---------------
+# ---------------
+- name: "AUTOMATED | 1.4.2 | PATCH | Ensure bootloader password is set"
+  command: /bin/true
+  changed_when: false
+  failed_when: false
   when:
       - ubtu18cis_rule_1_4_2
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_1.4.2
-      - cron
+      - grub
+      - notimplemented
+
+- name: "AUTOMATED | 1.4.3 | PATCH | Ensure permissions on bootloader config are configured"
+  block:
+      - name: "AUTOMATED | 1.4.3 | AUDIT | Ensure permissions on bootloader config are configured | Check for Grub file"
+        stat:
+            path: /boot/grub/grub.cfg
+        register: ubtu18cis_1_4_3_grub_cfg_status
+
+      - name: "AUTOMATED | 1.4.3 | PATCH | Ensure permissions on bootloader config are configured | Set permissions"
+        file:
+            path: /boot/grub/grub.cfg
+            owner: root
+            group: root
+            mode: 0400
+        when:
+            - ubtu18cis_1_4_3_grub_cfg_status.stat.exists
+  when:
+      - ubtu18cis_rule_1_4_3
+  tags:
+      - level1-server
+      - level1-workstation
+      - automated
+      - patch
+      - rule_1.4.3
+      - grub
+
+- name: "AUTOMATED | 1.4.4 | PATCH | Ensure authentication required for single user mode"
+  user:
+      name: root
+      password: "{{ ubtu18cis_root_pw }}"
+  when:
+      - ubtu18cis_rule_1_4_4
+  tags:
+      - level1-server
+      - level1-workstation
+      - automated
+      - patch
+      - rule_1.4.4
+      - passwd

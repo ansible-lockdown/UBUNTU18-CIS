@@ -1,46 +1,35 @@
 ---
-- name: "SCORED | 1.3.1 | PATCH | Ensure sudo is installed"
+- name: "AUTOMATED | 1.3.1 | PATCH | Ensure AIDE is installed"
   apt:
-      name: "{{ ubtu18cis_sudo_package }}"
+      name: ['aide', 'aide-common']
       state: present
   when:
       - ubtu18cis_rule_1_3_1
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_1.3.1
-      - sudo
+      - aide
 
-- name: "SCORED | 1.3.2 | PATCH | Ensure sudo commands use pty"
-  lineinfile:
-      path: /etc/sudoers
-      regexp: '^Defaults        use_'
-      line: 'Defaults        use_pty'
-      insertafter: '^Defaults'
+- name: "AUTOMATED | 1.3.2 | PATCH | Ensure filesystem integrity is regularly checked"
+  cron:
+      name: Run AIDE integrity check
+      cron_file: "{{ ubtu18cis_aide_cron['cron_file'] }}"
+      user: "{{ ubtu18cis_aide_cron['cron_user'] }}"
+      minute: "{{ ubtu18cis_aide_cron['aide_minute'] | default('0') }}"
+      hour: "{{ ubtu18cis_aide_cron['aide_hour'] | default('5') }}"
+      day: "{{ ubtu18cis_aide_cron['aide_day'] | default('*') }}"
+      month: "{{ ubtu18cis_aide_cron['aide_month'] | default('*') }}"
+      weekday: "{{ ubtu18cis_aide_cron['aide_weekday'] | default('*') }}"
+      job: "{{ ubtu18cis_aide_cron['aide_job'] }}"
   when:
       - ubtu18cis_rule_1_3_2
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_1.3.2
-      - sudo
-
-- name: "SCORED | 1.3.3 | PATCH | Ensure sudo log file exists"
-  lineinfile:
-      path: /etc/sudoers
-      regexp: '^Defaults        logfile'
-      line: 'Defaults        logfile="{{ ubtu18cis_sudo_logfile }}"'
-      insertafter: '^Defaults'
-  when:
-      - ubtu18cis_rule_1_3_3
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_1.3.3
-      - sudo
+      - cron

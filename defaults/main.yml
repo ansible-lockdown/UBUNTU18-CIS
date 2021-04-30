@@ -47,16 +47,14 @@ ubtu18cis_system_is_container: false
 system_is_ec2: false
 
 # Section 1 Fixes
-# Section 1 is Iniitial setup (FileSystem Configuration, Configure Software Updates, Configure sudo, Filesystem Integrity Checking, Secure Boot Settings,
-# Additional Process Hardening, Mandatory Access Control, and Warning Banners)
+# Section 1 is Initial setup (FileSystem Configuration, Configure Software Updates, Filesystem Integrity Checking, Secure Boot Settings,
+# Additional Process Hardening, Mandatory Access Control, Warning Banners, and GNOME Display Manager)
 ubtu18cis_rule_1_1_1_1: true
 ubtu18cis_rule_1_1_1_2: true
 ubtu18cis_rule_1_1_1_3: true
 ubtu18cis_rule_1_1_1_4: true
 ubtu18cis_rule_1_1_1_5: true
 ubtu18cis_rule_1_1_1_6: true
-ubtu18cis_rule_1_1_1_7: true
-ubtu18cis_rule_1_1_1_8: true
 ubtu18cis_rule_1_1_1: true
 ubtu18cis_rule_1_1_2: true
 ubtu18cis_rule_1_1_3: true
@@ -80,113 +78,115 @@ ubtu18cis_rule_1_1_20: true
 ubtu18cis_rule_1_1_21: true
 ubtu18cis_rule_1_1_22: true
 ubtu18cis_rule_1_1_23: true
+ubtu18cis_rule_1_1_24: true
 ubtu18cis_rule_1_2_1: true
 ubtu18cis_rule_1_2_2: true
 ubtu18cis_rule_1_3_1: true
 ubtu18cis_rule_1_3_2: true
-ubtu18cis_rule_1_3_3: true
 ubtu18cis_rule_1_4_1: true
 ubtu18cis_rule_1_4_2: true
+ubtu18cis_rule_1_4_3: true
+ubtu18cis_rule_1_4_4: true
 ubtu18cis_rule_1_5_1: true
 ubtu18cis_rule_1_5_2: true
 ubtu18cis_rule_1_5_3: true
 ubtu18cis_rule_1_5_4: true
-ubtu18cis_rule_1_6_1: true
-ubtu18cis_rule_1_6_2: true
-ubtu18cis_rule_1_6_3: true
-ubtu18cis_rule_1_6_4: true
-ubtu18cis_rule_1_7_1_1: true
-ubtu18cis_rule_1_7_1_2: true
-ubtu18cis_rule_1_7_1_3: true
-ubtu18cis_rule_1_7_1_4: true
-ubtu18cis_rule_1_8_1_1: true
-ubtu18cis_rule_1_8_1_2: true
-ubtu18cis_rule_1_8_1_3: true
-ubtu18cis_rule_1_8_1_4: true
-ubtu18cis_rule_1_8_1_5: true
-ubtu18cis_rule_1_8_1_6: true
+ubtu18cis_rule_1_6_1_1: true
+ubtu18cis_rule_1_6_1_2: true
+ubtu18cis_rule_1_6_1_3: true
+ubtu18cis_rule_1_6_1_4: true
+ubtu18cis_rule_1_7_1: true
+ubtu18cis_rule_1_7_2: true
+ubtu18cis_rule_1_7_3: true
+ubtu18cis_rule_1_7_4: true
+ubtu18cis_rule_1_7_5: true
+ubtu18cis_rule_1_7_6: true
+ubtu18cis_rule_1_8_1: true
 ubtu18cis_rule_1_8_2: true
+ubtu18cis_rule_1_8_3: true
+ubtu18cis_rule_1_8_4: true
 ubtu18cis_rule_1_9: true
 
 # Section 2 Fixes
-# Section 2 is Services (inetd, special purpose, and service clients)
-ubtu18cis_rule_2_1_1: true
+# Section 2 is Services (Special Purpose, and Service Clients)
+ubtu18cis_rule_2_1_1_1: true
+ubtu18cis_rule_2_1_1_2: true
+ubtu18cis_rule_2_1_1_3: true
+ubtu18cis_rule_2_1_1_4: true
 ubtu18cis_rule_2_1_2: true
-ubtu18cis_rule_2_2_1_1: true
-ubtu18cis_rule_2_2_1_2: true
-ubtu18cis_rule_2_2_1_3: true
-ubtu18cis_rule_2_2_1_4: true
+ubtu18cis_rule_2_1_3: true
+ubtu18cis_rule_2_1_4: true
+ubtu18cis_rule_2_1_5: true
+ubtu18cis_rule_2_1_6: true
+ubtu18cis_rule_2_1_7: true
+ubtu18cis_rule_2_1_8: true
+ubtu18cis_rule_2_1_9: true
+ubtu18cis_rule_2_1_10: true
+ubtu18cis_rule_2_1_11: true
+ubtu18cis_rule_2_1_12: true
+ubtu18cis_rule_2_1_13: true
+ubtu18cis_rule_2_1_14: true
+ubtu18cis_rule_2_1_15: true
+ubtu18cis_rule_2_1_16: true
+ubtu18cis_rule_2_1_17: true
+ubtu18cis_rule_2_2_1: true
 ubtu18cis_rule_2_2_2: true
 ubtu18cis_rule_2_2_3: true
 ubtu18cis_rule_2_2_4: true
 ubtu18cis_rule_2_2_5: true
 ubtu18cis_rule_2_2_6: true
-ubtu18cis_rule_2_2_7: true
-ubtu18cis_rule_2_2_8: true
-ubtu18cis_rule_2_2_9: true
-ubtu18cis_rule_2_2_10: true
-ubtu18cis_rule_2_2_11: true
-ubtu18cis_rule_2_2_12: true
-ubtu18cis_rule_2_2_13: true
-ubtu18cis_rule_2_2_14: true
-ubtu18cis_rule_2_2_15: true
-ubtu18cis_rule_2_2_16: true
-ubtu18cis_rule_2_2_17: true
-ubtu18cis_rule_2_3_1: true
-ubtu18cis_rule_2_3_2: true
-ubtu18cis_rule_2_3_3: true
-ubtu18cis_rule_2_3_4: true
-ubtu18cis_rule_2_3_5: true
+ubtu18cis_rule_2_3: true
 
 # Section 3 Fixes
-# Section 3 is Network Configuration (network parameters(host), network parameters (host and router), tcp rappers, uncommon network protocols, and firewall configuration)
+# Section 3 is Network Configuration (Disable unused network protocols and devices, Network Parameters(host), Network Parameters (host and router), Uncommon Network Protocols, and Firewall Configuration)
 ubtu18cis_rule_3_1_1: true
 ubtu18cis_rule_3_1_2: true
 ubtu18cis_rule_3_2_1: true
 ubtu18cis_rule_3_2_2: true
-ubtu18cis_rule_3_2_3: true
-ubtu18cis_rule_3_2_4: true
-ubtu18cis_rule_3_2_5: true
-ubtu18cis_rule_3_2_6: true
-ubtu18cis_rule_3_2_7: true
-ubtu18cis_rule_3_2_8: true
-ubtu18cis_rule_3_2_9: true
 ubtu18cis_rule_3_3_1: true
 ubtu18cis_rule_3_3_2: true
 ubtu18cis_rule_3_3_3: true
 ubtu18cis_rule_3_3_4: true
 ubtu18cis_rule_3_3_5: true
+ubtu18cis_rule_3_3_6: true
+ubtu18cis_rule_3_3_7: true
+ubtu18cis_rule_3_3_8: true
+ubtu18cis_rule_3_3_9: true
 ubtu18cis_rule_3_4_1: true
 ubtu18cis_rule_3_4_2: true
 ubtu18cis_rule_3_4_3: true
 ubtu18cis_rule_3_4_4: true
 ubtu18cis_rule_3_5_1_1: true
+ubtu18cis_rule_3_5_1_2: true
+ubtu18cis_rule_3_5_1_3: true
+ubtu18cis_rule_3_5_1_4: true
+ubtu18cis_rule_3_5_1_5: true
+ubtu18cis_rule_3_5_1_6: true
+ubtu18cis_rule_3_5_1_7: true
 ubtu18cis_rule_3_5_2_1: true
 ubtu18cis_rule_3_5_2_2: true
 ubtu18cis_rule_3_5_2_3: true
 ubtu18cis_rule_3_5_2_4: true
 ubtu18cis_rule_3_5_2_5: true
-ubtu18cis_rule_3_5_3_1: true
-ubtu18cis_rule_3_5_3_2: true
-ubtu18cis_rule_3_5_3_3: true
-ubtu18cis_rule_3_5_3_4: true
-ubtu18cis_rule_3_5_3_5: true
-ubtu18cis_rule_3_5_3_6: true
-ubtu18cis_rule_3_5_3_7: true
-ubtu18cis_rule_3_5_3_8: true
-ubtu18cis_rule_3_5_4_1_1: true
-ubtu18cis_rule_3_5_4_1_2: true
-ubtu18cis_rule_3_5_4_1_3: true
-ubtu18cis_rule_3_5_4_1_4: true
-ubtu18cis_rule_3_5_4_2_1: true
-ubtu18cis_rule_3_5_4_2_2: true
-ubtu18cis_rule_3_5_4_2_3: true
-ubtu18cis_rule_3_5_4_2_4: true
-ubtu18cis_rule_3_6: true
-ubtu18cis_rule_3_7: true
+ubtu18cis_rule_3_5_2_6: true
+ubtu18cis_rule_3_5_2_7: true
+ubtu18cis_rule_3_5_2_8: true
+ubtu18cis_rule_3_5_2_9: true
+ubtu18cis_rule_3_5_2_10: true
+ubtu18cis_rule_3_5_3_1_1: true
+ubtu18cis_rule_3_5_3_1_2: true
+ubtu18cis_rule_3_5_3_1_3: true
+ubtu18cis_rule_3_5_3_2_1: true
+ubtu18cis_rule_3_5_3_2_2: true
+ubtu18cis_rule_3_5_3_2_3: true
+ubtu18cis_rule_3_5_3_2_4: true
+ubtu18cis_rule_3_5_3_3_1: true
+ubtu18cis_rule_3_5_3_3_2: true
+ubtu18cis_rule_3_5_3_3_3: true
+ubtu18cis_rule_3_5_3_3_4: true
 
 # Section 4 Fixes
-# Section 4 is Logging and Auditing (configure system accounting and configure logging)
+# Section 4 is Logging and Auditing (Configure System Accounting and Configure Logging)
 ubtu18cis_rule_4_1_1_1: true
 ubtu18cis_rule_4_1_1_2: true
 ubtu18cis_rule_4_1_1_3: true
@@ -220,10 +220,11 @@ ubtu18cis_rule_4_2_2_2: true
 ubtu18cis_rule_4_2_2_3: true
 ubtu18cis_rule_4_2_3: true
 ubtu18cis_rule_4_3: true
+ubtu18cis_rule_4_4: true
 
 # Section 5 Fixes
-# Section 5 is Acces, Authentication, and Authorization (configure cron, SSH server config, configure PAM
-# and user accounts and environment)
+# Section 5 is Access, Authentication, and Authorization (Configure Time-Based Job Schedulers, Configure sudo, Configure SSH Server, Configure PAM
+# and User Accounts and Environment)
 ubtu18cis_rule_5_1_1: true
 ubtu18cis_rule_5_1_2: true
 ubtu18cis_rule_5_1_3: true
@@ -232,48 +233,50 @@ ubtu18cis_rule_5_1_5: true
 ubtu18cis_rule_5_1_6: true
 ubtu18cis_rule_5_1_7: true
 ubtu18cis_rule_5_1_8: true
+ubtu18cis_rule_5_1_9: true
 ubtu18cis_rule_5_2_1: true
 ubtu18cis_rule_5_2_2: true
 ubtu18cis_rule_5_2_3: true
-ubtu18cis_rule_5_2_4: true
-ubtu18cis_rule_5_2_5: true
-ubtu18cis_rule_5_2_6: true
-ubtu18cis_rule_5_2_7: true
-ubtu18cis_rule_5_2_8: true
-ubtu18cis_rule_5_2_9: true
-ubtu18cis_rule_5_2_10: true
-ubtu18cis_rule_5_2_11: true
-ubtu18cis_rule_5_2_12: true
-ubtu18cis_rule_5_2_13: true
-ubtu18cis_rule_5_2_14: true
-ubtu18cis_rule_5_2_15: true
-ubtu18cis_rule_5_2_16: true
-ubtu18cis_rule_5_2_17: true
-ubtu18cis_rule_5_2_18: true
-ubtu18cis_rule_5_2_19: true
-ubtu18cis_rule_5_2_20: true
-ubtu18cis_rule_5_2_21: true
-ubtu18cis_rule_5_2_22: true
-ubtu18cis_rule_5_2_23: true
 ubtu18cis_rule_5_3_1: true
 ubtu18cis_rule_5_3_2: true
 ubtu18cis_rule_5_3_3: true
 ubtu18cis_rule_5_3_4: true
-ubtu18cis_rule_5_4_1_1: true
-ubtu18cis_rule_5_4_1_2: true
-ubtu18cis_rule_5_4_1_3: true
-ubtu18cis_rule_5_4_1_4: true
-ubtu18cis_rule_5_4_1_5: true
+ubtu18cis_rule_5_3_5: true
+ubtu18cis_rule_5_3_6: true
+ubtu18cis_rule_5_3_7: true
+ubtu18cis_rule_5_3_8: true
+ubtu18cis_rule_5_3_9: true
+ubtu18cis_rule_5_3_10: true
+ubtu18cis_rule_5_3_11: true
+ubtu18cis_rule_5_3_12: true
+ubtu18cis_rule_5_3_13: true
+ubtu18cis_rule_5_3_14: true
+ubtu18cis_rule_5_3_15: true
+ubtu18cis_rule_5_3_16: true
+ubtu18cis_rule_5_3_17: true
+ubtu18cis_rule_5_3_18: true
+ubtu18cis_rule_5_3_19: true
+ubtu18cis_rule_5_3_20: true
+ubtu18cis_rule_5_3_21: true
+ubtu18cis_rule_5_3_22: true
 ubtu18cis_rule_5_4_1: true
 ubtu18cis_rule_5_4_2: true
 ubtu18cis_rule_5_4_3: true
 ubtu18cis_rule_5_4_4: true
-ubtu18cis_rule_5_4_5: true
-ubtu18cis_rule_5_5: true
+ubtu18cis_rule_5_5_1_1: true
+ubtu18cis_rule_5_5_1_2: true
+ubtu18cis_rule_5_5_1_3: true
+ubtu18cis_rule_5_5_1_4: true
+ubtu18cis_rule_5_5_1_5: true
+ubtu18cis_rule_5_5_2: true
+ubtu18cis_rule_5_5_3: true
+ubtu18cis_rule_5_5_4: true
+ubtu18cis_rule_5_5_5: true
 ubtu18cis_rule_5_6: true
+ubtu18cis_rule_5_7: true
 
 # Section 6 Fixes
-# Section 6 is System Maintenance (system file permissions and user and group settings)
+# Section 6 is System Maintenance (System File Permissions and User and Group Settings)
 ubtu18cis_rule_6_1_1: true
 ubtu18cis_rule_6_1_2: true
 ubtu18cis_rule_6_1_3: true
@@ -305,9 +308,6 @@ ubtu18cis_rule_6_2_14: true
 ubtu18cis_rule_6_2_15: true
 ubtu18cis_rule_6_2_16: true
 ubtu18cis_rule_6_2_17: true
-ubtu18cis_rule_6_2_18: true
-ubtu18cis_rule_6_2_19: true
-ubtu18cis_rule_6_2_20: true
 
 # Service configuration variables, set to true to keep service
 ubtu18cis_allow_autofs: false
@@ -316,7 +316,7 @@ ubtu18cis_avahi_server: false
 ubtu18cis_cups_server: false
 ubtu18cis_dhcp_server: false
 ubtu18cis_ldap_server: false
-ubtu18cis_nfs_rpc_server: false
+ubtu18cis_nfs_server: false
 ubtu18cis_dns_server: false
 ubtu18cis_vsftpd_server: false
 ubtu18cis_httpd_server: false
@@ -324,8 +324,10 @@ ubtu18cis_dovecot_server: false
 ubtu18cis_smb_server: false
 ubtu18cis_squid_server: false
 ubtu18cis_snmp_server: false
+ubtu18cis_mail_server: false
 ubtu18cis_rsync_server: false
 ubtu18cis_nis_server: false
+ubtu18cis_rpc_server: false
 
 # Clients in use variables
 ubtu18cis_nis_required: false
@@ -342,37 +344,39 @@ ubtu18cis_ipv6_required: true
 # ubtu18cis_desktop_required is the toggle for requiring desktop environments. True means you use a desktop and will not disable/remove needed items to run a desktop (not recommented for servers)
 # false means you do not require a desktop
 ubtu18cis_desktop_required: false
+# Toggle to have automation install gdm3. 
+# The gdm related handlers won't run if you have this set to true but gdm3 is not installed. 
+ubtu18cis_install_gdm3: true
 
 # Section 1 Control Variables
 # Control 1.1.2/1.1.3/1.1.4/1.1.5
-# ubtu18cis_tmp_fstab_options are the file system options for the fstabs configuration
-# To conform to CIS cotnrol 1.1.2 could use any settings
+# ubtu18cis_tmp_fstab_options are the file system options for the fstabs configuration for /tmp
+# To conform to CIS control 1.1.2 could use any settings
 # To conform to CIS control 1.1.3 nodev needs to be present
 # To conform to CIS control 1.1.4 nosuid needs to be present
 # To conform to CIS control 1.1.5 noexec needs to present
 ubtu18cis_tmp_fstab_options: "defaults,rw,nosuid,nodev,noexec,relatime"
 
-# Control 1.1.8/1.1.9/1.1.10
+# Control 1.1.6/1.1.7/1.1.8/1.1.9
+# ubtu18cis_shm_fstab_options are the file system options for the fstabs configuration for /dev/shm
+# To conform to CIS control 1.1.6 could use any settings
+# To conform to CIS control 1.1.7 nodev needs to be present
+# To conform to CIS control 1.1.8 nosuid needs to be present
+# To conform to CIS control 1.1.9 no exec needs to be present
+ubtu18cis_shm_fstab_options: "defaults,noexec,nodev,nosuid,seclabel"
+
+# Control 1.1.12/1.1.13/1.1.14
 # These are the settings for the /var/tmp mount
-# To conform to CIS control 1.1.8 nodev needs to be present in opts
-# To conform to CIS control 1.1.9 nosuid needs to be present in opts
-# To conform to CIS control 1.1.10 noexec needs to be present in opts
+# To conform to CIS control 1.1.12 nodev needs to be present in opts
+# To conform to CIS control 1.1.13 nosuid needs to be present in opts
+# To conform to CIS control 1.1.14 noexec needs to be present in opts
 ubtu18cis_vartmp:
     source: /tmp
     fstype: none
     opts: "defaults,nodev,nosuid,noexec,bind"
     enabled: false
 
-# Control 1.3.1
-# ubtu18cis_sudo_package is the name of the sudo package to install
-# The possible values are "sudo" or "sudo-ldap"
-ubtu18cis_sudo_package: "sudo"
-
-# Control 1.3.3
-# ubtu18cis_sudo_logfile is the path and file name of the sudo log file
-ubtu18cis_sudo_logfile: "/var/log/sudo.log"
-
-# Control 1.4.2
+# Control 1.3.2
 # These are the crontab settings for file system integrity enforcement
 ubtu18cis_aide_cron:
     cron_user: root
@@ -384,29 +388,28 @@ ubtu18cis_aide_cron:
     aide_month: '*'
     aide_weekday: '*'
 
-# Control 1.5.2
-ubtu18cis_bootloader_password: random
-ubtu18cis_set_boot_pass: false
+# Control 1.4.2
+ubtu18cis_bootloader_password_hash: 'grub.pbkdf2.sha512.changethispassword'
 
-# Control 1.5.3
-# THIS VARAIBLE SHOULD BE CHANGED AND INCORPROATED INTO VAULT
+# Control 1.4.4
+# THIS VARIABLE SHOULD BE CHANGED AND INCORPORATED INTO VAULT
 # THIS VALUE IS WHAT THE ROOT PW WILL BECOME!!!!!!!!
 # HAVING THAT PW EXPOSED IN RAW TEXT IS NOT SECURE!!!!
 ubtu18cis_root_pw: "Password1"
 
-# Control 1.8.1.1
+# Control 1.8.2
 # This will be the motd banner must not contain the below items in order to be compliant with Ubuntu 18 CIS
 # \m, \r, \s, \v or references to the OS platform
 ubtu18cis_warning_banner: |
         'Authorized uses only. All activity may be monitored and reported.'
 
 # Section 2 Control Variables
-# Control 2.2.1.1
+# Control 2.1.1.1
 # ubtu18cis_time_sync_tool is the tool in which to synchronize time
 # The two options are chrony or ntp
 ubtu18cis_time_sync_tool: "ntp"
 
-# Control 2.2.1.3
+# Control 2.1.1.4
 # ubtu18cis_chrony_server_options is the server options for chrony
 ubtu18cis_chrony_server_options: "minpoll 8"
 # ubtu18cis_ntp_server_options is the server options for ntp
@@ -417,6 +420,14 @@ ubtu18cis_time_synchronization_servers:
     - 1.pool.ntp.org
     - 2.pool.ntp.org
     - 3.pool.ntp.org
+
+# Control 2.1.15
+# ubtu18cis_mail_server_type is the type of mail server in use
+# This control only automates exim4 or postfix, please address other mail servers manually
+# The values for this var are 'exim4' or 'postfix'
+ubtu18cis_mail_server_type: 'exim4'
+
+
 
 # Section 3 Control Variables
 # Control 3.3.2
@@ -439,13 +450,7 @@ ubtu18cis_iptables_v6: true
 # Setting this value to true will change the UFW configuration to use the /etc/sysctl.conf file
 ubtu18cis_ufw_system_sysctlconf: true
 
-# Controls 3.5.4.1.1 through 3.5.4.1.4
-# The iptables module only writes to memory which means a reboot could revert settings
-# The below toggle will install iptables-persistent and save the rules in memory (/etc/iptables/rules.v4 or rules.v6)
-# This makes the CIS role changes permenant
-ubtu18cis_save_iptables_cis_rules: true
-
-# Control 3.5.2.4
+# Control 3.5.1.5
 # ubtu18cis_ufw_allow_out_ports are the ports for the firewall to allow
 # if you want to allow out on all ports set variable to "all", example ubtu18cis_ufw_allow_out_ports: all
 # ubtu18cis_ufw_allow_out_ports: all
@@ -453,6 +458,12 @@ ubtu18cis_ufw_allow_out_ports:
     - 53
     - 80
     - 443
+
+# Controls 3.5.4.1.1 through 3.5.4.1.4
+# The iptables module only writes to memory which means a reboot could revert settings
+# The below toggle will install iptables-persistent and save the rules in memory (/etc/iptables/rules.v4 or rules.v6)
+# This makes the CIS role changes permenant
+ubtu18cis_save_iptables_cis_rules: true
 
 # Control 3.5.3.2
 # ubtu18cis_nftables_table_name is the name of the table in nftables you want to create
@@ -495,32 +506,46 @@ ubtu18cis_system_is_log_server: true
 ubtu18cis_logrotate: "daily"
 
 # Section 5 Control Variables
+# Control 5.2.1
+# ubtu18cis_sudo_package is the name of the sudo package to install
+# The possible values are "sudo" or "sudo-ldap"
+ubtu18cis_sudo_package: "sudo"
+
+# Control 5.2.3
+# ubtu18cis_sudo_logfile is the path and file name of the sudo log file
+ubtu18cis_sudo_logfile: "/var/log/sudo.log"
+
 # ubtu18cis_sshd will contain all sshd variables. The task association and variable descriptions for each section are listed below
-# Control 5.2.5
+# Control 5.3.4
+# allow_users is the users allowed to ssh into the system
+# allow_groups is teh groups allowed to ssh into the system
+# deny_users is the users to deny from ssh'ing into the system
+# deny_groups is the groups to deny from ssh'ing into the the system
+# Control 5.3.5
 # log_level is the log level variable. This needs to be set to VERBOSE or INFO to conform to CIS standards
-# Control 5.2.7
+# Control 5.3.7
 # max_auth_tries is the max number of authentication attampts per connection.
 # This value should be 4 or less to conform to CIS standards
-# Control 5.2.13
+# Control 5.3.13
 # ciphers is a comma seperated list of site approved ciphers
 # ONLY USE STRONG CIPHERS. Weak ciphers are listed below
 # DO NOT USE: 3des-cbc, aes128-cbc, aes192-cbc, aes256-cbc, arcfour, arcfour128, arcfour256, blowfish-cbc, cast128-cbc, rijndael-cbc@lysator.liu.se
-# Control 5.2.14
+# Control 5.3.14
 # MACs is the comma seperated list of site approved MAC algorithms that SSH can use during communication
 # ONLY USE STRONG ALGORITHMS. Weak algorithms are listed below
 # DO NOT USE: hmac-md5, hmac-md5-96, hmac-ripemd160, hmac-sha1, hmac-sha1-96, umac-64@openssh.com, umac-128@openssh.com, hmac-md5-etm@openssh.com,
 # hmac-md5-96-etm@openssh.com, hmac-ripemd160-etm@openssh.com, hmac-sha1-etm@openssh.com, hmac-sha1-96-etm@openssh.com, umac-64-etm@openssh.com, umac-128-etm@openssh.com
-# Control 5.2.15
+# Control 5.3.15
 # kex_algorithms is comma seperated list of the algorithms for key exchange methods
 # ONLY USE STRONG ALGORITHMS. Weak algorithms are listed below
 # DO NOT USE: diffie-hellman-group1-sha1, diffie-hellman-group14-sha1, diffie-hellman-group-exchange-sha1
-# Control 5.2.16
+# Control 5.3.16
 # client_alive_interval is the amount of time idle before ssh session terminated. Set to 300 or less to conform to CIS standards
 # client_alive_count_max will send client alive messages at the configured interval. Set to 3 or less to conform to CIS standards
-# Control 5.2.17
+# Control 5.3.17
 # login_grace_time is the time allowed for successful authentication to the SSH server. This needs to be set to 60 seconds or less to conform to CIS standards
-# Control 5.2.23
-# max_sessions is the max number of open sessions permitted. Set the value to 4 or less to conform to CIS standards
+# Control 5.3.22
+# max_sessions is the max number of open sessions permitted. Set the value to 10 or less to conform to CIS standards
 ubtu18cis_sshd:
     log_level: "INFO"
     max_auth_tries: 4
@@ -530,7 +555,7 @@ ubtu18cis_sshd:
     client_alive_interval: 300
     client_alive_count_max: 0
     login_grace_time: 60
-    max_sessions: 4
+    max_sessions: 10
     # WARNING: make sure you understand the precedence when working with these values!!
     # allow_users and allow_groups can be single user/group or multiple users/groups. For multiple list them with a space seperating them
     allow_users: "vagrant ubuntu"
@@ -538,20 +563,20 @@ ubtu18cis_sshd:
     # deny_users:
     # deny_groups:
 
-# Control 5.3.3
+# Control 5.4.3
 # ubtu18cis_pamd_pwhistory_remember is number of password chnage cycles a user can re-use a password
 # This needs to be 5 or more to conform to CIS standards
 ubtu18cis_pamd_pwhistory_remember: 5
 
 
 # ubtu18cis_pass will be password based variables
-# # Control 5.4.1.1
+# Control 5.5.1.1
+# min_days is the min number of days allowed between changing passwords. Set to 1 or more to conform to CIS standards
+# # Control 5.5.1.2
 # max_days forces passwords to expire in configured number of days. Set to 365 or less to conform to CIS standards
-# Control 5.4.1.2
-# pass_min_days is the min number of days allowed between changing passwords. Set to 1 or more to conform to CIS standards
-# Control 5.4.1.3
+# Control 5.5.1.3
 # warn_age is how many days before pw expiry the user will be warned. Set to 7 or more to conform to CIS standards
-# Control 5.4.1.4
+# Control 5.5.1.4
 # inactive the number of days of inactivity before the account will lock. Set to 30 day sor less to conform to CIS standards
 ubtu18cis_pass:
     max_days: 365
@@ -559,19 +584,19 @@ ubtu18cis_pass:
     warn_age: 7
     inactive: 30
 
-# Control 5.4.4
+# Control 5.5.4
 # ubtu18cis_bash_umask is the umask to set in the /etc/bash.bashrc and /etc/profile. 
 # The value needs to be 027 or more restrictive to comply with CIS standards
 ubtu18cis_bash_umask: '027'
 
-# Control 5.4.5
+# Control 5.5.5
 # Session timeout setting file (TMOUT setting can be set in multiple files)
 # Timeout value is in seconds. Set value to 900 seconds or less
 ubtu18cis_shell_session_timeout:
     file: /etc/profile.d/tmout.sh
     timeout: 900
 
-# Control 5.6
+# Control 5.7
 # ubtu18cis_su_group is the su group to use with pam_wheel
 ubtu18cis_su_group: "wheel"
 
@@ -598,6 +623,11 @@ ubtu18cis_no_group_adjust: true
 # ubtu18cis_suid_adjust is the toggle to remove the SUID bit from all files on all mounts
 # Set to true this role will remove that bit, set to false we will just warn about the files
 ubtu18cis_suid_adjust: false
+
+# Control 6.2.7
+# This control toggles automation to set all users dot files to not group or world writable
+# Value of true will change file permissiosn, value of false will skip the automation changing permissions. 
+ubtu18cis_dotperm_ansibleManaged: true
 
 # Control 6.2.9 Allow ansible to adjust world-writable files. False will just display world-writable files, True will remove world-writable
 ubtu18cis_passwd_label: "{{ (this_item | default(item)).id }}: {{ (this_item | default(item)).dir }}"
