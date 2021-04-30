@@ -32,7 +32,7 @@
             module_path: pam_pwquality.so
             module_arguments: 'retry=3'
             state: args_present
-        when: ubtu18cis_5_4_1_pam_pwquality_state.stdout | lenth > 0
+        when: ubtu18cis_5_4_1_pam_pwquality_state.stdout | length > 0
 
       - name: "AUTOMATED | 5.4.1 | PATCH | Ensure password creation requirements are configured | Set retry to 3 if pwquality does not exist"
         pamd:
