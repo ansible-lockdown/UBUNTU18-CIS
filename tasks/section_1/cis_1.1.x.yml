@@ -119,30 +119,6 @@
       - rule_1.1.1.5
       - hfsplus
 
-# - name: "SCORED | 1.1.1.6 | PATCH | Ensure mounting of squashfs filesystems is disabled"
-#   block:
-#       - name: "SCORED | 1.1.1.6 | PATCH | Ensure mounting of squashfs filesystems is disabled | Edit modprobe config"
-#         lineinfile:
-#             dest: /etc/modprobe.d/squashfs.conf
-#             regexp: "^(#)?install squashfs(\\s|$)"
-#             line: install squashfs /bin/true
-#             create: yes
-
-#       - name: "SCORED | 1.1.1.6 | PATCH | Ensure mounting of squashfs filesystems is disabled | Disable squashfs"
-#         modprobe:
-#             name: squashfs
-#             state: absent
-#         when: ansible_connection != 'docker'
-#   when:
-#       - ubtu18cis_rule_1_1_1_6
-#   tags:
-#       - level1-server
-#       - level1-workstation
-#       - scored
-#       - patch
-#       - rule_1.1.1.6
-#       - squashfs
-
 - name: "AUTOMATED | 1.1.1.6 | PATCH | Ensure mounting of udf filesystems is disabled"
   block:
       - name: "AUTOMATED | 1.1.1.6 | PATCH | Ensure mounting of udf filesystems is disabled | Edit modprobe config"
@@ -166,30 +142,6 @@
       - patch
       - rule_1.1.1.6
       - udf
-
-# - name: "NOTSCORED | 1.1.1.8 | PATCH | Ensure mounting of FAT filesystems is limited"
-#   block:
-#       - name: "NOTSCORED | 1.1.1.8 | PATCH | Ensure mounting of FAT filesystems is limited | Edit modprobe config"
-#         lineinfile:
-#             dest: /etc/modprobe.d/vfat.conf
-#             regexp: "^(#)?install vfat(\\s|$)"
-#             line: install vfat /bin/true
-#             create: yes
-
-#       - name: "NOTSCORED | 1.1.1.8 | PATCH | Ensure mounting of FAT filesystems is limited | Disable FAT"
-#         modprobe:
-#             name: vfat
-#             state: absent
-#         when: ansible_connection != 'docker'
-#   when:
-#       - ubtu18cis_rule_1_1_1_8
-#   tags:
-#       - level1-server
-#       - level1-workstation
-#       - notscored
-#       - patch
-#       - rule_1.1.1.8
-#       - vfat
 
 - name: "AUTOMATED | 1.1.2 | PATCH | Ensure /tmp is configured"
   mount:
@@ -233,31 +185,6 @@
       - rule_1.1.5
       - tmp
 
-# - name: "SCORED | 1.1.6 | AUDIT | Ensure separate partition exists for /var"
-#   block:
-#       - name: "SCORED | 1.1.6 | AUDIT | Ensure separate partition exists for /var | Gather /var partition"
-#         shell: mount | grep "on /var "
-#         changed_when: false
-#         failed_when: false
-#         args:
-#             warn: false
-#         register: ubtu18cis_1_1_6_var_mounted
-
-#       - name: "SCORED | 1.1.6 | AUDIT | Ensure separate partition exists for /var | Alert if /var partition does not exist"
-#         debug:
-#             msg:
-#                 - "ALERT!!!! There is no separate partition for /var"
-#                 - "Please create a separate partition for /var"
-#         when: ubtu18cis_1_1_6_var_mounted.stdout == ""
-#   when:
-#       - ubtu18cis_rule_1_1_6
-#   tags:
-#       - level2-server
-#       - level2-workstation
-#       - scored
-#       - audit
-#       - rule_1.1.6
-#       - var
 - name: "AUTOMATED | 1.1.6 | PATCH | Ensure /dev/shm is configured"
   mount:
       path: /dev/shm
@@ -473,31 +400,6 @@
       - patch
       - rule_1.1.18
       - /home
-
-# moved to 1.1.7/8/9
-# - name: |
-#     "SCORED | 1.1.15 | PATCH | Ensure nodev option set on /dev/shm partition"
-#     "SCORED | 1.1.16 | PATCH | Ensure nosuid option set on /dev/shm partition"
-#     "SCORED | 1.1.17 | PATCH | Ensure noexec option set on /dev/shm partition"
-#   mount:
-#       name: /dev/shm
-#       src: tmpfs
-#       state: mounted
-#       fstype: tmpfs
-#       opts: "defaults,nodev,nosuid,noexec"
-#   when:
-#       - ubtu18cis_rule_1_1_15 or
-#         ubtu18cis_rule_1_1_16 or
-#         ubtu18cis_rule_1_1_17
-#   tags:
-#       - level1-server
-#       - level1-workstation
-#       - scored
-#       - patch
-#       - rule_1.1.15
-#       - rule_1.1.16
-#       - rule_1.1.17
-#       - /dev/shm
 
 - name: "MANUAL | 1.1.19 | AUDIT | Ensure nodev option set on removable media partitions"
   debug:

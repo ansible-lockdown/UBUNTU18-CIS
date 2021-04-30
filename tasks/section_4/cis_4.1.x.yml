@@ -241,24 +241,6 @@
       - rule_4.1.15
       - auditd
 
-# - name: "SCORED | 4.1.15 | PATCH | Ensure system administrator actions (sudolog) are collected"
-#   template:
-#       src: audit/ubtu18cis_4_1_15_actions.rules.j2
-#       dest: /etc/audit/rules.d/actions.rules
-#       owner: root
-#       group: root
-#       mode: 0600
-#   notify: restart auditd
-#   when:
-#       - ubtu18cis_rule_4_1_15
-#   tags:
-#       - level2-server
-#       - level2-workstation
-#       - scored
-#       - patch
-#       - rule_4.1.15
-#       - auditd
-
 - name: "AUTOMATED | 4.1.16 | PATCH | Ensure kernel module loading and unloading is collected"
   template:
       src: audit/ubtu18cis_4_1_16_modules.rules.j2
