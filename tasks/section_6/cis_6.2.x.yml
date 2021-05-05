@@ -1,7 +1,7 @@
 ---
 - name: "AUTOMATED | 6.2.1 | AUDIT | Ensure accounts in /etc/passwd use shadowed passwords"
   block:
-      - name: "AUTOMATED | 6.2.1 | AUDIT | Ensure accounts in /etc/passwd use shadowed passwords | Get users not using shadowed passwords | find no"
+      - name: "AUTOMATED | 6.2.1 | AUDIT | Ensure accounts in /etc/passwd use shadowed passwords | Get users not using shadowed passwords"
         command: awk -F':' '($2 != "x" ) { print $1}' /etc/passwd
         changed_when: false
         failed_when: false
@@ -22,7 +22,7 @@
       - automated
       - audit
       - rule_6.2.1
-      - user_accountsa
+      - user_accounts
 
 - name: "AUTOMATED | 6.2.2 | PATCH | Ensure password fields are not empty"
   block:
