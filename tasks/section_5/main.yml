@@ -18,4 +18,4 @@
   include: cis_5.6.yml
 
 - name: "SECTION | 5.7 | Ensure access to the su command is restricted"
-  include: cis_5.6.yml
+  include: cis_5.7.yml
