@@ -1,13 +1,13 @@
 ---
-- name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured"
+- name: "MANUAL | 1.2.1 | AUDIT | Ensure package manager repositories are configured"
   block:
-      - name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured | Get repositories"
+      - name: "MANUAL | 1.2.1 | AUDIT | Ensure package manager repositories are configured | Get repositories"
         command: apt-cache policy
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_2_1_apt_policy
 
-      - name: "NOTSCORED | 1.2.1 | AUDIT | Ensure package manager repositories are configured | Message out repository configs"
+      - name: "MANUAL | 1.2.1 | AUDIT | Ensure package manager repositories are configured | Message out repository configs"
         debug:
             msg:
                 - "Alert!!!! Below are the apt package repositories"
@@ -18,20 +18,20 @@
   tags:
       - level1-server
       - level1-workstation
-      - notscored
+      - manual
       - audit
       - rule_1.2.1
       - apt
 
-- name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured"
+- name: "MANUAL | 1.2.2 | AUDIT | Ensure GPG keys are configured"
   block:
-      - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured | Get apt gpg keys"
+      - name: "MANUAL | 1.2.2 | AUDIT | Ensure GPG keys are configured | Get apt gpg keys"
         command: apt-key list
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_2_2_apt_gpgkeys
 
-      - name: "NOTSCORED | 1.2.2 | AUDIT | Ensure GPG keys are configured | Message out apt gpg keys"
+      - name: "MANUAL | 1.2.2 | AUDIT | Ensure GPG keys are configured | Message out apt gpg keys"
         debug:
             msg:
                 - "Alert!!!! Below are the apt gpg kyes configured"
@@ -43,7 +43,7 @@
   tags:
       - level1-server
       - level1-workstation
-      - notscored
+      - manual
       - audit
       - rule_1.2.2
       - gpg

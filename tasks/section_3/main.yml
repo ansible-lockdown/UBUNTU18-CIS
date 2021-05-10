@@ -1,11 +1,11 @@
 ---
-- name: "SECTION | 3.1 | Network Parameters Host Only"
+- name: "SECTION | 3.1 | Disable unused network protocols and devices"
   include: cis_3.1.x.yml
 
-- name: "SECTION | 3.2 | Network Parameters Host and Router"
+- name: "SECTION | 3.2 | Network Parameters Host Only"
   include: cis_3.2.x.yml
 
-- name: "SECTION | 3.3 | TCP Wrappers"
+- name: "SECTION | 3.3 | Network Parameters Host and Router"
   include: cis_3.3.x.yml
 
 - name: "SECTION | 3.4 | Uncommong Network Protocols"
@@ -13,9 +13,3 @@
 
 - name: "SECTION | 3.5 | Firewall Configuration"
   include: cis_3.5.x.yml
-
-- name: "SECTION | 3.6 | Ensure wireless interfaces are disabled"
-  include: cis_3.6.x.yml
-
-- name: "SECTION | 3.7 | Disable IPv6"
-  include: cis_3.7.x.yml

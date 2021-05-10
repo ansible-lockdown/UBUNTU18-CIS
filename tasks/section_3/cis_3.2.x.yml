@@ -1,231 +1,59 @@
 ---
-- name: "SCORED | 3.2.1 | PATCH | Ensure source routed packets are not accepted"
-  block:
-      - name: "SCORED | 3.2.1 | PATCH | Ensure source routed packets are not accepted | IPv4 settings"
-        sysctl:
-            name: "{{ item }}"
-            value: '0'
-            sysctl_set: yes
-            state: present
-            reload: yes
-            ignoreerrors: yes
-        with_items:
-            - net.ipv4.conf.all.accept_source_route
-            - net.ipv4.conf.default.accept_source_route
-        notify: sysctl flush ipv4 route table
-
-      - name: "SCORED | 3.2.1 | PATCH | Ensure source routed packets are not accepted | IPv6 settings"
-        sysctl:
-            name: "{{ item }}"
-            value: '0'
-            sysctl_set: yes
-            state: present
-            reload: yes
-            ignoreerrors: yes
-        with_items:
-            - net.ipv6.conf.all.accept_source_route
-            - net.ipv6.conf.default.accept_source_route
-        notify: sysctl flush ipv6 route table
+- name: "AUTOMATED | 3.2.1 | PATCH | Ensure packet redirect sending is disabled"
+  sysctl:
+      name: "{{ item }}"
+      value: '0'
+      sysctl_set: yes
+      state: present
+      reload: yes
+      ignoreerrors: yes
+  with_items:
+      - net.ipv4.conf.all.send_redirects
+      - net.ipv4.conf.default.send_redirects
+  notify: sysctl flush ipv4 route table
   when:
       - ubtu18cis_rule_3_2_1
       - not ubtu18cis_is_router
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_3.2.1
-      - routed_packets
+      - packet_redirect
       - sysctl
 
-- name: "SCORED | 3.2.2 | PATCH | Ensure ICMP redirects are not accepted"
+- name: "AUTOMATED | 3.2.2 | PATCH | Ensure IP forwarding is disabled"
   block:
-      - name: "SCORED | 3.2.2 | PATCH | Ensure ICMP redirects are not accepted | IPv4 settings"
+      - name: "AUTOMATED | 3.2.2 | PATCH | Ensure IP forwarding is disabled | IPv4 settings"
         sysctl:
-            name: "{{ item }}"
+            name: net.ipv4.ip_forward
             value: '0'
             sysctl_set: yes
             state: present
             reload: yes
             ignoreerrors: yes
-        with_items:
-            - net.ipv4.conf.all.accept_redirects
-            - net.ipv4.conf.default.accept_redirects
-        notify: sysctl flush ipv4 route table
+        notify:
+            - sysctl flush ipv4 route table
 
-      - name: "SCORED | 3.2.2 | PATCH | Ensure ICMP redirects are not accepted | IPv6 settings"
+      - name: "AUTOMATED | 3.2.2 | PATCH | Ensure IP forwarding is disabled | IPv6 settings"
         sysctl:
-            name: "{{ item }}"
+            name: net.ipv6.conf.all.forwarding
             value: '0'
             sysctl_set: yes
             state: present
             reload: yes
             ignoreerrors: yes
-        with_items:
-            - net.ipv6.conf.all.accept_redirects
-            - net.ipv6.conf.default.accept_redirects
-        notify: sysctl flush ipv6 route table
+        notify:
+            - sysctl flush ipv6 route table
   when:
       - ubtu18cis_rule_3_2_2
+      - not ubtu18cis_is_router
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_3.2.2
-      - icmp
-      - sysctl
-
-- name: "SCORED | 3.2.3 | PATCH | Ensure secure ICMP redirects are not accepted"
-  sysctl:
-      name: "{{ item }}"
-      value: '0'
-      sysctl_set: yes
-      state: present
-      reload: yes
-      ignoreerrors: yes
-  with_items:
-      - net.ipv4.conf.all.secure_redirects
-      - net.ipv4.conf.default.secure_redirects
-  notify: sysctl flush ipv4 route table
-  when:
-      - ubtu18cis_rule_3_2_3
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_3.2.3
-      - icmp
-      - sysctl
-
-- name: "SCORED | 3.2.4 | PATCH | Ensure suspicious packets are logged"
-  sysctl:
-      name: "{{ item }}"
-      value: '1'
-      sysctl_set: yes
-      state: present
-      reload: yes
-      ignoreerrors: yes
-  with_items:
-      - net.ipv4.conf.all.log_martians
-      - net.ipv4.conf.default.log_martians
-  notify: sysctl flush ipv4 route table
-  when:
-      - ubtu18cis_rule_3_2_4
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_3.2.4
-      - suspicious_packets
-      - sysctl
-
-- name: "SCORED | 3.2.5 | PATCH | Ensure broadcast ICMP requests are ignored"
-  sysctl:
-      name: net.ipv4.icmp_echo_ignore_broadcasts
-      value: '1'
-      sysctl_set: yes
-      state: present
-      reload: yes
-      ignoreerrors: yes
-  notify: sysctl flush ipv4 route table
-  when:
-      - ubtu18cis_rule_3_2_5
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_3.2.5
-      - icmp
-      - sysctl
-
-- name: "SCORED | 3.2.6 | PATCH | Ensure bogus ICMP responses are ignored"
-  sysctl:
-      name: net.ipv4.icmp_ignore_bogus_error_responses
-      value: '1'
-      sysctl_set: yes
-      state: present
-      reload: yes
-      ignoreerrors: yes
-  notify: sysctl flush ipv4 route table
-  when:
-      - ubtu18cis_rule_3_2_6
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_3.2.6
-      - icmp
-      - sysctl
-
-- name: "SCORED | 3.2.7 | PATCH | Ensure Reverse Path Filtering is enabled"
-  sysctl:
-      name: "{{ item }}"
-      value: '1'
-      sysctl_set: yes
-      state: present
-      reload: yes
-      ignoreerrors: yes
-  with_items:
-      - net.ipv4.conf.all.rp_filter
-      - net.ipv4.conf.default.rp_filter
-  notify: sysctl flush ipv4 route table
-  when:
-      - ubtu18cis_rule_3_2_7
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_3.2.7
-      - reverse_path_filtering
-      - sysctl
-
-- name: "SCORED | 3.2.8 | PATCH | Ensure TCP SYN Cookies is enabled"
-  sysctl:
-      name: net.ipv4.tcp_syncookies
-      value: '1'
-      sysctl_set: yes
-      state: present
-      reload: yes
-      ignoreerrors: yes
-  notify: sysctl flush ipv4 route table
-  when:
-      - ubtu18cis_rule_3_2_8
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_3.2.8
-      - tcp_syn_cookies
-      - sysctl
-
-- name: "SCORED | 3.2.9 | PATCH | Ensure IPv6 router advertisements are not accepted"
-  sysctl:
-      name: "{{ item }}"
-      value: '0'
-      sysctl_set: yes
-      state: present
-      reload: yes
-      ignoreerrors: yes
-  with_items:
-      - net.ipv6.conf.all.accept_ra
-      - net.ipv6.conf.default.accept_ra
-  notify: sysctl flush ipv6 route table
-  when:
-      - ubtu18cis_rule_3_2_9
-      - ubtu18cis_ipv6_required
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_3.2.9
-      - ipv6
-      - router_advertisements
+      - ip_forwarding
       - sysctl

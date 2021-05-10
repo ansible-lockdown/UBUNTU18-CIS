@@ -1,96 +1,19 @@
 ---
-- name: "SCORED | 1.8.1.1 | PATCH | Ensure message of the day is configured properly"
-  template:
-      src: etc/motd.j2
-      dest: /etc/motd
+- name: "MANUAL | 1.8.1 | PATCH | Ensure GNOME Display Manager is removed"
+  apt:
+      name: gdm3
+      state: absent
   when:
-      - ubtu18cis_rule_1_8_1_1
+      - ubtu18cis_rule_1_8_1
+      - not ubtu18cis_desktop_required
   tags:
-      - level1-server
-      - level1-workstation
-      - scored
+      - level2-server
+      - manual
       - patch
-      - rule_1.8.1.1
-      - motd
+      - rule_1.8.1
+      - gnome
 
-- name: "SCORED | 1.8.1.2 | PATCH | Ensure local login warning banner is configured properly"
-  template:
-      src: etc/issue.j2
-      dest: /etc/issue
-  when:
-      - ubtu18cis_rule_1_8_1_2
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - banner
-
-- name: "SCORED | 1.8.1.3 | PATCH | Ensure remote login warning banner is configured properly"
-  template:
-      src: etc/issue.net.j2
-      dest: /etc/issue.net
-  when:
-      - ubtu18cis_rule_1_8_1_3
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - banner
-
-- name: "SCORED | 1.8.1.4 | PATCH | Ensure permissions on /etc/motd are configured"
-  file:
-      path: /etc/motd
-      owner: root
-      group: root
-      mode: 0644
-  when:
-      - ubtu18cis_rule_1_8_1_4
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_1.8.1.4
-      - permissions
-      - motd
-
-- name: "SCORED | 1.8.1.5 | PATCH | Ensure permissions on /etc/issue are configured"
-  file:
-      path: /etc/issue
-      owner: root
-      group: root
-      mode: 0644
-  when:
-      - ubtu18cis_rule_1_8_1_5
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_1.8.1.5
-      - permissions
-      - banner
-
-- name: "SCORED | 1.8.1.6 | PATCH | Ensure permissions on /etc/issue.net are configured"
-  file:
-      path: /etc/issue.net
-      owner: root
-      group: root
-      mode: 0644
-  when:
-      - ubtu18cis_rule_1_8_1_6
-  tags:
-      - level1-server
-      - level1-workstation
-      - scored
-      - patch
-      - rule_1.8.1.6
-      - permissions
-      - banner
-
-- name: "SCORED | 1.8.2 | PATCH | Ensure GDM login banner is configured"
+- name: "AUTOMATED | 1.8.2 | PATCH | Ensure GDM login banner is configured"
   lineinfile:
       path: /etc/gdm3/greeter.dconf-defaults
       regexp: "{{ item.regexp }}"
@@ -100,16 +23,55 @@
       owner: root
       group: root
       mode: 0644
+  notify: reload gdm
   with_items:
       - { regexp: '\[org\/gnome\/login-screen\]', line: '[org/gnome/login-screen]', insertafter: EOF }
       - { regexp: 'banner-message-enable', line: 'banner-message-enable=true', insertafter: '\[org\/gnome\/login-screen\]'}
       - { regexp: 'banner-message-text', line: 'banner-message-text={{ ubtu18cis_warning_banner }}', insertafter: 'banner-message-enable' }
   when:
       - ubtu18cis_rule_1_8_2
+      - ubtu18cis_desktop_required
   tags:
       - level1-server
       - level1-workstation
-      - scored
+      - automated
       - patch
       - rule_1.8.2
       - banner
+
+- name: "AUTOMATED | 1.8.3 | PATCH | Ensure disable-user-list is enabled"
+  lineinfile:
+      path: /etc/gdm3/greeter.dconf-defaul
+      regexp: '^disable-user-list='
+      line: 'disable-user-list=true'
+      insertafter: 'banner-message-text='
+      create: yes
+      owner: root
+      group: root
+      mode: 0644
+  notify: reload gdm
+  when:
+      - ubtu18cis_rule_1_8_3
+      - ubtu18cis_desktop_required
+  tags:
+      - level1-server
+      - level1-workstation
+      - automated
+      - patch
+      - rule_1.8.3
+      - gdm3
+
+- name: "AUTOMATED | 1.8.4 | PATCH | Ensure XDCMP is not enabled"
+  lineinfile:
+      path: /etc/gdm3/custom.conf
+      regexp: '^Enable=true'
+      state: absent
+  when:
+      - ubtu18cis_rule_1_8_4
+  tags:
+      - level1-server
+      - level1-workstation
+      - automated
+      - patch
+      - rule_1.8.4
+      - xdcmp
