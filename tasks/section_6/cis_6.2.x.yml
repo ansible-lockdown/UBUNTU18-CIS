@@ -375,15 +375,15 @@
             msg:
                 - "The following paths have no working directory: {{ ubtu18cis_6_2_12_path_stat.results | selectattr('stat.exists','equalto','false') | map(attribute='item') | list }}"
 
-      # - name: "AUTOMATED | 6.2.7 | PATCH | Ensure root PATH Integrity | Set permissions"
-      #   file:
-      #       path: "{{ item }}"
-      #       owner: root
-      #       mode: 'o-w,g-w'
-      #       follow: yes
-      #       state: directory
-      #   with_items:
-      #       - "{{ ubtu18cis_6_2_7_path_stat | selectattr('exists','==','true') | map(attribute='path') }}"
+  # - name: "AUTOMATED | 6.2.7 | PATCH | Ensure root PATH Integrity | Set permissions"
+  #   file:
+  #       path: "{{ item }}"
+  #       owner: root
+  #       mode: 'o-w,g-w'
+  #       follow: yes
+  #       state: directory
+  #   with_items:
+  #       - "{{ ubtu18cis_6_2_7_path_stat | selectattr('exists','==','true') | map(attribute='path') }}"
   when:
       - ubtu18cis_rule_6_2_12
   tags:

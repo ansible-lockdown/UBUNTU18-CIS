@@ -1,17 +1,17 @@
 ---
 - name: "AUTOMATED | 3.5.1.1 | PATCH | Ensure ufw is installed"
   block:
-    - name: "AUTOMATED | 3.5.1.1 | PATCH | Ensure ufw is installed | Install firewall package"
-      apt:
-          name: ufw
-          state: present
+      - name: "AUTOMATED | 3.5.1.1 | PATCH | Ensure ufw is installed | Install firewall package"
+        apt:
+            name: ufw
+            state: present
 
-    - name: "AUTOMATED | 3.5.1.1 | PATCH | Ensure ufw is installed | Adjust sysctl.conf for UFW"
-      lineinfile:
-          path: /etc/default/ufw
-          regexp: '^IPT_SYSCTL='
-          line: 'IPT_SYSCTL=/etc/sysctl.conf'
-      when: ubtu18cis_ufw_system_sysctlconf
+      - name: "AUTOMATED | 3.5.1.1 | PATCH | Ensure ufw is installed | Adjust sysctl.conf for UFW"
+        lineinfile:
+            path: /etc/default/ufw
+            regexp: '^IPT_SYSCTL='
+            line: 'IPT_SYSCTL=/etc/sysctl.conf'
+        when: ubtu18cis_ufw_system_sysctlconf
   when:
       - ubtu18cis_rule_3_5_1_1
       - ubtu18cis_firewall_package == "ufw"
@@ -412,7 +412,7 @@
 
 - name: "AUTOMATED | 3.5.3.1.1 | PATCH | Ensure iptables packages are installed"
   apt:
-      name: ['iptables','iptables-persistent']
+      name: ['iptables', 'iptables-persistent']
       state: present
   when:
       - ubtu18cis_rule_3_5_3_1_1
