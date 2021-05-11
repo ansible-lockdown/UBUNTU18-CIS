@@ -13,6 +13,9 @@ galaxy_info:
     galaxy_tags:
         - system
         - security
+        - ansible-role
+        - security-hardening
+        - ubuntu1804
         - cis
         - hardening
 
