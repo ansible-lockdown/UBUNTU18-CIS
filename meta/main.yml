@@ -8,13 +8,11 @@ galaxy_info:
     platforms:
         - name: Ubuntu
           versions:
-              - 18
+              - bionic
 
     galaxy_tags:
         - system
         - security
-        - ansible-role
-        - security-hardening
         - ubuntu1804
         - cis
         - hardening
