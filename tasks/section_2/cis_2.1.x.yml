@@ -335,17 +335,51 @@
       - snmp
       - service
 
-- name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode"
+- name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | postfix"
   block:
-      - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | For postfix"
+      - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | remove exim4"
+        apt:
+          name: exim4
+          state: absent
+          purge: yes
+
+      - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | Install postfix"
+        apt:
+          name: postfix
+          state: present
+
+      - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | Configure postfix"
         lineinfile:
             path: /etc/postfix/main.cf
             regexp: '^(#)?inet_interfaces'
             line: 'inet_interfaces = loopback-only'
         notify: restart postfix
-        when: ubtu18cis_mail_server_type == "postfix"
+  when: 
+      - ubtu18cis_mail_server_type == "postfix"
+      - ubtu18cis_rule_2_1_15
+      - ubtu18cis_mail_server
+  tags:
+      - level1-server
+      - level1-workstation
+      - automated
+      - patch
+      - rule_2.1.15
+      - postfix
 
-      - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | for exim4"
+- name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | exim4"
+  block:
+      - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | remove postfix"
+        apt:
+          name: postfix
+          state: absent
+          purge: yes
+
+      - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | Install exim4"
+        apt:
+          name: exim4
+          state: present
+
+      - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | configure exim4"
         lineinfile:
             path: /etc/exim4/update-exim4.conf.conf
             regexp: "{{ item.regexp }}"
@@ -363,8 +397,8 @@
             - { regexp: '^dc_hide_mailname=', line: dc_hide_mailname='' }
             - { regexp: '^dc_mailname_in_oh=', line: dc_mailname_in_oh='true' }
             - { regexp: '^dc_localdelivery=', line: dc_localdelivery='mail_spool' }
-        when: ubtu18cis_mail_server_type == "exim4"
   when:
+      - ubtu18cis_mail_server_type == "exim4"
       - ubtu18cis_rule_2_1_15
       - ubtu18cis_mail_server
   tags:
