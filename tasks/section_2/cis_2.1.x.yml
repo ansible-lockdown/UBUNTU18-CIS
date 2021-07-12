@@ -379,6 +379,7 @@
   apt:
       name: rsync
       state: absent
+      purge: yes
   when:
       - ubtu18cis_rule_2_1_16
       - not ubtu18cis_rsync_server
