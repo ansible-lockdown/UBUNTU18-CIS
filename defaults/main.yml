@@ -421,14 +421,6 @@ ubtu18cis_time_synchronization_servers:
     - 2.pool.ntp.org
     - 3.pool.ntp.org
 
-# Control 2.1.15
-# ubtu18cis_mail_server_type is the type of mail server in use
-# This control only automates exim4 or postfix, please address other mail servers manually
-# The values for this var are 'exim4' or 'postfix'
-ubtu18cis_mail_server_type: 'exim4'
-
-
-
 # Section 3 Control Variables
 # Control 3.3.2
 # values for the /etc/hosts.allow file for IP addresses permitted to connect to the host.
