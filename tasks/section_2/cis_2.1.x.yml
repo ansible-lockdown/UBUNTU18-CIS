@@ -343,7 +343,7 @@
             regexp: '^(#)?inet_interfaces'
             line: 'inet_interfaces = loopback-only'
         notify: restart postfix
-        when: ubtu18cis_mail_server_type == "postfix"
+        when: "'postfix' in ansible_facts.packages"
 
       - name: "AUTOMATED | 2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | for exim4"
         lineinfile:
@@ -363,7 +363,7 @@
             - { regexp: '^dc_hide_mailname=', line: dc_hide_mailname='' }
             - { regexp: '^dc_mailname_in_oh=', line: dc_mailname_in_oh='true' }
             - { regexp: '^dc_localdelivery=', line: dc_localdelivery='mail_spool' }
-        when: ubtu18cis_mail_server_type == "exim4"
+        when: "'exim4' in ansible_facts.packages"
   when:
       - ubtu18cis_rule_2_1_15
       - ubtu18cis_mail_server
@@ -379,6 +379,7 @@
   apt:
       name: rsync
       state: absent
+      purge: yes
   when:
       - ubtu18cis_rule_2_1_16
       - not ubtu18cis_rsync_server
