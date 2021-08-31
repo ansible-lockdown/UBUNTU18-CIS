@@ -128,7 +128,7 @@
             - ubtu18cis_disruption_high
             - ubtu18cis_5_5_1_5_user_list.stdout | length > 0
   when:
-      - ubtu18cis_rule_5_4_1_5
+      - ubtu18cis_rule_5_5_1_5
   tags:
       - level1-server
       - level1-workstation
