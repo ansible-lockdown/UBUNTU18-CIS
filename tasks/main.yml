@@ -32,6 +32,12 @@
       - ubtu18cis_section5_patch or
         ubtu18cis_section6_patch
 
+- name: Gather the package facts
+  package_facts:
+      manager: auto
+  tags:
+      - always
+
 - name: Include section 1 patches
   include: section_1/main.yml
   when: ubtu18cis_section1_patch

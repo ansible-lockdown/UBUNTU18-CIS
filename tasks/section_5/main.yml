@@ -11,7 +11,10 @@
 - name: "SECTION | 5.4.x | User PAM"
   include: cis_5.4.x.yml
 
-- name: "SECTION | 5.5.x | User Accounts and Enironment"
+- name: "SECTION | 5.5.1.x | User Accounts and Enironment part 1"
+  include: cis_5.5.1.x.yml
+
+- name: "SECTION | 5.5.x | User Accounts and Enironment part 2"
   include: cis_5.5.x.yml
 
 - name: "SECTION | 5.6 | Ensure root login is restricted to system console"
