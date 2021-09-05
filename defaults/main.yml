@@ -105,7 +105,7 @@ ubtu18cis_rule_1_8_1: true
 ubtu18cis_rule_1_8_2: true
 ubtu18cis_rule_1_8_3: true
 ubtu18cis_rule_1_8_4: true
-ubtu18cis_rule_1_9: true
+ubtu18cis_rule_1_9: false
 
 # Section 2 Fixes
 # Section 2 is Services (Special Purpose, and Service Clients)
@@ -211,7 +211,7 @@ ubtu18cis_rule_4_1_16: true
 ubtu18cis_rule_4_1_17: true
 ubtu18cis_rule_4_2_1_1: true
 ubtu18cis_rule_4_2_1_2: true
-ubtu18cis_rule_4_2_1_3: true
+ubtu18cis_rule_4_2_1_3: false
 ubtu18cis_rule_4_2_1_4: true
 ubtu18cis_rule_4_2_1_5: true
 ubtu18cis_rule_4_2_1_6: true
@@ -220,7 +220,7 @@ ubtu18cis_rule_4_2_2_2: true
 ubtu18cis_rule_4_2_2_3: true
 ubtu18cis_rule_4_2_3: true
 ubtu18cis_rule_4_3: true
-ubtu18cis_rule_4_4: true
+ubtu18cis_rule_4_4: false
 
 # Section 5 Fixes
 # Section 5 is Access, Authentication, and Authorization (Configure Time-Based Job Schedulers, Configure sudo, Configure SSH Server, Configure PAM
@@ -273,7 +273,7 @@ ubtu18cis_rule_5_5_3: true
 ubtu18cis_rule_5_5_4: true
 ubtu18cis_rule_5_5_5: true
 ubtu18cis_rule_5_6: true
-ubtu18cis_rule_5_7: true
+ubtu18cis_rule_5_7: false
 
 # Section 6 Fixes
 # Section 6 is System Maintenance (System File Permissions and User and Group Settings)
