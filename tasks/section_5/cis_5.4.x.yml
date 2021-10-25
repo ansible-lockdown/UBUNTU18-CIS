@@ -97,10 +97,10 @@
         lineinfile:
             # path: /etc/pam.d/common-auth
             path: /etc/pam.d/common-account
-            # line: 'auth       required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
-            line: 'account       required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
+            # line: 'account    required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
+            line: 'account required                        pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
             insertafter: '^# end of pam-auth-update config'
-        when: ubtu18cis_5_4_2_pam_tally2_state | length == 0
+        when: ubtu18cis_5_4_2_pam_tally2_state.stdout | length == 0
 
       - name: "AUTOMATED | 5.4.2 | PATCH | Ensure lockout for failed password attempts is configured | Set pam_deny.so and pam_tally.so"
         lineinfile:
@@ -110,7 +110,7 @@
             insertafter: '^# end of pam-auth-update config'
         with_items:
             # - { regexp: '^accout.*requisite.*pam_deny.so', line: 'account    requisite pam_george.so' }
-            - { regexp: '^account.*required.*pam_tally.so', line: 'account    required pam_tally.so' }
+            - { regexp: '^account.*required.*pam_tally.so', line: 'account required                        pam_tally.so' }
   when:
       - ubtu18cis_rule_5_4_2
   tags:
