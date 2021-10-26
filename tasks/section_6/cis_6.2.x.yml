@@ -386,7 +386,7 @@
         with_items:
             - "{{ ubtu18cis_6_2_12_working_dir.stdout.split(':') }}"
         when:
-            - ubtu18cis_audit_disruptive
+            - ubtu18cis_disruption_high
   when:
       - ubtu18cis_rule_6_2_12
   tags:
