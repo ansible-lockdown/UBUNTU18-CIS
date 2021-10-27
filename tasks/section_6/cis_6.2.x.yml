@@ -137,6 +137,7 @@
       label: "{{ ubtu18cis_passwd_label }}"
   when:
       - ubtu18cis_rule_6_2_5
+      - item.uid >= ubtu18cis_int_gid
   tags:
       - level1-server
       - level1-workstation
@@ -363,27 +364,29 @@
         failed_when: '"." in ubtu18cis_6_2_12_working_dir.stdout_lines'
         register: ubtu18cis_6_2_12_working_dir
 
-      - name: "AUTOMATED | 6.2.12 | PATCH | Ensure root PATH Integrity | Check paths"
+      - name: "AUTOMATED | 6.2.12 | AUDIT | Ensure root PATH Integrity | Check paths"
         stat:
             path: "{{ item }}"
         register: ubtu18cis_6_2_12_path_stat
         with_items:
             - "{{ ubtu18cis_6_2_12_working_dir.stdout.split(':') }}"
 
-      - name: "AUTOMATED | 6.2.7 | PATCH | Ensure root PATH Integrity | Alert on empty value, colon end, and no working dir"
+      - name: "AUTOMATED | 6.2.12 | AUDIT | Ensure root PATH Integrity | Alert on empty value, colon end, and no working dir"
         debug:
             msg:
                 - "The following paths have no working directory: {{ ubtu18cis_6_2_12_path_stat.results | selectattr('stat.exists','equalto','false') | map(attribute='item') | list }}"
 
-  # - name: "AUTOMATED | 6.2.7 | PATCH | Ensure root PATH Integrity | Set permissions"
-  #   file:
-  #       path: "{{ item }}"
-  #       owner: root
-  #       mode: 'o-w,g-w'
-  #       follow: yes
-  #       state: directory
-  #   with_items:
-  #       - "{{ ubtu18cis_6_2_7_path_stat | selectattr('exists','==','true') | map(attribute='path') }}"
+      - name: "AUTOMATED | 6.2.12 | PATCH | Ensure root PATH Integrity | Set permissions"
+        file:
+            path: "{{ item }}"
+            owner: root
+            mode: 'o-w,g-w'
+            follow: yes
+            state: directory
+        with_items:
+            - "{{ ubtu18cis_6_2_12_working_dir.stdout.split(':') }}"
+        when:
+            - ubtu18cis_disruption_high
   when:
       - ubtu18cis_rule_6_2_12
   tags:

@@ -46,6 +46,7 @@
             ignoreerrors: yes
         notify:
             - sysctl flush ipv6 route table
+        when: ubtu18cis_ipv6_required
   when:
       - ubtu18cis_rule_3_2_2
       - not ubtu18cis_is_router

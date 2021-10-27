@@ -616,6 +616,10 @@ ubtu18cis_no_group_adjust: true
 # Set to true this role will remove that bit, set to false we will just warn about the files
 ubtu18cis_suid_adjust: false
 
+# Control 6.2.5
+# ubtu18cis_int_gid is the UID for interactive users to start at
+ubtu18cis_int_gid: 1000
+
 # Control 6.2.7
 # This control toggles automation to set all users dot files to not group or world writable
 # Value of true will change file permissiosn, value of false will skip the automation changing permissions. 
