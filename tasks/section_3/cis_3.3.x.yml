@@ -26,6 +26,7 @@
             - net.ipv6.conf.all.accept_source_route
             - net.ipv6.conf.default.accept_source_route
         notify: sysctl flush ipv6 route table
+        when: ubtu18cis_ipv6_required
   when:
       - ubtu18cis_rule_3_3_1
       - not ubtu18cis_is_router
@@ -65,6 +66,7 @@
             - net.ipv6.conf.all.accept_redirects
             - net.ipv6.conf.default.accept_redirects
         notify: sysctl flush ipv6 route table
+        when: ubtu18cis_ipv6_required
   when:
       - ubtu18cis_rule_3_3_2
   tags:
