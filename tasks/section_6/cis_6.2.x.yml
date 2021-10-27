@@ -137,7 +137,7 @@
       label: "{{ ubtu18cis_passwd_label }}"
   when:
       - ubtu18cis_rule_6_2_5
-      - item.dir != "/run/sshd"
+      - item.uid >= ubtu18cis_int_gid
   tags:
       - level1-server
       - level1-workstation
