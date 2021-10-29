@@ -7,10 +7,6 @@
             file_type: file
         register: ubtu18cis_4_4_logrotate_d_files
 
-      - name: show me ubtu18cis_4_4_logrotate_d_files
-        debug:
-          msg: "{{ ubtu18cis_4_4_logrotate_d_files.files | map(attribute='path') | flatten }}"
-
       - name: "AUTOMATED | 4.4 | PATCH | Ensure logrotate assigns appropriate permissions | Apply create values"
         replace:
             path: "{{ item }}"
