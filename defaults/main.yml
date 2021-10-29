@@ -497,6 +497,12 @@ ubtu18cis_system_is_log_server: true
 # ubtu18cis_logrotate is the log rotate frequencey. Options are daily, weekly, monthly, and yearly
 ubtu18cis_logrotate: "daily"
 
+# Control 4.4
+# ubtu18cis_logrotate_create_perms are the permissions to be set to logrotate files
+# These include logrotate.conf as well as any files in logrotate.d
+# The value should be set to 0640 or more restrictive  to conform to CIS standards
+ubtu18cis_logrotate_create_perms: "0640"
+
 # Section 5 Control Variables
 # Control 5.2.1
 # ubtu18cis_sudo_package is the name of the sudo package to install

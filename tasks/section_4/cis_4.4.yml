@@ -1,9 +1,24 @@
 ---
 - name: "AUTOMATED | 4.4 | PATCH | Ensure logrotate assigns appropriate permissions"
-  lineinfile:
-      path: /etc/logrotate.conf
-      regex: '^create'
-      line: 'create 0640 root utmp'
+  block:
+      - name: "AUTOMATED | 4.4 | PATCH | Ensure logrotate assigns appropriate permissions | Get logrotate.d files"
+        find:
+            path: /etc/logrotate.d
+            file_type: file
+        register: ubtu18cis_4_4_logrotate_d_files
+
+      - name: show me ubtu18cis_4_4_logrotate_d_files
+        debug:
+          msg: "{{ ubtu18cis_4_4_logrotate_d_files.files | map(attribute='path') | flatten }}"
+
+      - name: "AUTOMATED | 4.4 | PATCH | Ensure logrotate assigns appropriate permissions | Apply create values"
+        replace:
+            path: "{{ item }}"
+            regexp: 'create\s\d.*'
+            replace: create {{ ubtu18cis_logrotate_create_perms }} root utmp
+        with_items:
+            - /etc/logrotate.conf
+            - "{{ ubtu18cis_4_4_logrotate_d_files.files | map(attribute='path') | flatten }}"
   when:
       - ubtu18cis_rule_4_4
   tags:
