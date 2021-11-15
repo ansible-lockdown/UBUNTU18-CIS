@@ -68,7 +68,6 @@
       dest: /etc/default/grub
       regexp: '(^GRUB_CMDLINE_LINUX\s*\=\s*)(?:")(.+)(?<!audit_backlog_limit={{ ubtu18cis_audit_back_log_limit }})(?:")'
       replace: '\1"\2 audit_backlog_limit={{ ubtu18cis_audit_back_log_limit }}"'
-      follow: yes
   ignore_errors: yes
   notify: grub update
   when:

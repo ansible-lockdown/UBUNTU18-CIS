@@ -381,7 +381,6 @@
             path: "{{ item }}"
             owner: root
             mode: 'o-w,g-w'
-            follow: yes
             state: directory
         with_items:
             - "{{ ubtu18cis_6_2_12_working_dir.stdout.split(':') }}"
