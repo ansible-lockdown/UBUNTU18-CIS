@@ -60,6 +60,7 @@ Refer to [UBUNTU18-CIS-Audit](https://github.com/ansible-lockdown/UBUNTU18-CIS-A
 
 Further audit documentation can be found at [Audit-Docs](https://github.com/ansible-lockdown/UBUNTU18-CIS-Audit/docs/Security_remediation_and_auditing.md).
 
+
 Role Variables
 --------------
 
