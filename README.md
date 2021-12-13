@@ -58,6 +58,8 @@ This audit will not only check the config has the correct setting but aims to ca
 
 Refer to [UBUNTU18-CIS-Audit](https://github.com/ansible-lockdown/UBUNTU18-CIS-Audit).
 
+Further audit documentation can be found at [Audit-Docs](https://github.com/ansible-lockdown/UBUNTU18-CIS-Audit/docs/Security_remediation_and_auditing.md).
+
 Role Variables
 --------------
 
