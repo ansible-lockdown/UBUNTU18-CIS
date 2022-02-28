@@ -15,7 +15,6 @@ galaxy_info:
         - hardening
         - benchmark
         - compliance
-        - redhat
         - complianceascode
         - ubuntu18
 collections:
