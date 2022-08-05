@@ -7,7 +7,7 @@ namespace         = "github_actions"
 environment       = "github_test_pipeline"
 
 // Matching pair name found in AWS for keypairs PEM key
-private_key       = "'.ssh/github_actions.pem'"
+ami_key_pair_name = "github_actions"
 main_vpc_cidr     = "172.22.0.0/24"
 public_subnets    = "172.22.0.128/26"
 private_subnets   = "172.22.0.192/26"
