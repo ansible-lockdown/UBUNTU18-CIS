@@ -408,7 +408,7 @@ ubtu18cis_vartmp:
 # These are the crontab settings for file system integrity enforcement
 ubtu18cis_aide_cron:
     cron_user: root
-    cron_file: /etc/crontab
+    cron_file: /etc/cron.d/cis_aide
     aide_job: '/usr/bin/aide.wrapper --config /etc/aide/aide.conf --check'
     aide_minute: 0
     aide_hour: 5
