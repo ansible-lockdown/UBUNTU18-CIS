@@ -7,5 +7,7 @@ skip_list:
   - '403'
   - '306'
   - '602'
+  - 'fqcn-builtins'
+  - 'ignore-errors'
 use_default_rules: true
 verbosity: 0
