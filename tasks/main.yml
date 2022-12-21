@@ -98,6 +98,13 @@
         when:
             - ubtu18_skip_reboot
 
+- name: If Warnings found Output count and control IDs affected
+  debug:
+      msg:
+          - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID’s are listed below:"
+          - "{{ warn_control_list }}"
+  when: warn_count != 0
+
 - import_tasks: post_remediation_audit.yml
   when:
       - run_audit

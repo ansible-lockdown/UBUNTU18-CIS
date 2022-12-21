@@ -21,12 +21,13 @@
   block:
       - name: "AUTOMATED | 3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if nmcli command is available"
         command: dpkg -s network-manager
-        args:
-            warn: no
-        check_mode: false
         changed_when: false
+        failed_when: false
+        args:
+            warn: false
+        check_mode: false
         register: ubtu18cis_nmcli_available
-        failed_when: no
+
 
       - name: "AUTOMATED | 3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if wifi is enabled"
         command: nmcli radio wifi

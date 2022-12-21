@@ -10,8 +10,13 @@
       - name: "MANUAL | 2.3 | AUDIT | Ensure nonessential services are removed or masked | Display services"
         debug:
             msg:
-                - "Alert! Below are the list of services. Please make sure all are required and remove any non-required services"
+                - "Warning!! Below are the list of services. Please make sure all are required and remove any non-required services"
                 - "{{ ubtu18cis_2_3_services.stdout_lines }}"
+
+      - name: "MANUAL | 2.3 | AUDIT | Ensure nonessential services are removed or masked | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '2.3'
   when:
       - ubtu18cis_rule_2_3
   tags:

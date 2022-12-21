@@ -17,7 +17,7 @@
   service:
       name: auditd
       state: started
-      enabled: yes
+      enabled: true
   when:
       - ubtu18cis_rule_4_1_1_2
   tags:
@@ -68,7 +68,7 @@
       dest: /etc/default/grub
       regexp: '(^GRUB_CMDLINE_LINUX\s*\=\s*)(?:")(.+)(?<!audit_backlog_limit={{ ubtu18cis_audit_back_log_limit }})(?:")'
       replace: '\1"\2 audit_backlog_limit={{ ubtu18cis_audit_back_log_limit }}"'
-  ignore_errors: yes
+  ignore_errors: true
   notify: grub update
   when:
       - ubtu18cis_rule_4_1_1_4
