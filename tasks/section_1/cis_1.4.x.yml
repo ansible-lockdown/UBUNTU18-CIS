@@ -29,10 +29,17 @@
 # grub-mkpasswd-pbkdf2 command and passing the data at the same time.
 # ---------------
 # ---------------
-- name: "AUTOMATED | 1.4.2 | PATCH | Ensure bootloader password is set"
-  command: /bin/true
-  changed_when: false
-  failed_when: false
+- name: "MANUAL | 1.4.2 | PATCH | Ensure bootloader password is set."
+  block:
+      - name: "MANUAL | 1.4.2 | PATCH | Ensure bootloader password is set. | Warning Message."
+        debug:
+            msg:
+                - "Warning!! Ensure bootloader password is set."
+
+      - name: "MANUAL | 1.4.2 | PATCH | Ensure bootloader password is set. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.4.2'
   when:
       - ubtu18cis_rule_1_4_2
   tags:

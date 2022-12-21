@@ -42,7 +42,7 @@
 
 
 # Adding the allow OpenSSH rule while enabling ufw to allow ansible to run after enabling
-- name: "AUTOMATED | 3.5.1.3 | PATCH | Ensure ufw service is enabled"
+- name: "AUTOMATED | 3.5.1.3 | PATCH | Ensure ufw service is enabled."
   ufw:
       rule: allow
       name: OpenSSH
@@ -58,9 +58,9 @@
       - rule_3.5.1.3
       - ufw
 
-- name: "AUTOMATED | 3.5.1.4 | PATCH | Ensure loopback traffic is configured"
+- name: "AUTOMATED | 3.5.1.4 | PATCH | Ensure loopback traffic is configured."
   block:
-      - name: "AUTOMATED | 3.5.1.4 | PATCH | Ensure loopback traffic is configured | Set allow ufw rules"
+      - name: "AUTOMATED | 3.5.1.4 | PATCH | Ensure loopback traffic is configured | Set allow ufw rules."
         ufw:
             rule: allow
             direction: in
@@ -138,12 +138,17 @@
       - name: "MANUAL | 3.5.1.6 | AUDIT | Ensure firewall rules exist for all open ports | Message out settings"
         debug:
             msg:
-                - "ALERT!!!!Below are the listening ports and firewall rules"
+                - "Warning!! Below are the listening ports and firewall rules"
                 - "Please create firewall rule for any open ports if not already done"
                 - "*****---Open Listen Ports---*****"
                 - "{{ ubtu18cis_3_5_1_6_open_listen_ports.stdout_lines }}"
                 - "*****---Firewall Rules---*****"
                 - "{{ ubtu18cis_3_5_1_6_firewall_rules.stdout_lines }}"
+
+      - name: "MANUAL | 3.5.1.6 | AUDIT | Ensure firewall rules exist for all open ports | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.1.6'
   when:
       - ubtu18cis_rule_3_5_1_6
       - ubtu18cis_firewall_package == "ufw"
@@ -180,9 +185,16 @@
 # # NFTables is unsupported with this role. However I have the actions commented out as a guide
 # # ---------------
 # # ---------------
-- name: "AUTOMATED | 3.5.2.1 | AUDIT | Ensure nftables is installed"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+- name: "AUTOMATED | 3.5.2.1 | AUDIT | Ensure nftables is installed."
+  block:
+      - name: "AUTOMATED | 3.5.2.1 | AUDIT | Ensure nftables is installed. | Warning."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
+
+      - name: "MANUAL | 3.5.2.1 | AUDIT | Ensure firewall rules exist for all open ports | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.1'
   # apt:
   #     name: nftables
   #     state: present
@@ -200,8 +212,15 @@
       - notimplemented
 
 - name: "AUTOMATED | 3.5.2.2 | AUDIT | Ensure ufw is uninstalled or disabled with nftables"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  block:
+      - name: "AUTOMATED | 3.5.2.2 | AUDIT | Ensure ufw is uninstalled or disabled with nftables. | Warning Message."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
+
+      - name: "AUTOMATED | 3.5.2.2 | AUDIT | Ensure ufw is uninstalled or disabled with nftables. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.2'
   # apt:
   #     name: ufw
   #     state: absent
@@ -219,11 +238,18 @@
       - notimplemented
 
 - name: "MANUAL | 3.5.2.3 | PATCH | Ensure iptables are flushed"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  block:
+      - name: "MANUAL | 3.5.2.3 | PATCH | Ensure iptables are flushed. | Warning Message."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
+
+      - name: "MANUAL | 3.5.2.3 | PATCH | Ensure iptables are flushed. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.3'
   # iptables:
   #     flush: yes
-
+  #
   when:
       - ubtu18cis_rule_3_5_2_3
       - ubtu18cis_firewall_package == "nftables"
@@ -236,9 +262,16 @@
       - nftables
       - notimplemented
 
-- name: "AUTOMATED | 3.5.2.4 | PATCH | Ensure a nftables table exists"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+- name: "MANUAL | 3.5.2.4 | PATCH | Ensure a nftables table exists"
+  block:
+      - name: "MANUAL | 3.5.2.4 | PATCH | Ensure a nftables table exists. | Warning Message."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
+
+      - name: "MANUAL | 3.5.2.4 | PATCH | Ensure a nftables table exists. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.4'
   # command: "nft create table {{ ubtu18cis_nftables_table_name }}"
   # changed_when: ubtu18cis_3_5_2_4_new_table.rc == 0
   # failed_when: false
@@ -255,9 +288,16 @@
       - nftables
       - notimplemented
 
-- name: "AUTOMATED | 3.5.2.5 | PATCH | Ensure nftables base chains exist"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+- name: "MANUAL | 3.5.2.5 | PATCH | Ensure nftables base chains exist"
+  block:
+      - name: "MANUAL | 3.5.2.5 | PATCH | Ensure nftables base chains exist | Warning Message."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
+
+      - name: "MANUAL | 3.5.2.5 | PATCH | Ensure nftables base chains exist | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.5'
   # block:
   #     - name: "AUTOMATED | 3.5.2.5 | PATCH | Ensure base chains exist | Input entry"
   #       shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} input { type filter hook input priority 0 \; }'
@@ -288,9 +328,16 @@
       - nftables
       - notimplemented
 
-- name: "AUTOMATED | 3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+- name: "MANUALD | 3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured"
+  block:
+      - name: "MANUAL | 3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured | Warning Message."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
+
+      - name: "MANUAL | 3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.6'
   # block:
   #     - name: "AUTOMATED | 3.5.2.6 | AUDIT | Ensure nftables loopback traffic is configured | Get input iif lo accept status"
   #       shell: nft list ruleset | awk '/hook input/,/}/' | grep 'iif "lo" accept'
@@ -347,8 +394,15 @@
       - notimplemented
 
 - name: "MANUAL | 3.5.2.7 | PATCH | Ensure nftables outbound and established connections are configured"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  block:
+      - name: "MANUAL | 3.5.2.7 | PATCH | Ensure nftables outbound and established connections are configured | Warning Message."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
+
+      - name: "MANUAL | 3.5.2.7 | PATCH | Ensure nftables outbound and established connections are configured | Warn Count"
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.7'
   when:
       - ubtu18cis_rule_3_5_2_7
       - ubtu18cis_firewall_package == "nftables"
@@ -361,11 +415,18 @@
       - nftables
       - notimplemented
 
-- name: "AUTOMATED | 3.5.2.8 | PATCH | Ensure nftables default deny firewall policy"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+- name: "MANUAL | 3.5.2.8 | PATCH | Ensure nftables default deny firewall policy"
+  block:
+      - name: "MANUAL | 3.5.2.8 | PATCH | Ensure nftables default deny firewall policy | Warning Message."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
+
+      - name: "MANUAL | 3.5.2.8 | PATCH | Ensure nftables default deny firewall policy | Warn Count"
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.8'
   when:
-      - ubtu18cis_rule_3_5_2_7
+      - ubtu18cis_rule_3_5_2_8
       - ubtu18cis_firewall_package == "nftables"
   tags:
       - level1-server
@@ -377,8 +438,15 @@
       - notimplemented
 
 - name: "AUTOMATED | 3.5.2.9 | PATCH | Ensure nftables service is enabled"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  block: 
+      - name: "AUTOMATED | 3.5.2.9 | PATCH | Ensure nftables service is enabled | Warning Message."
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
+
+      - name: "AUTOMATED | 3.5.2.9 | PATCH | Ensure nftables service is enabled | Warn Count"
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.9'
   # service:
   #     name: nftables
   #     state: started
@@ -396,8 +464,15 @@
       - notimplemented
 
 - name: "AUTOMATED | 3.5.2.10 | PATCH | Ensure nftables rules are permanent"
-  debug:
-      msg: "Warning: NFTables is not supported in this role. Please us UFW or iptables"
+  block:
+      - name:
+        debug:
+            msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
+
+      - name: "AUTOMATED | 3.5.2.9 | PATCH | Ensure nftables service is enabled | Warn Count"
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.2.9'
   when:
       - ubtu18cis_rule_3_5_2_10
       - ubtu18cis_firewall_package == "nftables"
@@ -583,12 +658,17 @@
       - name: "AUTOMATED | 3.5.3.2.4 | AUDIT | Ensure firewall rules exist for all open ports | Alert about settings"
         debug:
             msg:
-                - "ALERT!!!!Below is the list the open ports and current rules"
+                - "Warning!! Below is the list the open ports and current rules"
                 - "Please create a rule for any open port that does not have a current rule"
                 - "Open Ports:"
                 - "{{ ubtu18cis_3_5_3_2_4_open_ports.stdout_lines }}"
                 - "Current Rules:"
                 - "{{ ubtu18cis_3_5_3_2_4_current_rules.stdout_lines }}"
+
+      - name: "AUTOMATED | 3.5.3.2.4 | AUDIT | Ensure firewall rules exist for all open ports | Warn Count"
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.3.2.4'
   when:
       - ubtu18cis_rule_3_5_3_2_4
       - ubtu18cis_firewall_package == "iptables"
@@ -751,12 +831,17 @@
       - name: "AUTOMATED | 3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Alert about settings"
         debug:
             msg:
-                - "ALERT!!!!Below is the list the open ports and current rules"
+                - "Warning!! Below is the list the open ports and current rules"
                 - "Please create a rule for any open port that does not have a current rule"
                 - "Open Ports:"
                 - "{{ ubtu18cis_3_5_3_3_4_open_ports.stdout_lines }}"
                 - "Current Rules:"
                 - "{{ ubtu18cis_3_5_3_3_4_current_rules.stdout_lines }}"
+
+      - name: "AUTOMATED | 3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Warn Count"
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '3.5.3.3.4'
   when:
       - ubtu18cis_rule_3_5_3_3_4
       - ubtu18cis_firewall_package == "iptables"

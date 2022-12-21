@@ -140,7 +140,7 @@
         service:
             name: avahi-daemon
             state: stopped
-            enabled: no
+            enabled: false
         when: avahi_service_status.stdout == "loaded"
 
       - name: "AUTOMATED | 2.1.3 | PATCH | Ensure Avahi Server is not installed | Uninstall Avahi service"
@@ -379,7 +379,7 @@
   apt:
       name: rsync
       state: absent
-      purge: yes
+      purge: true
   when:
       - ubtu18cis_rule_2_1_16
       - not ubtu18cis_rsync_server
