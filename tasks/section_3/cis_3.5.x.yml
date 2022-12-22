@@ -465,14 +465,14 @@
 
 - name: "AUTOMATED | 3.5.2.10 | PATCH | Ensure nftables rules are permanent"
   block:
-      - name:
+      - name: "AUTOMATED | 3.5.2.10 | PATCH | Ensure nftables rules are permanent. | Warning Message."
         debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
-      - name: "AUTOMATED | 3.5.2.9 | PATCH | Ensure nftables service is enabled | Warn Count"
+      - name: "AUTOMATED | 3.5.2.10 | PATCH | Ensure nftables rules are permanent. | Warn Count"
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: '3.5.2.9'
+            warn_control_id: '3.5.2.10'
   when:
       - ubtu18cis_rule_3_5_2_10
       - ubtu18cis_firewall_package == "nftables"
