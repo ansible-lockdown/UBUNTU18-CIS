@@ -9,3 +9,4 @@
       6.1.1
   - Updated True / False
   - Fixed Linting
+  - Update Deprecated Module Names
