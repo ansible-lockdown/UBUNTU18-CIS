@@ -22,19 +22,21 @@
   when: not ansible_version.full is version_compare('2.9', '>=')
   tags:
       - always
-
-- import_tasks: prelim.yml
+- name: Prelim Import Tasks
+  import_tasks: prelim.yml
   tags:
       - prelim_tasks
       - run_audit
 
-- import_tasks: pre_remediation_audit.yml
+- name: Pre Remediate Audit Task Import
+  import_tasks: pre_remediation_audit.yml
   when:
       - run_audit
   tags:
       - run_audit
 
-- include: parse_etc_password.yml
+- name: Run Password Parsing
+  import_tasks: parse_etc_password.yml
   when:
       - ubtu18cis_section5_patch or
         ubtu18cis_section6_patch
@@ -46,7 +48,7 @@
       - always
 
 - name: Include section 1 patches
-  include: section_1/main.yml
+  import_tasks: section_1/main.yml
   when: ubtu18cis_section1_patch
   tags:
       - section1
@@ -105,7 +107,9 @@
           - "{{ warn_control_list }}"
   when: warn_count != 0
 
-- import_tasks: post_remediation_audit.yml
+
+- name: Post Remediation Task
+  import_tasks: post_remediation_audit.yml
   when:
       - run_audit
 

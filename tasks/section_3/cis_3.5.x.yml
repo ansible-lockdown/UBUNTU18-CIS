@@ -40,7 +40,6 @@
       - apt
       - firewall
 
-
 # Adding the allow OpenSSH rule while enabling ufw to allow ansible to run after enabling
 - name: "AUTOMATED | 3.5.1.3 | PATCH | Ensure ufw service is enabled."
   ufw:
@@ -187,7 +186,7 @@
 # # ---------------
 - name: "AUTOMATED | 3.5.2.1 | AUDIT | Ensure nftables is installed."
   block:
-      - name: "AUTOMATED | 3.5.2.1 | AUDIT | Ensure nftables is installed. | Warning."
+      - name: "MANUAL | 3.5.2.1 | AUDIT | Ensure nftables is installed. | Warning."
         debug:
             msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
 
@@ -438,7 +437,7 @@
       - notimplemented
 
 - name: "AUTOMATED | 3.5.2.9 | PATCH | Ensure nftables service is enabled"
-  block: 
+  block:
       - name: "AUTOMATED | 3.5.2.9 | PATCH | Ensure nftables service is enabled | Warning Message."
         debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
