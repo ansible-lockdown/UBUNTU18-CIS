@@ -76,7 +76,7 @@
             msg: "Warning!! The following users have non-existent GIDs (Groups): {{ ubtu18cis_6_2_15_passwd_gid_check.stdout_lines | join (', ') }}"
         when: ubtu18cis_6_2_3_passwd_gid_check.stdout | length > 0
 
-      - name:  "AUTOMATED | 6.2.3 | AUDIT | Ensure all groups in /etc/passwd exist in /etc/group | Warn Count."
+      - name: "AUTOMATED | 6.2.3 | AUDIT | Ensure all groups in /etc/passwd exist in /etc/group | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '6.2.3'
@@ -503,8 +503,8 @@
   block:
       - name: "AUTOMATED | 6.2.15 | AUDIT | Ensure no duplicate user names exist | Check for duplicate User Names"
         shell: "pwck -r | awk -F: '{if ($1 in users) print $1 ; else users[$1]}' /etc/passwd"
-        changed_when: no
-        failed_when: no
+        changed_when: false
+        failed_when: false
         register: ubtu18cis_6_2_15_user_username_check
 
       - name: "AUTOMATED | 6.2.15 | AUDIT | Ensure no duplicate user names exist | Print message that no duplicate user names exist"

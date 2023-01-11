@@ -85,9 +85,9 @@
             name: fs.suid_dumpable
             value: '0'
             state: present
-            reload: yes
-            sysctl_set: yes
-            ignoreerrors: yes
+            reload: true
+            sysctl_set: true
+            ignoreerrors: true
   when:
       - ubtu18cis_rule_1_5_4
   tags:

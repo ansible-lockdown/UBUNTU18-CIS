@@ -44,7 +44,7 @@
 
       - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Set Fact."
         set_fact:
-            ubtu18cis_bootloader_grub_name: "{{ubtu18cis_bootloader_grub_check.stdout | regex_replace('\"','') | regex_replace('set superusers=','') }}"
+            ubtu18cis_bootloader_grub_name: "{{ ubtu18cis_bootloader_grub_check.stdout | regex_replace('\"','') | regex_replace('set superusers=','') }}"
 
       - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | No Username And Password Meet Set For Bootloader."
         debug:

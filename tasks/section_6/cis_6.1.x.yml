@@ -2,18 +2,37 @@
 - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions"
   block:
       - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Register package list"
-        command: ls -a /bin/
+        command: dpkg-query -W -f='${binary:Package}\n'
         changed_when: false
         failed_when: false
         register: ubtu18cis_6_1_1_packages
 
-      # - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Audit the packages"
-      #   command: dpkg --verify {{ item }}
-      #   changed_when: false
-      #   failed_when: false
-      #   with_items:
-      #       - "{{ ubtu18cis_6_1_1_packages.stdout_lines }}"
-      #   register: ubtu18cis_6_1_1_packages_audited
+      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Audit the packages"
+        shell: "dpkg --verify {{ item }}"
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_6_1_1_packages_audited
+        with_items: "{{ ubtu18cis_6_1_1_packages.stdout_lines }}"
+        when:
+            - not ubtu18cis_manual_audit_dpkg
+
+      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Merge Package Name And Stdout."
+        set_fact:
+            ubtu18cis_6_1_1_packages_issues: "{{ merged|default({}) | combine( {item.item: item.stdout} ) }}"
+        with_items:
+            - "{{ ubtu18cis_6_1_1_packages_audited.results }}"
+        when:
+            - item.stdout | length > 0
+            - not ubtu18cis_manual_audit_dpkg
+
+      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Audited Check Results."
+        debug:
+            msg:
+                - "Warning!! The packages below may not have the correct file permissions."
+                - "Please review the list below and make sure they conform to site policies."
+                - "{{ ubtu18cis_6_1_1_packages_issues }}"
+        when:
+            - not ubtu18cis_manual_audit_dpkg
 
       - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Message out packages results for review"
         debug:
@@ -21,6 +40,7 @@
                 - "Warning!! Below are the packages that need to be reviewed."
                 - "You can run dpkg --verify <package name> and if nothing is returned the package is installed correctly"
                 - "{{ ubtu18cis_6_1_1_packages.stdout_lines }}"
+        when: ubtu18cis_manual_audit_dpkg
 
       - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml

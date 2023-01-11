@@ -31,7 +31,7 @@
         service:
             name: systemd-timesyncd.service
             state: started
-            enabled: yes
+            enabled: true
 
       - name: "MANUAL | 2.1.1.2 | PATCH | Ensure systemd-timesyncd is configured | Set timedatectl to ntp"
         command: timedatectl set-ntp true
@@ -99,7 +99,7 @@
             path: /etc/sysconfig/ntpd
             regexp: "{{ item.regexp }}"
             line: "{{ item. line }}"
-            create: yes
+            create: true
         with_items:
             - { regexp: '^OPTIONS', line: 'OPTIONS="-u ntp:ntp"'}
             - { regexp: '^NTPD_OPTIONS', line: 'NTPD_OPTIONS="-u ntp:ntp"' }

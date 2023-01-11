@@ -13,7 +13,7 @@ ubtu18cis_section5_patch: true
 ubtu18cis_section6_patch: true
 
 # System will reboot if false, can give better audit results
-ubtu18_skip_reboot: True
+ubtu18_skip_reboot: true
 
 ## Benchmark name used by auditing control role
 # The audit variable found at the base
@@ -372,8 +372,8 @@ ubtu18cis_ipv6_required: true
 # ubtu18cis_desktop_required is the toggle for requiring desktop environments. True means you use a desktop and will not disable/remove needed items to run a desktop (not recommented for servers)
 # false means you do not require a desktop
 ubtu18cis_desktop_required: false
-# Toggle to have automation install gdm3. 
-# The gdm related handlers won't run if you have this set to true but gdm3 is not installed. 
+# Toggle to have automation install gdm3.
+# The gdm related handlers won't run if you have this set to true but gdm3 is not installed.
 ubtu18cis_install_gdm3: true
 
 # Section 1 Control Variables
@@ -416,9 +416,6 @@ ubtu18cis_aide_cron:
     aide_month: '*'
     aide_weekday: '*'
 
-# Control 1.4.2
-ubtu18cis_bootloader_password_hash: 'grub.pbkdf2.sha512.changethispassword'
-
 # Control 1.4.4
 # THIS VARIABLE SHOULD BE CHANGED AND INCORPORATED INTO VAULT
 # THIS VALUE IS WHAT THE ROOT PW WILL BECOME!!!!!!!!
@@ -458,7 +455,7 @@ ubtu18cis_host_allow:
     - "172.16.0.0/255.240.0.0"
     - "192.168.0.0/255.255.0.0"
 
-# Control 3.5.1.1
+# All Control 3.5.x.yml
 # ubtu18cis_firewall_package is the firewall package you will be using.
 # the options are ufw, nftables, or iptables
 # you much chose only one firewall package
@@ -479,6 +476,7 @@ ubtu18cis_ufw_allow_out_ports:
     - 53
     - 80
     - 443
+
 
 # Controls 3.5.4.1.1 through 3.5.4.1.4
 # The iptables module only writes to memory which means a reboot could revert settings
@@ -606,7 +604,7 @@ ubtu18cis_pass:
     inactive: 30
 
 # Control 5.5.4
-# ubtu18cis_bash_umask is the umask to set in the /etc/bash.bashrc and /etc/profile. 
+# ubtu18cis_bash_umask is the umask to set in the /etc/bash.bashrc and /etc/profile.
 # The value needs to be 027 or more restrictive to comply with CIS standards
 ubtu18cis_bash_umask: '027'
 
@@ -622,6 +620,13 @@ ubtu18cis_shell_session_timeout:
 ubtu18cis_su_group: "wheel"
 
 # Section 6 Control Variables
+
+# Control 6.1.1
+# ubtu18cis_manual_audit_dpkg is the setting that will allow the control to get a list of installed applications
+# and check them using the # dpkg --verify <package name> option.  This process can be very time consuming on machines.
+# ubtu18cis_manual_audit_dpkg: true will result in a quicker audit but will require had checking each application.
+ubtu18cis_manual_audit_dpkg: false
+
 # Control 6.1.10
 # ubtu18cis_no_world_write_adjust will toggle the automated fix to remove world-writable perms from all files
 # Setting to true will remove all world-writable permissions, and false will leave as-is
@@ -651,7 +656,7 @@ ubtu18cis_int_gid: 1000
 
 # Control 6.2.7
 # This control toggles automation to set all users dot files to not group or world writable
-# Value of true will change file permissiosn, value of false will skip the automation changing permissions. 
+# Value of true will change file permissiosn, value of false will skip the automation changing permissions.
 ubtu18cis_dotperm_ansibleManaged: true
 
 # Control 6.2.9 Allow ansible to adjust world-writable files. False will just display world-writable files, True will remove world-writable
