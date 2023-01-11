@@ -4,7 +4,7 @@ galaxy_info:
     description: "Apply the Ubuntu 18 CIS"
     company: "MindPoint Group"
     license: MIT
-    role_name: ubuntu18-cis
+    role_name: ubuntu18_cis
     namespace: mindpointgroup
     min_ansible_version: 2.9.0
     platforms:
