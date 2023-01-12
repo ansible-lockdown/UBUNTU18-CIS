@@ -24,15 +24,55 @@
 
 # ---------------
 # ---------------
-# The RHEL7 based control for this does not use a valid module
-# I need to research best way to set grub pw for Ubuntu using the
-# grub-mkpasswd-pbkdf2 command and passing the data at the same time.
+# Come back to work on.  Proposed code changes need to be looked at by team and discuss
+# best practice for passing grub info.  Control 90% done for now we are just auditing.
 # ---------------
 # ---------------
-- name: "AUTOMATED | 1.4.2 | PATCH | Ensure bootloader password is set"
-  command: /bin/true
-  changed_when: false
-  failed_when: false
+- name: "MANUAL | 1.4.2 | PATCH | Ensure bootloader password is set."
+  block:
+      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Superuser Check In Grub."
+        shell: grep "^set superusers" /boot/grub/grub.cfg
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_bootloader_grub_check
+
+      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Hash Password Check In Grub."
+        shell: grep "^password" /boot/grub/grub.cfg
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_bootloader_hash_check
+
+      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Set Fact."
+        set_fact:
+            ubtu18cis_bootloader_grub_name: "{{ ubtu18cis_bootloader_grub_check.stdout | regex_replace('\"','') | regex_replace('set superusers=','') }}"
+
+      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | No Username And Password Meet Set For Bootloader."
+        debug:
+            msg:
+                - "Warning!! You do not currently have the bootloader password configured properly."
+                - "Please review your grub.cfg and check for errors."
+        when: "'superuser' not in ubtu18cis_bootloader_grub_check.stdout or 'password' not in ubtu18cis_bootloader_hash_check.stdout"
+
+      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Verify Username And Password Meet Site Policies For Bootloader."
+        debug:
+            msg:
+                - "Warning!! Below is your current bootloader configuration."
+                - "Please review to make sure they conform to your site policies."
+                - "Username: {{ ubtu18cis_bootloader_grub_name }}"
+                - "Password Hash: {{ ubtu1s_bootloader_hash_check.stdout }}"
+        when:
+            - "'superuser' in ubtu18cis_bootloader_grub_check.stdout"
+            - "'password' in ubtu18cis_bootloader_hash_check.stdout"
+
+      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.4.2'
+        when:
+            - "'superuser' in ubtu18cis_bootloader_grub_check.stdout"
+            - "'password' in ubtu18cis_bootloader_hash_check.stdout or
+              'superuser' not in ubtu18cis_bootloader_grub_check.stdout or
+              'password' not in ubtu18cis_bootloader_hash_check.stdout"
   when:
       - ubtu18cis_rule_1_4_2
   tags:
@@ -42,7 +82,6 @@
       - patch
       - rule_1.4.2
       - grub
-      - notimplemented
 
 - name: "AUTOMATED | 1.4.3 | PATCH | Ensure permissions on bootloader config are configured"
   block:

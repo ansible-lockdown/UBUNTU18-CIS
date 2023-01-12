@@ -25,7 +25,7 @@
             path: /etc/pam.d/su
             regex: (#)?auth\s+required\s+pam_wheel\.so\n|(#)?auth\s+required\s+pam_wheel\.so(.*?)use_uid
             line: 'auth       required   pam_wheel.so use_uid group={{ ubtu18cis_su_group }}'
-            create: yes
+            create: true
             insertafter: '(#)?auth\s+sufficient\s+pam_rootok'
         when: ubtu18cis_5_7_pam_wheel_status.stdout | length == 0
   when:

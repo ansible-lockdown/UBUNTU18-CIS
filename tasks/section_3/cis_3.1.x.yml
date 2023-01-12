@@ -4,7 +4,7 @@
       path: /etc/default/grub
       regexp: '^(GRUB_CMDLINE_LINUX=.*(?!.*ipv6\.disable=1)\"[^\"]+)(\".*)'
       line: '\1 ipv6.disable=1\2'
-      backrefs: yes
+      backrefs: true
   notify: grub update
   when:
       - ubtu18cis_rule_3_1_1
@@ -21,12 +21,13 @@
   block:
       - name: "AUTOMATED | 3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if nmcli command is available"
         command: dpkg -s network-manager
-        args:
-            warn: no
-        check_mode: false
         changed_when: false
+        failed_when: false
+        args:
+            warn: false
+        check_mode: false
         register: ubtu18cis_nmcli_available
-        failed_when: no
+
 
       - name: "AUTOMATED | 3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if wifi is enabled"
         command: nmcli radio wifi

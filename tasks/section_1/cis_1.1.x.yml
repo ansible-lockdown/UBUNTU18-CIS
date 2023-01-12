@@ -6,7 +6,7 @@
             dest: /etc/modprobe.d/cramfs.conf
             regexp: "^(#)?install cramfs(\\s|$)"
             line: install cramfs /bin/true
-            create: yes
+            create: true
 
       - name: "AUTOMATED | 1.1.1.1 | PATCH | Ensure mounting of cramfs filesystems is disabled | Disable cramfs"
         modprobe:
@@ -30,7 +30,7 @@
             dest: /etc/modprobe.d/freevxfs.conf
             regexp: "^(#)?install freevxfs(\\s|$)"
             line: install freevxfs /bin/true
-            create: yes
+            create: true
 
       - name: "AUTOMATED | 1.1.1.2 | PATCH | Ensure mounting of freevxfs filesystems is disabled | Disable freevxfs"
         modprobe:
@@ -54,7 +54,7 @@
             dest: /etc/modprobe.d/jffs2.conf
             regexp: "^(#)?install jffs2(\\s|$)"
             line: install jffs2 /bin/true
-            create: yes
+            create: true
 
       - name: "AUTOMATED | 1.1.1.3 | PATCH | Ensure mounting of jffs2 filesystems is disabled | Disable jffs2"
         modprobe:
@@ -78,7 +78,7 @@
             dest: /etc/modprobe.d/hfs.conf
             regexp: "^(#)?install hfs(\\s|$)"
             line: install hfs /bin/true
-            create: yes
+            create: true
 
       - name: "AUTOMATED | 1.1.1.4 | PATCH | Ensure mounting of hfs filesystems is disabled | Disable hfs"
         modprobe:
@@ -102,7 +102,7 @@
             dest: /etc/modprobe.d/hfsplus.conf
             regexp: "^(#)?install hfsplus(\\s|$)"
             line: install hfsplus /bin/true
-            create: yes
+            create: true
 
       - name: "AUTOMATED | 1.1.1.5 | PATCH | Ensure mounting of hfsplus filesystems is disabled | Disable hfsplus"
         modprobe:
@@ -126,7 +126,7 @@
             dest: /etc/modprobe.d/udf.conf
             regexp: "^(#)?install udf(\\s|$)"
             line: install udf /bin/true
-            create: yes
+            create: true
 
       - name: "AUTOMATED | 1.1.1.6 | PATCH | Ensure mounting of udf filesystems is disabled | Disable udf"
         modprobe:
@@ -232,16 +232,28 @@
         shell: mount | grep "on /var "
         changed_when: false
         failed_when: false
-        args:
-            warn: false
         register: ubtu18cis_1_1_10_var_mounted
+
+      - name: DEBUG
+        debug:
+            msg: "{{ ubtu18cis_1_1_10_var_mounted }}"
 
       - name: "AUTOMATED | 1.1.10 | AUDIT | Ensure separate partition exists for /var | Alert if /var partition does not exist"
         debug:
             msg:
-                - "ALERT!!!! There is no separate partition for /var"
+                - "Warning!! There is no separate partition for /var"
                 - "Please create a separate partition for /var"
-        when: ubtu18cis_1_1_10_var_mounted.stdout | length == 0
+        when:
+            - ubtu18cis_1_1_10_var_mounted.stdout is not defined or
+              ubtu18cis_1_1_10_var_mounted.stdout | length == 0
+
+      - name: "AUTOMATED | 1.1.10 | AUDIT | Ensure separate partition exists for /var | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.1.10'
+        when:
+            - ubtu18cis_1_1_10_var_mounted.stdout is not defined or
+              ubtu18cis_1_1_10_var_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_10
   tags:
@@ -258,16 +270,24 @@
         shell: mount | grep "on /var/tmp "
         changed_when: false
         failed_when: false
-        args:
-            warn: false
         register: ubtu18cis_1_1_11_var_tmp_mounted
 
-      - name: "AUTOMATED | 1.1.7 | AUDIT | Ensure separate partition exists for /var/tmp | Alert if /var/tmp partition does not exist"
+      - name: "AUTOMATED | 1.1.11 | AUDIT | Ensure separate partition exists for /var/tmp | Alert if /var/tmp partition does not exist"
         debug:
             msg:
-                - "ALERT!!!! There is no separate partition for /var/tmp"
+                - "Warning!! There is no separate partition for /var/tmp"
                 - "Please create a separate partition for /var/tmp"
-        when: ubtu18cis_1_1_11_var_tmp_mounted.stdout | length == 0
+        when:
+            - ubtu18cis_1_1_11_var_tmp_mounted.stdout is not defined or
+              ubtu18cis_1_1_11_var_tmp_mounted.stdout | length == 0
+
+      - name: "AUTOMATED | 1.1.11 | AUDIT | Ensure separate partition exists for /var/tmp | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.1.11'
+        when:
+            - ubtu18cis_1_1_11_var_tmp_mounted.stdout is not defined or
+              ubtu18cis_1_1_11_var_tmp_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_11
   tags:
@@ -311,15 +331,23 @@
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_1_15_var_log_mounted
-        args:
-            warn: false
 
       - name: "AUTOMATED | 1.1.15 | AUDIT | Ensure separate partition exists for /var/log | Alert if /var/log partition does not exist"
         debug:
             msg:
-                - "ALERT!!!! There is no separate partition for /var/log"
+                - "Warning!! There is no separate partition for /var/log"
                 - "Please create a separate partition for /var/log"
-        when: ubtu18cis_1_1_15_var_log_mounted.stdout | length == 0
+        when:
+            - ubtu18cis_1_1_15_var_log_mounted.stdout is not defined or
+              ubtu18cis_1_1_15_var_log_mounted.stdout | length == 0
+
+      - name: "AUTOMATED | 1.1.15 | AUDIT | Ensure separate partition exists for /var/log | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.1.15'
+        when:
+            - ubtu18cis_1_1_15_var_log_mounted.stdout is not defined or
+              ubtu18cis_1_1_15_var_log_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_15
   tags:
@@ -337,15 +365,23 @@
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_1_16_var_log_audit_mounted
-        args:
-            warn: false
 
-      - name: "AUTOMATED | 1.1.16 | AUDIT | Ensure separate partition exists for /var/log/audit | Alert if /var/log/audit partition does not exist"
+      - name: "AUTOMATED | 1.1.16 | AUDIT | Ensure separate partition exists for /var/log/audit | Alert if /var/log/audit partition does not exist."
         debug:
             msg:
-                - "ALERT!!!! There is no separate partition for /var/log/audit"
+                - "Warning!! There is no separate partition for /var/log/audit"
                 - "Please create a separate partition for /var/log/audit"
-        when: ubtu18cis_1_1_16_var_log_audit_mounted.stdout | length == 0
+        when:
+            - ubtu18cis_1_1_16_var_log_audit_mounted.stdout is not defined or
+              ubtu18cis_1_1_16_var_log_audit_mounted.stdout | length == 0
+
+      - name: "AUTOMATED | 1.1.16 | AUDIT | Ensure separate partition exists for /var/log/audit | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.1.16'
+        when:
+            - ubtu18cis_1_1_16_var_log_audit_mounted.stdout is not defined or
+              ubtu18cis_1_1_16_var_log_audit_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_16
   tags:
@@ -356,22 +392,30 @@
       - rule_1.1.16
       - var/log/audit
 
-- name: "AUTOMATED | 1.1.17 | AUDIT | Ensure separate partition exists for /home"
+- name: "AUTOMATED | 1.1.17 | AUDIT | Ensure separate partition exists for /home."
   block:
-      - name: "AUTOMATED | 1.1.17 | AUDIT | Ensure separate partition exists for /home | Gather /home"
+      - name: "AUTOMATED | 1.1.17 | AUDIT | Ensure separate partition exists for /home | Gather /home."
         shell: mount | grep "on /home"
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_1_17_home_mounted
-        args:
-            warn: false
 
-      - name: "AUTOMATED | 1.1.17 | AUDIT | Ensure separate partition exists for /home | Alert if /home partition does not exist"
+      - name: "AUTOMATED | 1.1.17 | AUDIT | Ensure separate partition exists for /home | Alert if /home partition does not exist."
         debug:
             msg:
-                - "ALERT!!!! There is no separate partition for /home"
+                - "Warning!! There is no separate partition for /home"
                 - "Please create a separate partition for /home"
-        when: ubtu18cis_1_1_17_home_mounted.stdout | length == 0
+        when:
+            - ubtu18cis_1_1_17_home_mounted.stdout is not defined or
+              ubtu18cis_1_1_17_home_mounted.stdout | length == 0
+
+      - name: "AUTOMATED | 1.1.17 | AUDIT | Ensure separate partition exists for /home | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.1.17'
+        when:
+            - ubtu18cis_1_1_17_home_mounted.stdout is not defined or
+              ubtu18cis_1_1_17_home_mounted.stdout | length == 0
   when:
       - ubtu18cis_rule_1_1_17
   tags:
@@ -382,7 +426,7 @@
       - rule_1.1.17
       - /home
 
-- name: "AUTOMATED | 1.1.18 | PATCH | Ensure /home partition includes the nodev option"
+- name: "AUTOMATED | 1.1.18 | PATCH | Ensure /home partition includes the nodev option."
   mount:
       name: "/home"
       src: "{{ item.device }}"
@@ -401,9 +445,16 @@
       - rule_1.1.18
       - /home
 
-- name: "MANUAL | 1.1.19 | AUDIT | Ensure nodev option set on removable media partitions"
-  debug:
-      msg: "Warning!!!! Not relevant control"
+- name: "MANUAL | 1.1.19 | AUDIT | Ensure nodev option set on removable media partitions."
+  block:
+      - name: "MANUAL | 1.1.19 | AUDIT | Ensure nodev option set on removable media partitions. | Warning Messsage."
+        debug:
+            msg: "Warning!! Ensure nodev option set on removable media partitions."
+
+      - name: "MANUAL | 1.1.19 | AUDIT | Ensure nodev option set on removable media partitions. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.1.19'
   when:
       - ubtu18cis_rule_1_1_19
   tags:
@@ -414,9 +465,16 @@
       - rule_1.1.19
       - removable_media
 
-- name: "MANUAL | 1.1.20 | AUDIT | Ensure nosuid option set on removable media partitions"
-  debug:
-      msg: "Warning!!!! Not relevant control"
+- name: "MANUAL | 1.1.20 | AUDIT | Ensure nosuid option set on removable media partitions."
+  block:
+      - name: "MANUAL | 1.1.20 | AUDIT | Ensure nosuid option set on removable media partitions. | Warning Message."
+        debug:
+            msg: "Warning!! Ensure nosuid option set on removable media partitions."
+
+      - name: "MANUAL | 1.1.20 | AUDIT | Ensure nosuid option set on removable media partitions. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.1.20'
   when:
       - ubtu18cis_rule_1_1_20
   tags:
@@ -427,9 +485,16 @@
       - rule_1.1.20
       - removable_media
 
-- name: "MANUAL | 1.1.21 | AUDIT | Ensure noexec option set on removable media partitions"
-  debug:
-      msg: "Warning!!!! Not relevant control"
+- name: "MANUAL | 1.1.21 | AUDIT | Ensure noexec option set on removable media partitions."
+  block:
+      - name: "MANUAL | 1.1.21 | AUDIT | Ensure noexec option set on removable media partitions. | Warning Message."
+        debug:
+            msg: "Warning!! Ensure noexec option set on removable media partitions."
+
+      - name: "MANUAL | 1.1.21 | AUDIT | Ensure noexec option set on removable media partitions. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '1.1.21'
   when:
       - ubtu18cis_rule_1_1_21
   tags:
@@ -458,7 +523,7 @@
   service:
       name: autofs
       state: stopped
-      enabled: no
+      enabled: false
   when:
       - ubtu18cis_rule_1_1_23
       - ubtu18cis_autofs_service_status.stdout == "loaded"
@@ -478,7 +543,7 @@
             path: /etc/modprobe.d/usb_storage.conf
             regexp: '^install usb-storage'
             line: 'install usb-storage /bin/true'
-            create: yes
+            create: true
 
       - name: "AUTOMATED | 1.1.24 | PATCH | Disable USB Storage | Remove usb-storage module"
         modprobe:

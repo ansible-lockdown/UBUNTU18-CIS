@@ -115,8 +115,14 @@
       - name: "AUTOMATED | 5.5.1.5 | PATCH | Ensure all users last password change date is in the past | Warn about users"
         debug:
             msg:
-                - "WARNING!!!!The following accounts have the last PW change date in the future"
+                - "Warning!! The following accounts have the last PW change date in the future"
                 - "{{ ubtu18cis_5_5_1_5_user_list.stdout_lines }}"
+        when: ubtu18cis_5_5_1_5_user_list.stdout | length > 0
+
+      - name: "AUTOMATED | 5.5.1.5 | PATCH | Ensure all users last password change date is in the past | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: '5.5.1.5'
         when: ubtu18cis_5_5_1_5_user_list.stdout | length > 0
 
       - name: "AUTOMATED | 5.5.1.5 | PATCH | Ensure all users last password change date is in the past | Lock accounts with furtre PW changed dates"
