@@ -1,8 +1,8 @@
 ---
-- hosts: all # noqa: name[play]
+- hosts: localhost # noqa: name[play]
   become: true
   vars:
-      is_container: false
+    is_container: false
 
   roles:
-      - role: "{{ playbook_dir }}"
+    - role: "{{ playbook_dir }}"
