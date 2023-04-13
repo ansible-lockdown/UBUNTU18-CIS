@@ -708,7 +708,6 @@
         ubtu18cis_rule_3_5_3_2_3 or
         ubtu18cis_rule_3_5_3_2_4
 
-
 - name: "3.5.3.3.1 | PATCH | Ensure ip6tables default deny firewall policy"
   block:
       - name: "3.5.3.3.1 | PATCH | Ensure ip6tables default deny firewall policy | Configure SSH to be allowed out"
