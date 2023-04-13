@@ -1,5 +1,5 @@
 ---
-- name: "AUTOMATED | 4.4 | PATCH | Ensure logrotate assigns appropriate permissions"
+- name: "4.4 | PATCH | Ensure logrotate assigns appropriate permissions"
   lineinfile:
       path: /etc/logrotate.conf
       regex: '^create'
