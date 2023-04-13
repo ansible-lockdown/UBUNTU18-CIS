@@ -475,7 +475,6 @@ ubtu18cis_ufw_allow_out_ports:
     - 80
     - 443
 
-
 # Controls 3.5.4.1.1 through 3.5.4.1.4
 # The iptables module only writes to memory which means a reboot could revert settings
 # The below toggle will install iptables-persistent and save the rules in memory (/etc/iptables/rules.v4 or rules.v6)
@@ -585,7 +584,6 @@ ubtu18cis_sshd:
 # This needs to be 5 or more to conform to CIS standards
 ubtu18cis_pamd_pwhistory_remember: 5
 
-
 # ubtu18cis_pass will be password based variables
 # Control 5.5.1.1
 # min_days is the min number of days allowed between changing passwords. Set to 1 or more to conform to CIS standards
@@ -659,7 +657,6 @@ ubtu18cis_dotperm_ansibleManaged: true
 
 # Control 6.2.9 Allow ansible to adjust world-writable files. False will just display world-writable files, True will remove world-writable
 ubtu18cis_passwd_label: "{{ (this_item | default(item)).id }}: {{ (this_item | default(item)).dir }}"
-
 
 #### Audit Configuration Settings ####
 

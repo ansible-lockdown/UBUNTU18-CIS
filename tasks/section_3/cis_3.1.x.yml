@@ -28,7 +28,6 @@
         check_mode: false
         register: ubtu18cis_nmcli_available
 
-
       - name: "3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if wifi is enabled"
         command: nmcli radio wifi
         register: ubtu18cis_wifi_enabled
