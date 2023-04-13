@@ -1,5 +1,5 @@
 ---
-- name: "AUTOMATED | 2.2.1 | PATCH | Ensure NIS Client is not installed"
+- name: "2.2.1 | PATCH | Ensure NIS Client is not installed"
   apt:
       name: nis
       state: absent
@@ -14,7 +14,7 @@
       - rule_2.2.1
       - nis
 
-- name: "AUTOMATED | 2.2.2 | PATCH | Ensure rsh client is not installed"
+- name: "2.2.2 | PATCH | Ensure rsh client is not installed"
   apt:
       name: rsh-client
       state: absent
@@ -29,7 +29,7 @@
       - rule_2.2.2
       - rsh
 
-- name: "AUTOMATED | 2.2.3 | PATCH | Ensure talk client is not installed"
+- name: "2.2.3 | PATCH | Ensure talk client is not installed"
   apt:
       name: talk
       state: absent
@@ -44,7 +44,7 @@
       - rule_2.2.3
       - talk
 
-- name: "AUTOMATED | 2.2.4 | PATCH | Ensure telnet client is not installed"
+- name: "2.2.4 | PATCH | Ensure telnet client is not installed"
   apt:
       name: telnet
       state: absent
@@ -59,7 +59,7 @@
       - rule_2.2.4
       - telnet
 
-- name: "AUTOMATED | 2.2.5 | PATCH | Ensure LDAP client is not installed"
+- name: "2.2.5 | PATCH | Ensure LDAP client is not installed"
   apt:
       name: ldap-utils
       state: absent
@@ -74,7 +74,7 @@
       - rule_2.2.5
       - ldap
 
-- name: "AUTOMATED | 2.2.6 | PATCH | Ensure RPC is not installed"
+- name: "2.2.6 | PATCH | Ensure RPC is not installed"
   apt:
       name: rpcbind
       state: absent
