@@ -6,6 +6,8 @@
         changed_when: false
         failed_when: false
         register: ubtu18cis_6_1_1_packages
+        when:
+            - not ubtu18cis_manual_audit_dpkg
 
       - name: "6.1.1 | AUDIT | Audit system file permissions | Audit the packages"
         shell: "dpkg --verify {{ item }}"
@@ -22,8 +24,9 @@
         with_items:
             - "{{ ubtu18cis_6_1_1_packages_audited.results }}"
         when:
-            - item.stdout | length > 0
             - not ubtu18cis_manual_audit_dpkg
+            - ubtu18cis_6_1_1_packages is defined
+            - item.stdout | length > 0
 
       - name: "6.1.1 | AUDIT | Audit system file permissions | Audited Check Results."
         debug:
@@ -37,9 +40,8 @@
       - name: "6.1.1 | AUDIT | Audit system file permissions | Message out packages results for review"
         debug:
             msg:
-                - "Warning!! Below are the packages that need to be reviewed."
+                - "Warning!! Please validate system file permissions."
                 - "You can run dpkg --verify <package name> and if nothing is returned the package is installed correctly"
-                - "{{ ubtu18cis_6_1_1_packages.stdout_lines }}"
         when: ubtu18cis_manual_audit_dpkg
 
       - name: "6.1.1 | AUDIT | Audit system file permissions | Warn Count."
@@ -228,7 +230,9 @@
         ansible.builtin.set_fact:
             ubtu18cis_6_1_11_unowned_files_found: true
         loop: "{{ ubtu18cis_6_1_11_audit.results }}"
-        when: item.stdout | length > 0
+        when:
+            - item.stdout is defined
+            - item.stdout | length > 0
 
       - name: "6.1.11 | AUDIT | Ensure no unowned files or directories exist | Displaying any unowned files or directories"
         ansible.builtin.debug:
@@ -269,7 +273,9 @@
         ansible.builtin.set_fact:
             ubtu18cis_6_1_12_ungrouped_files_found: true
         loop: "{{ ubtu18cis_6_1_12_audit.results }}"
-        when: item.stdout | length > 0
+        when:
+            - item.stdout is defined
+            - item.stdout | length > 0
 
       - name: "6.1.12 | AUDIT | Ensure no ungrouped files or directories exist | Displaying any unowned files or directories"
         ansible.builtin.debug:
