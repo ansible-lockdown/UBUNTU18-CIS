@@ -17,16 +17,23 @@
       - always
 
 - name: Check ansible version
-  fail:
-      msg: You must use ansible 2.9 or greater
-  when: not ansible_version.full is version_compare('2.9', '>=')
+  ansible.builtin.assert:
+      that: ansible_version.full is version_compare(min_ansible_version, '>=')
+      fail_msg: "You must use Ansible {{ min_ansible_version }} or greater"
+      success_msg: "This role is running a supported version of ansible {{ ansible_version.full }} >= {{ min_ansible_version }}"
   tags:
       - always
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+      manager: auto
+  tags:
+      - always
+
 - name: Prelim Import Tasks
   import_tasks: prelim.yml
   tags:
-      - prelim_tasks
-      - run_audit
+      - always
 
 - name: Pre Remediate Audit Task Import
   import_tasks: pre_remediation_audit.yml
