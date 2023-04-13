@@ -100,7 +100,6 @@
       - name: "1.6.1.4 | AUDIT | Ensure all AppArmor Profiles are enforcing | Warn Count"
         ansible.builtin.import_tasks: warning_facts.yml
         when: ubtu18cis_rule_1_6_1_4_apparmor_enforced.stdout != '0'
-
   vars:
       warn_control_id: '1.6.1.4'
   when:
