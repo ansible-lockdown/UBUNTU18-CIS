@@ -1,6 +1,6 @@
 ---
 - name: "2.1.1.1 | PATCH | Ensure time synchronization is in use"
-  apt:
+  ansible.builtin.package:
       name: "{{ ubtu18cis_time_sync_tool }}"
       state: present
   when:
@@ -16,7 +16,7 @@
 - name: "2.1.1.2 | PATCH | Ensure systemd-timesyncd is configured"
   block:
       - name: "2.1.1.2 | PATCH | Ensure systemd-timesyncd is configured | Set configuration for systemd-timesyncd"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/systemd/timesyncd.conf
             regexp: "{{ item.regexp }}"
             line: "{{ item.line }}"
@@ -28,13 +28,13 @@
             - { regexp: '^#RootDistanceMaxSec|^RootDistanceMaxSec', line: 'RootDistanceMaxSec=1', insertafter: '\[Time\]'}
 
       - name: "2.1.1.2 | PATCH | Ensure systemd-timesyncd is configured | Start and enable the systemd-timesyncd service"
-        service:
+        ansible.builtin.service:
             name: systemd-timesyncd.service
             state: started
             enabled: true
 
       - name: "2.1.1.2 | PATCH | Ensure systemd-timesyncd is configured | Set timedatectl to ntp"
-        command: timedatectl set-ntp true
+        ansible.builtin.shell: timedatectl set-ntp true
   when:
       - ubtu18cis_rule_2_1_1_2
   tags:
@@ -48,13 +48,13 @@
 - name: "2.1.1.3 | PATCH | Ensure chrony is configured"
   block:
       - name: "2.1.1.3 | AUDIT | Ensure chrony is configured | Check for chrony user"
-        shell: grep chrony /etc/passwd
+        ansible.builtin.shell: grep chrony /etc/passwd
         changed_when: false
         failed_when: false
         register: ubtu18cis_2_1_1_3_chrony_user_status
 
       - name: "2.1.1.3 | PATCH | Ensure chrony is configured | Set chrony.conf file"
-        template:
+        ansible.builtin.template:
             src: chrony.conf.j2
             dest: /etc/chrony/chrony.conf
             owner: root
@@ -62,14 +62,14 @@
             mode: 0644
 
       - name: "2.1.1.3 | PATCH | Ensure chrony is configured | Create chrony user"
-        user:
+        ansible.builtin.user:
             name: chrony
-            shell: /usr/sbin/nologin
+            ansible.builtin.shell: /usr/sbin/nologin
             system: true
         when: ubtu18cis_2_1_1_3_chrony_user_status.stdout | length > 0
 
       - name: "2.1.1.3 | PATCH | Ensure chrony is configured | Set option to use chrony user"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/default/chrony
             regexp: '^DAEMON_OPTS'
             line: 'DAEMON_OPTS="-u chrony"'
@@ -87,7 +87,7 @@
 - name: "2.1.1.4 | PATCH | Ensure ntp is configured"
   block:
       - name: "2.1.1.4 | PATCH | Ensure ntp is configured | Set ntp.conf settings"
-        template:
+        ansible.builtin.template:
             src: ntp.conf.j2
             dest: /etc/ntp.conf
             owner: root
@@ -95,7 +95,7 @@
             mode: 0644
 
       - name: "2.1.1.4 | PATCH | Ensure ntp is configured | Modify sysconfig/ntpd"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/sysconfig/ntpd
             regexp: "{{ item.regexp }}"
             line: "{{ item. line }}"
@@ -105,7 +105,7 @@
             - { regexp: '^NTPD_OPTIONS', line: 'NTPD_OPTIONS="-u ntp:ntp"' }
 
       - name: "2.1.1.4 | PATCH | Ensure ntp is configured | Modify /etc/init.d/npt"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/init.d/ntp
             regexp: '^RUNAUSER'
             line: 'RUNAUSER=npt'
@@ -121,7 +121,7 @@
       - ntp
 
 - name: "2.1.2 | PATCH | Ensure X Window System is not installed"
-  apt:
+  ansible.builtin.package:
       name: xserver-xorg*
       state: absent
   when:
@@ -137,14 +137,14 @@
 - name: "2.1.3 | PATCH | Ensure Avahi Server is not installed"
   block:
       - name: "2.1.3 | PATCH | Ensure Avahi Server is not installed | Stop and disable Avahi service"
-        service:
+        ansible.builtin.service:
             name: avahi-daemon
             state: stopped
             enabled: false
         when: avahi_service_status.stdout == "loaded"
 
       - name: "2.1.3 | PATCH | Ensure Avahi Server is not installed | Uninstall Avahi service"
-        apt:
+        ansible.builtin.package:
             name: avahi-daemon
             state: absent
   when:
@@ -160,7 +160,7 @@
       - services
 
 - name: "2.1.4 | PATCH | Ensure CUPS is not installed"
-  apt:
+  ansible.builtin.package:
       name: cups
       state: absent
   when:
@@ -176,7 +176,7 @@
       - services
 
 - name: "2.1.5 | PATCH | Ensure DHCP Server is not installed"
-  apt:
+  ansible.builtin.package:
       name: isc-dhcp-server
       state: absent
   when:
@@ -192,7 +192,7 @@
       - services
 
 - name: "2.1.6 | PATCH | Ensure LDAP server is not installed"
-  apt:
+  ansible.builtin.package:
       name: slapd
       state: absent
   when:
@@ -208,7 +208,7 @@
       - services
 
 - name: "2.1.7 | PATCH | Ensure NFS is not installed"
-  apt:
+  ansible.builtin.package:
       name: nfs-kernel-server
       state: absent
   when:
@@ -224,7 +224,7 @@
       - services
 
 - name: "2.1.8 | PATCH | Ensure DNS Server is not installed"
-  apt:
+  ansible.builtin.package:
       name: bind9
       state: absent
   when:
@@ -240,7 +240,7 @@
       - service
 
 - name: "2.1.9 | PATCH | Ensure FTP Server is not installed"
-  apt:
+  ansible.builtin.package:
       name: vsftpd
       state: absent
   when:
@@ -256,7 +256,7 @@
       - service
 
 - name: "2.1.10 | PATCH | Ensure HTTP server is not installed"
-  apt:
+  ansible.builtin.apt:
       name: apache2
       state: absent
   when:
@@ -272,7 +272,7 @@
       - service
 
 - name: "2.1.11 | PATCH | Ensure IMAP and POP3 server are not installed"
-  apt:
+  ansible.builtin.apt:
       name: ['dovecot-imapd', 'dovecot-pop3d']
       state: absent
   when:
@@ -288,7 +288,7 @@
       - service
 
 - name: "2.1.12 | PATCH | Ensure Samba is not installed"
-  apt:
+  ansible.builtin.apt:
       name: samba
       state: absent
   when:
@@ -304,7 +304,7 @@
       - service
 
 - name: "2.1.13 | PATCH | Ensure HTTP Proxy Server is not installed"
-  apt:
+  ansible.builtin.apt:
       name: squid
       state: absent
   when:
@@ -320,7 +320,7 @@
       - service
 
 - name: "2.1.14 | PATCH | Ensure SNMP Server is not installed"
-  apt:
+  ansible.builtin.apt:
       name: snmpd
       state: absent
   when:
@@ -338,7 +338,7 @@
 - name: "2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode"
   block:
       - name: "2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | For postfix"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/postfix/main.cf
             regexp: '^(#)?inet_interfaces'
             line: 'inet_interfaces = loopback-only'
@@ -346,14 +346,14 @@
         when: "'postfix' in ansible_facts.packages"
 
       - name: "2.1.15 | PATCH | Ensure mail transfer agent is configured for local-only mode | for exim4"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/exim4/update-exim4.conf.conf
             regexp: "{{ item.regexp }}"
             line: "{{ item.line }}"
         notify: restart exim4
         with_items:
             - { regexp: '^dc_eximconfig_configtype=', line: dc_eximconfig_configtype='local' }
-            - { regexp: '^dc_local_interfaces=', line: "dc_local_interfaces='127.0.0.1 ; ::1'" }
+            - { regexp: '^dc_local_interfaces=', line: "dc_local_interfaces='127.0.0.1 ; ansible.builtin.lineinfile::1'" }
             - { regexp: '^dc_readhost=', line: dc_readhost='' }
             - { regexp: '^dc_relay_domains=', line: dc_relay_domains='' }
             - { regexp: '^dc_minimaldns=', line: dc_minimaldns='false' }
@@ -376,7 +376,7 @@
       - postfix
 
 - name: "2.1.16 | PATCH | Ensure rsync service is not installed"
-  apt:
+  ansible.builtin.apt:
       name: rsync
       state: absent
       purge: true
@@ -392,7 +392,7 @@
       - rsync
 
 - name: "2.1.17 | PATCH | Ensure NIS Server is not enabled"
-  apt:
+  ansible.builtin.apt:
       name: nis
       state: absent
   when:

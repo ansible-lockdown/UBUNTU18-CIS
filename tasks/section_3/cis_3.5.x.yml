@@ -2,12 +2,12 @@
 - name: "3.5.1.1 | PATCH | Ensure ufw is installed"
   block:
       - name: "3.5.1.1 | PATCH | Ensure ufw is installed | Install firewall package"
-        apt:
+        ansible.builtin.package:
             name: ufw
             state: present
 
       - name: "3.5.1.1 | PATCH | Ensure ufw is installed | Adjust sysctl.conf for UFW"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/default/ufw
             regexp: '^IPT_SYSCTL='
             line: 'IPT_SYSCTL=/etc/sysctl.conf'
@@ -25,7 +25,7 @@
       - firewall
 
 - name: "3.5.1.2 | PATCH | Ensure iptables-persistent is not installed with ufw"
-  apt:
+  ansible.builtin.package:
       name: iptables-persistent
       state: absent
   when:
@@ -42,7 +42,7 @@
 
 # Adding the allow OpenSSH rule while enabling ufw to allow ansible to run after enabling
 - name: "3.5.1.3 | PATCH | Ensure ufw service is enabled."
-  ufw:
+  community.general.ufw:
       rule: allow
       name: OpenSSH
       state: enabled
@@ -60,21 +60,21 @@
 - name: "3.5.1.4 | PATCH | Ensure loopback traffic is configured."
   block:
       - name: "3.5.1.4 | PATCH | Ensure loopback traffic is configured | Set allow ufw rules."
-        ufw:
+        community.general.ufw:
             rule: allow
             direction: in
             interface: lo
         notify: reload ufw
 
       - name: "3.5.1.4 | PATCH | Ensure loopback traffic is configured | Set deny ufw rules IPv4"
-        ufw:
+        community.general.ufw:
             rule: deny
             direction: in
             from_ip: 127.0.0.0/8
         notify: reload ufw
 
       - name: "3.5.1.4 | PATCH | Ensure loopback traffic is configured | Set deny ufw rules IPv6"
-        ufw:
+        community.general.ufw:
             rule: deny
             direction: in
             from_ip: "::1"
@@ -94,7 +94,7 @@
 - name: "3.5.1.5 | PATCH | Ensure outbound connections are configured"
   block:
       - name: "3.5.1.5 | PATCH | Ensure outbound connections are configured | Custom ports"
-        ufw:
+        community.general.ufw:
             rule: allow
             direction: out
             to_port: '{{ item }}'
@@ -104,7 +104,7 @@
         when: ubtu18cis_ufw_allow_out_ports != "all"
 
       - name: "3.5.1.5 | PATCH | Ensure outbound connections are configured | Allow all"
-        ufw:
+        community.general.ufw:
             default: allow
             direction: outgoing
         notify: reload ufw
@@ -123,19 +123,19 @@
 - name: "3.5.1.6 | AUDIT | Ensure firewall rules exist for all open ports"
   block:
       - name: "3.5.1.6 | AUDIT | Ensure firewall rules exist for all open ports | Get list of open ports"
-        command: ss -4tuln
+        ansible.builtin.shell: ss -4tuln
         changed_when: false
         failed_when: false
         register: ubtu18cis_3_5_1_6_open_listen_ports
 
       - name: "3.5.1.6 | AUDIT | Ensure firewall rules exist for all open ports | Get list of firewall rules"
-        command: ufw status
+        ansible.builtin.shell: ufw status
         changed_when: false
         failed_when: false
         register: ubtu18cis_3_5_1_6_firewall_rules
 
       - name: "3.5.1.6 | AUDIT | Ensure firewall rules exist for all open ports | Message out settings"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! Below are the listening ports and firewall rules"
                 - "Please create firewall rule for any open ports if not already done"
@@ -160,7 +160,7 @@
       - ufw
 
 - name: "3.5.1.7 | PATCH | Ensure ufw default deny firewall policy"
-  ufw:
+  community.general.ufw:
       default: deny
       direction: "{{ item }}"
   notify: reload ufw
@@ -187,14 +187,14 @@
 - name: "3.5.2.1 | AUDIT | Ensure nftables is installed."
   block:
       - name: "3.5.2.1 | AUDIT | Ensure nftables is installed. | Warning."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
 
       - name: "3.5.2.1 | AUDIT | Ensure firewall rules exist for all open ports | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.1'
-  # apt:
+  # ansible.builtin.package:
   #     name: nftables
   #     state: present
   when:
@@ -213,14 +213,14 @@
 - name: "3.5.2.2 | AUDIT | Ensure ufw is uninstalled or disabled with nftables"
   block:
       - name: "3.5.2.2 | AUDIT | Ensure ufw is uninstalled or disabled with nftables. | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
 
       - name: "3.5.2.2 | AUDIT | Ensure ufw is uninstalled or disabled with nftables. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.2'
-  # apt:
+  # ansible.builtin.package:
   #     name: ufw
   #     state: absent
   when:
@@ -239,14 +239,14 @@
 - name: "3.5.2.3 | PATCH | Ensure iptables are flushed"
   block:
       - name: "3.5.2.3 | PATCH | Ensure iptables are flushed. | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
 
       - name: "3.5.2.3 | PATCH | Ensure iptables are flushed. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.3'
-  # iptables:
+  # ansible.builtin.iptables:
   #     flush: yes
   #
   when:
@@ -264,14 +264,14 @@
 - name: "3.5.2.4 | PATCH | Ensure a nftables table exists"
   block:
       - name: "3.5.2.4 | PATCH | Ensure a nftables table exists. | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.4 | PATCH | Ensure a nftables table exists. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.4'
-  # command: "nft create table {{ ubtu18cis_nftables_table_name }}"
+  # ansible.builtin.shell: "nft create table {{ ubtu18cis_nftables_table_name }}"
   # changed_when: ubtu18cis_3_5_2_4_new_table.rc == 0
   # failed_when: false
   # register: ubtu18cis_3_5_2_4_new_table
@@ -290,7 +290,7 @@
 - name: "3.5.2.5 | PATCH | Ensure nftables base chains exist"
   block:
       - name: "3.5.2.5 | PATCH | Ensure nftables base chains exist | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.5 | PATCH | Ensure nftables base chains exist | Warn Count."
@@ -299,19 +299,19 @@
             warn_control_id: '3.5.2.5'
   # block:
   #     - name: "3.5.2.5 | PATCH | Ensure base chains exist | Input entry"
-  #       shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} input { type filter hook input priority 0 \; }'
+  #       ansible.builtin.shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} input { type filter hook input priority 0 \; }'
   #       changed_when: ubtu18cis_3_5_2_5_base_chains_input.rc == 0
   #       failed_when: false
   #       register: ubtu18cis_3_5_2_5_base_chains_input
 
   #     - name: "3.5.2.5 | PATCH | Ensure base chains exist | Forward entry"
-  #       shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} forward { type filter hook forward priority 0 \; }'
+  #       ansible.builtin.shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} forward { type filter hook forward priority 0 \; }'
   #       changed_when: ubtu18cis_3_5_2_5_base_chains_forward.rc == 0
   #       failed_when: false
   #       register: ubtu18cis_3_5_2_5_base_chains_forward
 
   #     - name: "3.5.2.5 | PATCH | Ensure base chains exist | Output entry"
-  #       shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} output { type filter hook output priority 0 \; }'
+  #       ansible.builtin.shell: 'nft create chain inet {{ ubtu18cis_nftables_table_name }} output { type filter hook output priority 0 \; }'
   #       changed_when: ubtu18cis_3_5_2_5_base_chains_output.rc == 0
   #       failed_when: false
   #       register: ubtu18cis_3_5_2_5_base_chains_output
@@ -327,10 +327,10 @@
       - nftables
       - notimplemented
 
-- name: "MANUALD | 3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured"
+- name: "3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured"
   block:
       - name: "3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured. | Warn Count."
@@ -339,32 +339,32 @@
             warn_control_id: '3.5.2.6'
   # block:
   #     - name: "3.5.2.6 | AUDIT | Ensure nftables loopback traffic is configured | Get input iif lo accept status"
-  #       shell: nft list ruleset | awk '/hook input/,/}/' | grep 'iif "lo" accept'
+  #       ansible.builtin.shell: nft list ruleset | awk '/hook input/,/}/' | grep 'iif "lo" accept'
   #       changed_when: false
   #       failed_when: false
   #       register: ubtu18cis_3_5_2_6_loopback_iif_status
 
   #     - name: "3.5.2.6 | AUDIT | Ensure nftables loopback traffic is configured | Get input iif lo accept status"
-  #       shell: nft list ruleset | awk '/hook input/,/}/' | grep 'ip saddr'
+  #       ansible.builtin.shell: nft list ruleset | awk '/hook input/,/}/' | grep 'ip saddr'
   #       changed_when: false
   #       failed_when: false
   #       register: ubtu18cis_3_5_2_6_loopback_input_drop_status
 
   #     - name: "3.5.2.6 | AUDIT | Ensure nftables loopback traffic is configured | Get input iif lo accept status"
-  #       shell: nft list ruleset | awk '/hook input/,/}/' | grep 'ip6 saddr'
+  #       ansible.builtin.shell: nft list ruleset | awk '/hook input/,/}/' | grep 'ip6 saddr'
   #       changed_when: false
   #       failed_when: false
   #       register: ubtu18cis_3_5_2_6_loopback_ipv6_drop_status
 
   #     - name: "3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured | Loopback iif lo accept"
-  #       command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input iif lo accept'
+  #       ansible.builtin.shell: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input iif lo accept'
   #       changed_when: ubtu18cis_3_5_3_4_loopback_iif.rc == 0
   #       failed_when: false
   #       register: ubtu18cis_3_5_3_4_loopback_iif
   #       when: "'iif \"lo\" accept' not in ubtu18cis_3_5_3_4_loopback_iif_status.stdout"
 
   #     - name: "3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured | Loopback input drop"
-  #       command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input ip saddr 127\.0\.0\.0\/8 counter drop'
+  #       ansible.builtin.shell: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input ip saddr 127\.0\.0\.0\/8 counter drop'
   #       changed_when: ubtu18cis_3_5_2_6_loopback_input_drop.rc == 0
   #       failed_when: false
   #       register: ubtu18cis_3_5_2_6_loopback_input_drop
@@ -373,7 +373,7 @@
   #        - "'drop' not in ubtu18cis_3_5_2_6_loopback_input_drop_status.stdout"
 
   #     - name: "3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured | Loopback ipv6 drop"
-  #       command: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input ip6 saddr ::1 counter drop'
+  #       ansible.builtin.shell: 'nft add rule inet {{ ubtu18cis_nftables_table_name }} input ip6 saddr ansible.builtin.lineinfile::1 counter drop'
   #       changed_when: ubtu18cis_3_5_2_6_loopback_ipv6_drop.rc == 0
   #       failed_when: false
   #       register: ubtu18cis_3_5_2_6_loopback_ipv6_drop
@@ -395,7 +395,7 @@
 - name: "3.5.2.7 | PATCH | Ensure nftables outbound and established connections are configured"
   block:
       - name: "3.5.2.7 | PATCH | Ensure nftables outbound and established connections are configured | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.7 | PATCH | Ensure nftables outbound and established connections are configured | Warn Count"
@@ -417,7 +417,7 @@
 - name: "3.5.2.8 | PATCH | Ensure nftables default deny firewall policy"
   block:
       - name: "3.5.2.8 | PATCH | Ensure nftables default deny firewall policy | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.8 | PATCH | Ensure nftables default deny firewall policy | Warn Count"
@@ -439,7 +439,7 @@
 - name: "3.5.2.9 | PATCH | Ensure nftables service is enabled"
   block:
       - name: "3.5.2.9 | PATCH | Ensure nftables service is enabled | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.9 | PATCH | Ensure nftables service is enabled | Warn Count"
@@ -465,7 +465,7 @@
 - name: "3.5.2.10 | PATCH | Ensure nftables rules are permanent"
   block:
       - name: "3.5.2.10 | PATCH | Ensure nftables rules are permanent. | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.10 | PATCH | Ensure nftables rules are permanent. | Warn Count"
@@ -485,7 +485,7 @@
       - notimplemented
 
 - name: "3.5.3.1.1 | PATCH | Ensure iptables packages are installed"
-  apt:
+  ansible.builtin.package:
       name: ['iptables', 'iptables-persistent']
       state: present
   when:
@@ -501,7 +501,7 @@
       - firewall
 
 - name: "3.5.3.1.2 | PATCH | Ensure nftables is not installed with iptables"
-  apt:
+  ansible.builtin.package:
       name: nftables
       state: absent
   when:
@@ -517,7 +517,7 @@
       - firewall
 
 - name: "3.5.3.1.3 | PATCH | Ensure ufw is uninstalled or disabled with iptables"
-  apt:
+  ansible.builtin.package:
       name: ufw
       state: absent
   when:
@@ -535,7 +535,7 @@
 - name: "3.5.3.2.1 | PATCH | Ensure iptables default deny firewall policy"
   block:
       - name: "3.5.3.2.1 | PATCH | Ensure iptables default deny firewall policy | Configure SSH to be allowed in"
-        iptables:
+        ansible.builtin.iptables:
             chain: INPUT
             protocol: tcp
             destination_port: 22
@@ -543,7 +543,7 @@
             ctstate: 'NEW,ESTABLISHED'
 
       - name: "3.5.3.2.1 | PATCH | Ensure iptables default deny firewall policy | Configure SSH to be allowed out"
-        iptables:
+        ansible.builtin.iptables:
             chain: OUTPUT
             protocol: tcp
             source_port: 22
@@ -551,13 +551,13 @@
             ctstate: 'NEW,ESTABLISHED'
 
       - name: "3.5.3.2.1 | PATCH | Ensure iptables default deny firewall policy | Enable apt traffic"
-        iptables:
+        ansible.builtin.iptables:
             chain: INPUT
             ctstate: 'ESTABLISHED'
             jump: ACCEPT
 
       - name: "3.5.3.2.1 | PATCH | Ensure iptables default deny firewall policy | Set drop items"
-        iptables:
+        ansible.builtin.iptables:
             policy: DROP
             chain: "{{ item }}"
         with_items:
@@ -580,21 +580,21 @@
 - name: "3.5.3.2.2 | PATCH | Ensure iptables loopback traffic is configured"
   block:
       - name: "3.5.3.2.2 | PATCH | Ensure iptables loopback traffic is configured | INPUT loopback ACCEPT"
-        iptables:
+        ansible.builtin.iptables:
             action: append
             chain: INPUT
             in_interface: lo
             jump: ACCEPT
 
       - name: "3.5.3.2.2 | PATCH | Ensure iptables loopback traffic is configured | OUTPUT loopback ACCEPT"
-        iptables:
+        ansible.builtin.iptables:
             action: append
             chain: OUTPUT
             out_interface: lo
             jump: ACCEPT
 
       - name: "3.5.3.2.2 | PATCH | Ensure iptables loopback traffic is configured | OUTPUT loopback ACCEPT"
-        iptables:
+        ansible.builtin.iptables:
             action: append
             chain: INPUT
             source: 127.0.0.0/8
@@ -613,7 +613,7 @@
       - firewall
 
 - name: "3.5.3.2.3 | PATCH | Ensure iptables outbound and established connections are configured"
-  iptables:
+  ansible.builtin.iptables:
       action: append
       chain: '{{ item.chain }}'
       protocol: '{{ item.protocol }}'
@@ -643,19 +643,19 @@
 - name: "3.5.3.2.4 | AUDIT | Ensure iptables firewall rules exist for all open ports"
   block:
       - name: "3.5.3.2.4 | AUDIT | Ensure firewall rules exist for all open ports | Get list of open ports"
-        command: ss -4tuln
+        ansible.builtin.shell: ss -4tuln
         changed_when: false
         failed_when: false
         register: ubtu18cis_3_5_3_2_4_open_ports
 
       - name: "3.5.3.2.4 | AUDIT | Ensure firewall rules exist for all open ports | Get list of rules"
-        command: iptables -L INPUT -v -n
+        ansible.builtin.shell: iptables -L INPUT -v -n
         changed_when: false
         failed_when: false
         register: ubtu18cis_3_5_3_2_4_current_rules
 
       - name: "3.5.3.2.4 | AUDIT | Ensure firewall rules exist for all open ports | Alert about settings"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! Below is the list the open ports and current rules"
                 - "Please create a rule for any open port that does not have a current rule"
@@ -690,12 +690,12 @@
 - name: "Make IPTables persistent | Not a control"
   block:
       - name: "Make IPTables persistent | Install iptables-persistent"
-        apt:
+        ansible.builtin.package:
             name: iptables-persistent
             state: present
 
       - name: "Make IPTables persistent | Save to persistent files"
-        shell: bash -c "iptables-save > /etc/iptables/rules.v4"
+        ansible.builtin.shell: bash -c "iptables-save > /etc/iptables/rules.v4"
         changed_when: ubtu18cis_iptables_save.rc == 0
         failed_when: ubtu18cis_iptables_save.rc > 0
         register: ubtu18cis_iptables_save
@@ -711,7 +711,7 @@
 - name: "3.5.3.3.1 | PATCH | Ensure ip6tables default deny firewall policy"
   block:
       - name: "3.5.3.3.1 | PATCH | Ensure ip6tables default deny firewall policy | Configure SSH to be allowed out"
-        iptables:
+        ansible.builtin.iptables:
             chain: OUTPUT
             protocol: tcp
             source_port: 22
@@ -720,14 +720,14 @@
             ip_version: ipv6
 
       - name: "3.5.3.3.1 | PATCH | Ensure ip6tables default deny firewall policy | Enable apt traffic"
-        iptables:
+        ansible.builtin.iptables:
             chain: INPUT
             ctstate: 'ESTABLISHED'
             jump: ACCEPT
             ip_version: ipv6
 
       - name: "3.5.3.3.1| PATCH | Ensure ip6tables default deny firewall policy | Set drop items"
-        iptables:
+        ansible.builtin.iptables:
             policy: DROP
             chain: "{{ item }}"
             ip_version: ipv6
@@ -750,7 +750,7 @@
 - name: "3.5.3.3.2 | PATCH | Ensure ip6tables loopback traffic is configured"
   block:
       - name: "3.5.3.3.2 | PATCH | Ensure ip6tables loopback traffic is configured | INPUT loopback ACCEPT"
-        iptables:
+        ansible.builtin.iptables:
             action: append
             chain: INPUT
             in_interface: lo
@@ -758,7 +758,7 @@
             ip_version: ipv6
 
       - name: "3.5.3.3.2 | PATCH | Ensure ip6tables loopback traffic is configured | OUTPUT loopback ACCEPT"
-        iptables:
+        ansible.builtin.iptables:
             action: append
             chain: OUTPUT
             out_interface: lo
@@ -766,10 +766,10 @@
             ip_version: ipv6
 
       - name: "3.5.3.3.2 | PATCH | Ensure ip6tables loopback traffic is configured | INPUT loopback drop"
-        iptables:
+        ansible.builtin.iptables:
             action: append
             chain: INPUT
-            source: ::1
+            source: ansible.builtin.lineinfile::1
             jump: DROP
             ip_version: ipv6
   when:
@@ -785,7 +785,7 @@
       - ip6tables
 
 - name: "3.5.3.3.3 | PATCH | Ensure ip6tables outbound and established connections are configured"
-  iptables:
+  ansible.builtin.iptables:
       action: append
       chain: '{{ item.chain }}'
       protocol: '{{ item.protocol }}'
@@ -815,19 +815,19 @@
 - name: "3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports"
   block:
       - name: "3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Get list of open ports"
-        command: ss -6tuln
+        ansible.builtin.shell: ss -6tuln
         changed_when: false
         failed_when: false
         register: ubtu18cis_3_5_3_3_4_open_ports
 
       - name: "3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Get list of rules"
-        command: ip6tables -L INPUT -v -n
+        ansible.builtin.shell: ip6tables -L INPUT -v -n
         changed_when: false
         failed_when: false
         register: ubtu18cis_3_5_3_3_4_current_rules
 
       - name: "3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Alert about settings"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! Below is the list the open ports and current rules"
                 - "Please create a rule for any open port that does not have a current rule"
@@ -862,12 +862,12 @@
 - name: "Make IP6Tables persistent | Not a control"
   block:
       - name: "Make IP6Tables persistent | Install iptables-persistent"
-        apt:
+        ansible.builtin.package:
             name: iptables-persistent
             state: present
 
       - name: "Make IP6Tables persistent | Save to persistent files"
-        shell: bash -c "ip6tables-save > /etc/iptables/rules.v6"
+        ansible.builtin.shell: bash -c "ip6tables-save > /etc/iptables/rules.v6"
         changed_when: ubtu18cis_ip6tables_save.rc == 0
         failed_when: ubtu18cis_ip6tables_save.rc > 0
         register: ubtu18cis_ip6tables_save

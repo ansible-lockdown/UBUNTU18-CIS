@@ -2,13 +2,13 @@
 - name: "2.3 | AUDIT | Ensure nonessential services are removed or masked"
   block:
       - name: "2.3 | AUDIT | Ensure nonessential services are removed or masked | Get list of all services"
-        shell: lsof -i -P -n | grep -v "(ESTABLISHED)"
+        ansible.builtin.shell: lsof -i -P -n | grep -v "(ESTABLISHED)"
         changed_when: false
         failed_when: false
         register: ubtu18cis_2_3_services
 
       - name: "2.3 | AUDIT | Ensure nonessential services are removed or masked | Display services"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! Below are the list of services. Please make sure all are required and remove any non-required services"
                 - "{{ ubtu18cis_2_3_services.stdout_lines }}"

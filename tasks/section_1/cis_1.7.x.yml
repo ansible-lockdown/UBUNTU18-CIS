@@ -1,6 +1,6 @@
 ---
 - name: "1.7.1 | PATCH | Ensure message of the day is configured properly"
-  template:
+  ansible.builtin.template:
       src: etc/motd.j2
       dest: /etc/motd
   when:
@@ -14,7 +14,7 @@
       - motd
 
 - name: "1.7.2 | PATCH | Ensure permissions on /etc/issue.net are configured"
-  file:
+  ansible.builtin.file:
       path: /etc/issue.net
       owner: root
       group: root
@@ -31,7 +31,7 @@
       - banner
 
 - name: "1.7.3 | PATCH | Ensure permissions on /etc/issue are configured"
-  file:
+  ansible.builtin.file:
       path: /etc/issue
       owner: root
       group: root
@@ -48,7 +48,7 @@
       - banner
 
 - name: "1.7.4 | PATCH | Ensure permissions on /etc/motd are configured"
-  file:
+  ansible.builtin.file:
       path: /etc/motd
       owner: root
       group: root
@@ -65,7 +65,7 @@
       - motd
 
 - name: "1.7.5 | PATCH | Ensure remote login warning banner is configured properly"
-  template:
+  ansible.builtin.template:
       src: etc/issue.net.j2
       dest: /etc/issue.net
   when:
@@ -79,7 +79,7 @@
       - banner
 
 - name: "1.7.6 | PATCH | Ensure local login warning banner is configured properly"
-  template:
+  ansible.builtin.template:
       src: etc/issue.j2
       dest: /etc/issue
   when:

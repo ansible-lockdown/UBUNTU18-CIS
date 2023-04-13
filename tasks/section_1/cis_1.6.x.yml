@@ -1,6 +1,6 @@
 ---
 - name: "1.6.1.1 | PATCH | Ensure AppArmor is installed"
-  apt:
+  ansible.builtin.package:
       name: ['apparmor', 'apparmor-utils']
       state: present
   when:
@@ -16,13 +16,13 @@
 - name: "1.6.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration"
   block:
       - name: "1.6.1.2 | AUDIT | Ensure AppArmor is enabled in the bootloader configuration | Get current settings"
-        shell: grep "GRUB_CMDLINE_LINUX=" /etc/default/grub | cut -f2 -d'"'
+        ansible.builtin.shell: grep "GRUB_CMDLINE_LINUX=" /etc/default/grub | cut -f2 -d'"'
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_6_1_2_cmdline_settings
 
       - name: "1.6.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration | Set apparmor settings if none exist"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/default/grub
             regexp: '^GRUB_CMDLINE_LINUX'
             line: 'GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor {{ ubtu18cis_1_6_1_2_cmdline_settings.stdout }}"'
@@ -33,7 +33,7 @@
         notify: grub update
 
       - name: "1.6.1.2 | PATCH | Ensure AppArmor is enabled in the bootloader configuration | Set apparmor settings if none exist | Replace apparmor settings when exists"
-        replace:
+        ansible.builtin.replace:
             path: /etc/default/grub
             regexp: "{{ item.regexp }}"
             replace: "{{ item.replace }}"

@@ -2,17 +2,17 @@
 - name: "5.7 | PATCH | Ensure access to the su command is restricted"
   block:
       - name: "5.7 | PATCH | Ensure access to the su command is restricted | Check for pam_wheel.so module"
-        command: grep '^auth.*required.*pam_wheel' /etc/pam.d/su
+        ansible.builtin.shell: grep '^auth.*required.*pam_wheel' /etc/pam.d/su
         changed_when: false
         failed_when: false
         register: ubtu18cis_5_7_pam_wheel_status
 
       - name: "5.7 | PATCH | Ensure access to the su command is restricted | Create empty sugroup"
-        group:
+        ansible.builtin.group:
             name: "{{ ubtu18cis_su_group }}"
 
       - name: "5.7 | PATCH | Ensure access to the su command is restricted | Set pam_wheel if exists"
-        pamd:
+        community.general.pamd:
             name: su
             type: auth
             control: required
@@ -21,7 +21,7 @@
         when: ubtu18cis_5_7_pam_wheel_status.stdout | length > 0
 
       - name: "5.7 | PATCH | Ensure access to the su command is restricted | Set pam_wheel if does not exist"
-        lineinfile:
+        ansible.builtin.lineinfile:
             path: /etc/pam.d/su
             regex: (#)?auth\s+required\s+pam_wheel\.so\n|(#)?auth\s+required\s+pam_wheel\.so(.*?)use_uid
             line: 'auth       required   pam_wheel.so use_uid group={{ ubtu18cis_su_group }}'

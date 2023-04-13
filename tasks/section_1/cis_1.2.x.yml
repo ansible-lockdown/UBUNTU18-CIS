@@ -2,13 +2,13 @@
 - name: "1.2.1 | AUDIT | Ensure package manager repositories are configured"
   block:
       - name: "1.2.1 | AUDIT | Ensure package manager repositories are configured | Get repositories"
-        command: apt-cache policy
+        ansible.builtin.shell: apt-cache policy
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_2_1_apt_policy
 
       - name: "1.2.1 | AUDIT | Ensure package manager repositories are configured | Message out repository configs"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! Below are the apt package repositories"
                 - "Please review to make sure they conform to your sites policies"
@@ -31,13 +31,13 @@
 - name: "1.2.2 | AUDIT | Ensure GPG keys are configured"
   block:
       - name: "1.2.2 | AUDIT | Ensure GPG keys are configured | Get apt gpg keys"
-        command: apt-key list
+        ansible.builtin.shell: apt-key list
         changed_when: false
         failed_when: false
         register: ubtu18cis_1_2_2_apt_gpgkeys
 
       - name: "1.2.2 | AUDIT | Ensure GPG keys are configured | Message out apt gpg keys"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! Below are the apt gpg kyes configured"
                 - "Please review to make sure they are configured"

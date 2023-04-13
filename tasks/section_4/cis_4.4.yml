@@ -1,6 +1,6 @@
 ---
 - name: "4.4 | PATCH | Ensure logrotate assigns appropriate permissions"
-  lineinfile:
+  ansible.builtin.lineinfile:
       path: /etc/logrotate.conf
       regex: '^create'
       line: 'create 0640 root utmp'
