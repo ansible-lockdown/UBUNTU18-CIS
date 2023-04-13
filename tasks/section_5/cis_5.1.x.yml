@@ -122,7 +122,7 @@
             owner: root
             group: root
             mode: 0640
-            state: touch
+            state: file
   when:
       - ubtu18cis_rule_5_1_8
   tags:
@@ -146,7 +146,7 @@
             owner: root
             group: root
             mode: 0640
-            state: touch
+            state: file
   when:
       - ubtu18cis_rule_5_1_9
   tags:
