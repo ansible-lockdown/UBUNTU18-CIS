@@ -1,5 +1,5 @@
 ---
-- name: "MANUAL | 1.8.1 | PATCH | Ensure GNOME Display Manager is removed"
+- name: "1.8.1 | PATCH | Ensure GNOME Display Manager is removed"
   apt:
       name: gdm3
       state: absent
@@ -13,7 +13,7 @@
       - rule_1.8.1
       - gnome
 
-- name: "AUTOMATED | 1.8.2 | PATCH | Ensure GDM login banner is configured"
+- name: "1.8.2 | PATCH | Ensure GDM login banner is configured"
   lineinfile:
       path: /etc/gdm3/greeter.dconf-defaults
       regexp: "{{ item.regexp }}"
@@ -39,7 +39,7 @@
       - rule_1.8.2
       - banner
 
-- name: "AUTOMATED | 1.8.3 | PATCH | Ensure disable-user-list is enabled"
+- name: "1.8.3 | PATCH | Ensure disable-user-list is enabled"
   lineinfile:
       path: /etc/gdm3/greeter.dconf-defaul
       regexp: '^disable-user-list='
@@ -61,7 +61,7 @@
       - rule_1.8.3
       - gdm3
 
-- name: "AUTOMATED | 1.8.4 | PATCH | Ensure XDCMP is not enabled"
+- name: "1.8.4 | PATCH | Ensure XDCMP is not enabled"
   lineinfile:
       path: /etc/gdm3/custom.conf
       regexp: '^Enable=true'

@@ -1,13 +1,13 @@
 ---
-- name: "AUTOMATED | 1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden"
+- name: "1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden"
   block:
-      - name: "AUTOMATED | 1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden | Change chmod setting"
+      - name: "1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden | Change chmod setting"
         replace:
             path: /usr/sbin/grub-mkconfig
             regexp: 'chmod\s\d\d\d\s\${grub_cfg}.new'
             replace: 'chmod 400 ${grub_cfg}.new'
 
-      - name: "AUTOMATED | 1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden | Remove check on password"
+      - name: "1.4.1 | PATCH | Ensure permissions on bootloader config are not overridden | Remove check on password"
         lineinfile:
             path: /usr/sbin/grub-mkconfig
             regexp: 'if \[ \"x\$\{grub_cfg\}\" != "x" \] && ! grep "\^password" \${grub_cfg}.new'
@@ -28,32 +28,32 @@
 # best practice for passing grub info.  Control 90% done for now we are just auditing.
 # ---------------
 # ---------------
-- name: "MANUAL | 1.4.2 | PATCH | Ensure bootloader password is set."
+- name: "1.4.2 | PATCH | Ensure bootloader password is set."
   block:
-      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Superuser Check In Grub."
+      - name: "1.4.2 | AUDIT | Ensure bootloader password is set. | Superuser Check In Grub."
         shell: grep "^set superusers" /boot/grub/grub.cfg
         changed_when: false
         failed_when: false
         register: ubtu18cis_bootloader_grub_check
 
-      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Hash Password Check In Grub."
+      - name: "1.4.2 | AUDIT | Ensure bootloader password is set. | Hash Password Check In Grub."
         shell: grep "^password" /boot/grub/grub.cfg
         changed_when: false
         failed_when: false
         register: ubtu18cis_bootloader_hash_check
 
-      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Set Fact."
+      - name: "1.4.2 | AUDIT | Ensure bootloader password is set. | Set Fact."
         set_fact:
             ubtu18cis_bootloader_grub_name: "{{ ubtu18cis_bootloader_grub_check.stdout | regex_replace('\"','') | regex_replace('set superusers=','') }}"
 
-      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | No Username And Password Meet Set For Bootloader."
+      - name: "1.4.2 | AUDIT | Ensure bootloader password is set. | No Username And Password Meet Set For Bootloader."
         debug:
             msg:
                 - "Warning!! You do not currently have the bootloader password configured properly."
                 - "Please review your grub.cfg and check for errors."
         when: "'superuser' not in ubtu18cis_bootloader_grub_check.stdout or 'password' not in ubtu18cis_bootloader_hash_check.stdout"
 
-      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Verify Username And Password Meet Site Policies For Bootloader."
+      - name: "1.4.2 | AUDIT | Ensure bootloader password is set. | Verify Username And Password Meet Site Policies For Bootloader."
         debug:
             msg:
                 - "Warning!! Below is your current bootloader configuration."
@@ -64,7 +64,7 @@
             - "'superuser' in ubtu18cis_bootloader_grub_check.stdout"
             - "'password' in ubtu18cis_bootloader_hash_check.stdout"
 
-      - name: "MANUAL | 1.4.2 | AUDIT | Ensure bootloader password is set. | Warn Count."
+      - name: "1.4.2 | AUDIT | Ensure bootloader password is set. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '1.4.2'
@@ -83,14 +83,14 @@
       - rule_1.4.2
       - grub
 
-- name: "AUTOMATED | 1.4.3 | PATCH | Ensure permissions on bootloader config are configured"
+- name: "1.4.3 | PATCH | Ensure permissions on bootloader config are configured"
   block:
-      - name: "AUTOMATED | 1.4.3 | AUDIT | Ensure permissions on bootloader config are configured | Check for Grub file"
+      - name: "1.4.3 | AUDIT | Ensure permissions on bootloader config are configured | Check for Grub file"
         stat:
             path: /boot/grub/grub.cfg
         register: ubtu18cis_1_4_3_grub_cfg_status
 
-      - name: "AUTOMATED | 1.4.3 | PATCH | Ensure permissions on bootloader config are configured | Set permissions"
+      - name: "1.4.3 | PATCH | Ensure permissions on bootloader config are configured | Set permissions"
         file:
             path: /boot/grub/grub.cfg
             owner: root
@@ -108,7 +108,7 @@
       - rule_1.4.3
       - grub
 
-- name: "AUTOMATED | 1.4.4 | PATCH | Ensure authentication required for single user mode"
+- name: "1.4.4 | PATCH | Ensure authentication required for single user mode"
   user:
       name: root
       password: "{{ ubtu18cis_root_pw }}"
