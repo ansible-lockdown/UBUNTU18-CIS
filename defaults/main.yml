@@ -1,9 +1,4 @@
 ---
-# If you would like a report at the end accordin to OpenSCAP as to the report results
-# then you should set ubtu18cis_oscap_scan to true/yes.
-# NOTE: This requires the python_xmltojson package on the control host.
-ubtu18cis_oscap_scan: false
-ubtu18cis_report_dir: /tmp
 
 ubtu18cis_section1_patch: true
 ubtu18cis_section2_patch: true
