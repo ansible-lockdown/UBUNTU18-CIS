@@ -1,7 +1,7 @@
 ---
-- name: "AUTOMATED | 5.5.2 | PATCH | Ensure system accounts are secured"
+- name: "5.5.2 | PATCH | Ensure system accounts are secured"
   block:
-      - name: "AUTOMATED | 5.5.2 | PATCH | Ensure system accounts are secured | Set system accounts to login"
+      - name: "5.5.2 | PATCH | Ensure system accounts are secured | Set system accounts to login"
         user:
             name: "{{ item }}"
             shell: /sbin/nologin
@@ -13,7 +13,7 @@
             - item != "shutdown"
             - item != "halt"
 
-      - name: "AUTOMATED | 5.5.2 | PATCH | Ensure system accounts are secured | Lock non-root system accounts"
+      - name: "5.5.2 | PATCH | Ensure system accounts are secured | Lock non-root system accounts"
         user:
             name: "{{ item }}"
             password_lock: true
@@ -33,14 +33,14 @@
       - user
       - system
 
-- name: "AUTOMATED | 5.5.3 | PATCH | Ensure default group for the root account is GID 0"
+- name: "5.5.3 | PATCH | Ensure default group for the root account is GID 0"
   block:
-      - name: "AUTOMATED | 5.5.3 | PATCH | Ensure default group for the root account is GID 0 | Set root group to GUID 0"
+      - name: "5.5.3 | PATCH | Ensure default group for the root account is GID 0 | Set root group to GUID 0"
         group:
             name: root
             gid: 0
 
-      - name: "AUTOMATED | 5.5.3 | PATCH | Ensure default group for the root account is GID 0 | Set root user to root group"
+      - name: "5.5.3 | PATCH | Ensure default group for the root account is GID 0 | Set root user to root group"
         user:
             name: root
             group: root
@@ -55,7 +55,7 @@
       - user
       - system
 
-- name: "AUTOMATED | 5.5.4 | PATCH | Ensure default user umask is 027 or more restrictive"
+- name: "5.5.4 | PATCH | Ensure default user umask is 027 or more restrictive"
   lineinfile:
       path: "{{ item }}"
       regexp: '^umask '
@@ -73,7 +73,7 @@
       - rule_5.5.4
       - user
 
-- name: "AUTOMATED | 5.5.5 | PATCH | Ensure default user shell timeout is 900 seconds or less"
+- name: "5.5.5 | PATCH | Ensure default user shell timeout is 900 seconds or less"
   blockinfile:
       create: true
       mode: 0644
