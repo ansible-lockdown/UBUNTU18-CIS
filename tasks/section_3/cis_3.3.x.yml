@@ -1,7 +1,7 @@
 ---
-- name: "AUTOMATED | 3.3.1 | PATCH | Ensure source routed packets are not accepted"
+- name: "3.3.1 | PATCH | Ensure source routed packets are not accepted"
   block:
-      - name: "AUTOMATED | 3.3.1 | PATCH | Ensure source routed packets are not accepted | IPv4 settings"
+      - name: "3.3.1 | PATCH | Ensure source routed packets are not accepted | IPv4 settings"
         sysctl:
             name: "{{ item }}"
             value: '0'
@@ -14,7 +14,7 @@
             - net.ipv4.conf.default.accept_source_route
         notify: sysctl flush ipv4 route table
 
-      - name: "AUTOMATED | 3.3.1 | PATCH | Ensure source routed packets are not accepted | IPv6 settings"
+      - name: "3.3.1 | PATCH | Ensure source routed packets are not accepted | IPv6 settings"
         sysctl:
             name: "{{ item }}"
             value: '0'
@@ -39,9 +39,9 @@
       - routed_packets
       - sysctl
 
-- name: "AUTOMATED | 3.3.2 | PATCH | Ensure ICMP redirects are not accepted"
+- name: "3.3.2 | PATCH | Ensure ICMP redirects are not accepted"
   block:
-      - name: "AUTOMATED | 3.3.2 | PATCH | Ensure ICMP redirects are not accepted | IPv4 settings"
+      - name: "3.3.2 | PATCH | Ensure ICMP redirects are not accepted | IPv4 settings"
         sysctl:
             name: "{{ item }}"
             value: '0'
@@ -54,7 +54,7 @@
             - net.ipv4.conf.default.accept_redirects
         notify: sysctl flush ipv4 route table
 
-      - name: "AUTOMATED | 3.3.2 | PATCH | Ensure ICMP redirects are not accepted | IPv6 settings"
+      - name: "3.3.2 | PATCH | Ensure ICMP redirects are not accepted | IPv6 settings"
         sysctl:
             name: "{{ item }}"
             value: '0'
@@ -78,7 +78,7 @@
       - icmp
       - sysctl
 
-- name: "AUTOMATED | 3.3.3 | PATCH | Ensure secure ICMP redirects are not accepted"
+- name: "3.3.3 | PATCH | Ensure secure ICMP redirects are not accepted"
   sysctl:
       name: "{{ item }}"
       value: '0'
@@ -101,7 +101,7 @@
       - icmp
       - sysctl
 
-- name: "AUTOMATED | 3.3.4 | PATCH | Ensure suspicious packets are logged"
+- name: "3.3.4 | PATCH | Ensure suspicious packets are logged"
   sysctl:
       name: "{{ item }}"
       value: '1'
@@ -124,7 +124,7 @@
       - suspicious_packets
       - sysctl
 
-- name: "AUTOMATED | 3.3.5 | PATCH | Ensure broadcast ICMP requests are ignored"
+- name: "3.3.5 | PATCH | Ensure broadcast ICMP requests are ignored"
   sysctl:
       name: net.ipv4.icmp_echo_ignore_broadcasts
       value: '1'
@@ -144,7 +144,7 @@
       - icmp
       - sysctl
 
-- name: "AUTOMATED | 3.3.6 | PATCH | Ensure bogus ICMP responses are ignored"
+- name: "3.3.6 | PATCH | Ensure bogus ICMP responses are ignored"
   sysctl:
       name: net.ipv4.icmp_ignore_bogus_error_responses
       value: '1'
@@ -164,7 +164,7 @@
       - icmp
       - sysctl
 
-- name: "AUTOMATED | 3.3.7 | PATCH | Ensure Reverse Path Filtering is enabled"
+- name: "3.3.7 | PATCH | Ensure Reverse Path Filtering is enabled"
   sysctl:
       name: "{{ item }}"
       value: '1'
@@ -187,7 +187,7 @@
       - reverse_path_filtering
       - sysctl
 
-- name: "AUTOMATED | 3.3.8 | PATCH | Ensure TCP SYN Cookies is enabled"
+- name: "3.3.8 | PATCH | Ensure TCP SYN Cookies is enabled"
   sysctl:
       name: net.ipv4.tcp_syncookies
       value: '1'
@@ -207,7 +207,7 @@
       - tcp_syn_cookies
       - sysctl
 
-- name: "AUTOMATED | 3.3.9 | PATCH | Ensure IPv6 router advertisements are not accepted"
+- name: "3.3.9 | PATCH | Ensure IPv6 router advertisements are not accepted"
   sysctl:
       name: "{{ item }}"
       value: '0'
