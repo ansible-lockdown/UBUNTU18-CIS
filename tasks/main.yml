@@ -107,15 +107,10 @@
         when:
             - ubtu18_skip_reboot
 
-- name: If Warnings found Output count and control IDs affected
-  debug:
-      msg:
-          - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID’s are listed below:"
-          - "{{ warn_control_list }}"
-  when: warn_count != 0
-  tags:
-      - always
-
+      - name: Warning for reboot
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'Reboot Required'
 
 - name: Post Remediation Task
   import_tasks: post_remediation_audit.yml
@@ -129,3 +124,12 @@
       - run_audit
   tags:
       - run_audit
+
+- name: If Warnings found Output count and control IDs affected
+  debug:
+      msg:
+          - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID’s are listed below:"
+          - "{{ warn_control_list }}"
+  when: warn_count != 0
+  tags:
+      - always
