@@ -9,7 +9,7 @@
 - warning method
 - naming tidy up
 - minimum Ansible version
-- minimum ansible version
+- updated workflow to use audit benchmark version branch
 
 ## Release 1.2.1
 
