@@ -1,4 +1,11 @@
 ---
+
+- name: Remount shm
+  ansible.builtin.shell: mount -o remount /dev/shm
+
+- name: Remount var_tmp
+  ansible.builtin.shell: mount -o remount /var/tmp
+
 - name: grub update
   command: update-grub
   failed_when: false

@@ -1,4 +1,5 @@
 ---
+
 - name: "1.1.1.1 | PATCH | Ensure mounting of cramfs filesystems is disabled"
   block:
       - name: "1.1.1.1 | PATCH | Ensure mounting of cramfs filesystems is disabled | Edit modprobe config"
@@ -212,6 +213,7 @@
       state: mounted
       fstype: tmpfs
       opts: "{{ ubtu18cis_shm_fstab_options }}"
+  notify: Remount shm
   when:
       - ubtu18cis_rule_1_1_7 or
         ubtu18cis_rule_1_1_8 or
@@ -308,7 +310,7 @@
       state: present
       fstype: "{{ ubtu18cis_vartmp['fstype'] }}"
       opts: "{{ ubtu18cis_vartmp['opts'] }}"
-
+  notify: Remount var_tmp
   when:
       - ubtu18cis_rule_1_1_12 or
         ubtu18cis_rule_1_1_13 or
