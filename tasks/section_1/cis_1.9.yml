@@ -1,5 +1,5 @@
 ---
-- name: "MANUAL | 1.9 | PATCH | Ensure updates, patches, and additional security software are installed"
+- name: "1.9 | PATCH | Ensure updates, patches, and additional security software are installed"
   apt:
       name: "*"
       state: latest
