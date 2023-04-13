@@ -1,12 +1,12 @@
 ---
-- name: "MANUAL | 4.3 | PATCH | Ensure logrotate is configured"
+- name: "4.3 | PATCH | Ensure logrotate is configured"
   block:
-      - name: "MANUAL | 4.3 | PATCH | Ensure logrotate is configured | Get logrotate files"
+      - name: "4.3 | PATCH | Ensure logrotate is configured | Get logrotate files"
         find:
             paths: /etc/logrotate.d/
         register: ubtu18cis_4_3_logrotate_files
 
-      - name: "MANUAL | 4.3 | PATCH | Ensure logrotate is configured | Set rotation configurations"
+      - name: "4.3 | PATCH | Ensure logrotate is configured | Set rotation configurations"
         replace:
             path: "{{ item.path }}"
             regexp: '^(\s*)(daily|weekly|monthly|yearly)$'
