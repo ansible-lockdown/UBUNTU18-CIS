@@ -1,22 +1,30 @@
 ---
 
-- name: Pre Audit Setup | Download audit binary
-  get_url:
-      url: "{{ audit_bin_url }}"
+- name: Download audit binary
+  ansible.builtin.get_url:
+      url: "{{ goss_url }}"
       dest: "{{ audit_bin }}"
       owner: root
       group: root
-      checksum: "{{ audit_bin_version.checksum }}"
+      checksum: "{{ goss_version.checksum }}"
       mode: 0555
   when:
-      - get_audit_binary_method == 'download'
+      - get_goss_file == 'download'
 
-- name: Pre Audit Setup | copy audit binary
-  copy:
-      src: "{{ audit_bin_copy_location }}"
+- name: Copy audit binary
+  ansible.builtin.copy:
+      src:
       dest: "{{ audit_bin }}"
       mode: 0555
       owner: root
       group: root
   when:
-      - get_audit_binary_method == 'copy'
+      - get_goss_file == 'copy'
+
+- name: Install git if not present
+  ansible.builtin.package:
+      name: git
+      state: present
+  register: git_installed
+  when:
+      - '"git" not in ansible_facts.packages'
