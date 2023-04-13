@@ -1,5 +1,5 @@
 ---
-- name: "AUTOMATED | 5.2.1 | PATCH | Ensure sudo is installed"
+- name: "5.2.1 | PATCH | Ensure sudo is installed"
   apt:
       name: "{{ ubtu18cis_sudo_package }}"
       state: present
@@ -13,7 +13,7 @@
       - rule_5.2.1
       - sudo
 
-- name: "AUTOMATED | 5.2.2 | PATCH | Ensure sudo commands use pty"
+- name: "5.2.2 | PATCH | Ensure sudo commands use pty"
   lineinfile:
       path: /etc/sudoers
       regexp: '^Defaults        use_'
@@ -29,7 +29,7 @@
       - rule_5.2.2
       - sudo
 
-- name: "AUTOMATED | 5.2.3 | PATCH | Ensure sudo log file exists"
+- name: "5.2.3 | PATCH | Ensure sudo log file exists"
   lineinfile:
       path: /etc/sudoers
       regexp: '^Defaults        logfile'
