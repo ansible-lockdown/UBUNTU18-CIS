@@ -106,6 +106,8 @@
           - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID’s are listed below:"
           - "{{ warn_control_list }}"
   when: warn_count != 0
+  tags:
+      - always
 
 
 - name: Post Remediation Task
