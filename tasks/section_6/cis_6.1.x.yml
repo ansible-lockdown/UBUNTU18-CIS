@@ -1,13 +1,13 @@
 ---
-- name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions"
+- name: "6.1.1 | AUDIT | Audit system file permissions"
   block:
-      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Register package list"
+      - name: "6.1.1 | AUDIT | Audit system file permissions | Register package list"
         command: dpkg-query -W -f='${binary:Package}\n'
         changed_when: false
         failed_when: false
         register: ubtu18cis_6_1_1_packages
 
-      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Audit the packages"
+      - name: "6.1.1 | AUDIT | Audit system file permissions | Audit the packages"
         shell: "dpkg --verify {{ item }}"
         changed_when: false
         failed_when: false
@@ -16,7 +16,7 @@
         when:
             - not ubtu18cis_manual_audit_dpkg
 
-      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Merge Package Name And Stdout."
+      - name: "6.1.1 | AUDIT | Audit system file permissions | Merge Package Name And Stdout."
         set_fact:
             ubtu18cis_6_1_1_packages_issues: "{{ merged|default({}) | combine( {item.item: item.stdout} ) }}"
         with_items:
@@ -25,7 +25,7 @@
             - item.stdout | length > 0
             - not ubtu18cis_manual_audit_dpkg
 
-      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Audited Check Results."
+      - name: "6.1.1 | AUDIT | Audit system file permissions | Audited Check Results."
         debug:
             msg:
                 - "Warning!! The packages below may not have the correct file permissions."
@@ -34,7 +34,7 @@
         when:
             - not ubtu18cis_manual_audit_dpkg
 
-      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Message out packages results for review"
+      - name: "6.1.1 | AUDIT | Audit system file permissions | Message out packages results for review"
         debug:
             msg:
                 - "Warning!! Below are the packages that need to be reviewed."
@@ -42,7 +42,7 @@
                 - "{{ ubtu18cis_6_1_1_packages.stdout_lines }}"
         when: ubtu18cis_manual_audit_dpkg
 
-      - name: "MANUAL | 6.1.1 | AUDIT | Audit system file permissions | Warn Count."
+      - name: "6.1.1 | AUDIT | Audit system file permissions | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '6.1.1'
@@ -56,7 +56,7 @@
       - rule_6.1.1
       - permissions
 
-- name: "AUTOMATED | 6.1.2 | PATCH | Ensure permissions on /etc/passwd are configured"
+- name: "6.1.2 | PATCH | Ensure permissions on /etc/passwd are configured"
   file:
       path: /etc/passwd
       owner: root
@@ -72,7 +72,7 @@
       - rule_6.1.2
       - permissions
 
-- name: "AUTOMATED | 6.1.3 | PATCH | Ensure permissions on /etc/passwd- are configured"
+- name: "6.1.3 | PATCH | Ensure permissions on /etc/passwd- are configured"
   file:
       path: /etc/passwd-
       owner: root
@@ -88,7 +88,7 @@
       - rule_6.1.3
       - permissions
 
-- name: "AUTOMATED | 6.1.4 | PATCH | Ensure permissions on /etc/group are configured"
+- name: "6.1.4 | PATCH | Ensure permissions on /etc/group are configured"
   file:
       path: /etc/group
       owner: root
@@ -104,7 +104,7 @@
       - rule_6.1.4
       - permissions
 
-- name: "AUTOMATED | 6.1.5 | PATCH | Ensure permissions on /etc/group- are configured"
+- name: "6.1.5 | PATCH | Ensure permissions on /etc/group- are configured"
   file:
       path: /etc/group-
       owner: root
@@ -120,7 +120,7 @@
       - rule_6.1.5
       - permissions
 
-- name: "AUTOMATED | 6.1.6 | PATCH | Ensure permissions on /etc/shadow are configured"
+- name: "6.1.6 | PATCH | Ensure permissions on /etc/shadow are configured"
   file:
       path: /etc/shadow
       owner: root
@@ -136,7 +136,7 @@
       - rule_6.1.6
       - permissions
 
-- name: "AUTOMATED | 6.1.7 | PATCH | Ensure permissions on /etc/shadow- are configured"
+- name: "6.1.7 | PATCH | Ensure permissions on /etc/shadow- are configured"
   file:
       path: /etc/shadow-
       owner: root
@@ -152,7 +152,7 @@
       - rule_6.1.7
       - permissions
 
-- name: "AUTOMATED | 6.1.8 | PATCH | Ensure permissions on /etc/gshadow are configured"
+- name: "6.1.8 | PATCH | Ensure permissions on /etc/gshadow are configured"
   file:
       path: /etc/gshadow
       owner: root
@@ -168,7 +168,7 @@
       - rule_6.1.8
       - permissions
 
-- name: "AUTOMATED | 6.1.9 | PATCH | Ensure permissions on /etc/gshadow- are configured"
+- name: "6.1.9 | PATCH | Ensure permissions on /etc/gshadow- are configured"
   file:
       path: /etc/gshadow-
       owner: root
@@ -184,9 +184,9 @@
       - rule_6.1.9
       - permissions
 
-- name: "AUTOMATED | 6.1.10 | PATCH | Ensure no world writable files exist"
+- name: "6.1.10 | PATCH | Ensure no world writable files exist"
   block:
-      - name: "AUTOMATED | 6.1.10 | PATCH | Ensure no world writable files exist | Get list of world-writable files"
+      - name: "6.1.10 | PATCH | Ensure no world writable files exist | Get list of world-writable files"
         shell: find {{ item.mount }} -xdev -type f -perm -0002
         changed_when: false
         failed_when: false
@@ -194,7 +194,7 @@
         with_items:
             - "{{ ansible_mounts }}"
 
-      - name: "AUTOMATED | 6.1.10 | PATCH | Ensure no world writable files exist | Adjust world-writable files if they exist"
+      - name: "6.1.10 | PATCH | Ensure no world writable files exist | Adjust world-writable files if they exist"
         file:
             path: "{{ item }}"
             mode: o-w
@@ -211,9 +211,9 @@
       - rule_6.1.10
       - permissions
 
-- name: "AUTOMATED | 6.1.11 | PATCH | Ensure no unowned files or directories exist"
+- name: "6.1.11 | PATCH | Ensure no unowned files or directories exist"
   block:
-      - name: "AUTOMATED | 6.1.11 | AUDIT | Ensure no unowned files or directories exist | Get unowned files or directories"
+      - name: "6.1.11 | AUDIT | Ensure no unowned files or directories exist | Get unowned files or directories"
         shell: find {{ item.mount }} -xdev -nouser
         changed_when: false
         failed_when: false
@@ -221,11 +221,11 @@
         with_items:
             - "{{ ansible_mounts }}"
 
-      - name: "AUTOMATED | 6.1.11 | PATCH | Ensure no unowned files or directories exist | Flatten no_user_items results for easier use"
+      - name: "6.1.11 | PATCH | Ensure no unowned files or directories exist | Flatten no_user_items results for easier use"
         set_fact:
             ubtu18cis_6_1_11_no_user_items_flatten: "{{ ubtu18cis_6_1_11_no_user_items.results | map(attribute='stdout_lines') | flatten }}"
 
-      - name: "AUTOMATED | 6.1.11 | AUDIT | Ensure no unowned files or directories exist | Alert on unowned files and directories"
+      - name: "6.1.11 | AUDIT | Ensure no unowned files or directories exist | Alert on unowned files and directories"
         debug:
             msg:
                 - "Warning!! You have unowned files and are configured to not auto-remediate for this task"
@@ -235,7 +235,7 @@
             - not ubtu18cis_no_owner_adjust
             - ubtu18cis_6_1_11_no_user_items_flatten | length > 0
 
-      - name: "AUTOMATED | 6.1.11 | AUDIT | Ensure no unowned files or directories exist | Warn Count."
+      - name: "6.1.11 | AUDIT | Ensure no unowned files or directories exist | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '6.1.11'
@@ -243,7 +243,7 @@
             - not ubtu18cis_no_owner_adjust
             - ubtu18cis_6_1_11_no_user_items_flatten | length > 0
 
-      - name: "AUTOMATED | 6.1.11 | PATCH | Ensure no unowned files or directories exist | Set unowned files/directories to configured owner"
+      - name: "6.1.11 | PATCH | Ensure no unowned files or directories exist | Set unowned files/directories to configured owner"
         file:
             path: "{{ item }}"
             owner: "{{ ubtu18cis_unowned_owner }}"
@@ -262,9 +262,9 @@
       - rule_6.1.11
       - permissions
 
-- name: "AUTOMATED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist"
+- name: "6.1.12 | PATCH | Ensure no ungrouped files or directories exist"
   block:
-      - name: "AUTOMATED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Get ungrouped fiels or directories"
+      - name: "6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Get ungrouped fiels or directories"
         shell: find {{ item.mount }} -xdev -nogroup
         changed_when: false
         failed_when: false
@@ -272,11 +272,11 @@
         with_items:
             - "{{ ansible_mounts }}"
 
-      - name: "AUTOMATED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Flatten ungrouped_items results for easier use"
+      - name: "6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Flatten ungrouped_items results for easier use"
         set_fact:
             ubtu18cis_6_1_12_ungrouped_items_flatten: "{{ ubtu18cis_6_1_12_ungrouped_items.results | map(attribute='stdout_lines') | flatten }}"
 
-      - name: "AUTOMATED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Alert on ungrouped files and directories"
+      - name: "6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Alert on ungrouped files and directories"
         debug:
             msg:
                 - "Warning!! You have ungrouped files/directories and are configured to not auto-remediate for this task"
@@ -286,7 +286,7 @@
             - not ubtu18cis_no_group_adjust
             - ubtu18cis_6_1_12_ungrouped_items_flatten | length > 0
 
-      - name: "AUTOMATED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Warn Count."
+      - name: "6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '6.1.12'
@@ -294,7 +294,7 @@
             - not ubtu18cis_no_group_adjust
             - ubtu18cis_6_1_12_ungrouped_items_flatten | length > 0
 
-      - name: "AUTOMATED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Set ungrouped files/directories to configured group"
+      - name: "6.1.12 | PATCH | Ensure no ungrouped files or directories exist | Set ungrouped files/directories to configured group"
         file:
             path: "{{ item }}"
             group: "{{ ubtu18cis_ungrouped_group }}"
@@ -313,9 +313,9 @@
       - rule_6.1.12
       - permissions
 
-- name: "MANUAL | 6.1.13 | AUDIT | Audit SUID executables"
+- name: "6.1.13 | AUDIT | Audit SUID executables"
   block:
-      - name: "MANUAL | 6.1.13 | AUDIT | Audit SUID executables | Find SUID executables"
+      - name: "6.1.13 | AUDIT | Audit SUID executables | Find SUID executables"
         # shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -4000
         shell: find {{ item.mount }} -xdev -type f -perm -4000
         changed_when: false
@@ -324,11 +324,11 @@
         with_items:
             - "{{ ansible_mounts }}"
 
-      - name: "MANUAL | 6.1.13 | AUDIT | Audit SUID executables | Flatten suid_executables results for easier use"
+      - name: "6.1.13 | AUDIT | Audit SUID executables | Flatten suid_executables results for easier use"
         set_fact:
             ubtu18cis_6_1_13_suid_executables_flatten: "{{ ubtu18cis_6_1_13_suid_executables.results | map(attribute='stdout_lines') | flatten }}"
 
-      - name: "MANUAL | 6.1.13 | AUDIT | Audit SUID executables | Alert SUID executables exist"
+      - name: "6.1.13 | AUDIT | Audit SUID executables | Alert SUID executables exist"
         debug:
             msg:
                 - "Warning!! You have SUID executables"
@@ -338,7 +338,7 @@
             - ubtu18cis_6_1_13_suid_executables_flatten | length > 0
             - not ubtu18cis_suid_adjust
 
-      - name: "MANUAL | 6.1.13 | AUDIT | Audit SUID executables | Warn Count."
+      - name: "6.1.13 | AUDIT | Audit SUID executables | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '6.1.13'
@@ -346,7 +346,7 @@
             - ubtu18cis_6_1_13_suid_executables_flatten | length > 0
             - not ubtu18cis_suid_adjust
 
-      - name: "MANUAL | 6.1.13 | PATCH | Audit SUID executables | Remove SUID bit"
+      - name: "6.1.13 | PATCH | Audit SUID executables | Remove SUID bit"
         file:
             path: "{{ item }}"
             mode: 'u-s'
@@ -365,9 +365,9 @@
       - rule_6.1.13
       - permissions
 
-- name: "MANUAL | 6.1.14 | AUDIT | Audit SGID executables"
+- name: "6.1.14 | AUDIT | Audit SGID executables"
   block:
-      - name: "MANUAL | 6.1.14 | PATCH | Audit SGID executables | Find SGID executables"
+      - name: "6.1.14 | PATCH | Audit SGID executables | Find SGID executables"
         shell: find {{ item }} -xdev -type f -perm -2000
         changed_when: false
         failed_when: false
@@ -375,11 +375,11 @@
         with_items:
             - "{{ ansible_mounts }}"
 
-      - name: "MANUAL | 6.1.14 | AUDIT | Audit SGID executables | Flatten sgid_executables results for easier use"
+      - name: "6.1.14 | AUDIT | Audit SGID executables | Flatten sgid_executables results for easier use"
         set_fact:
             ubtu18cis_6_1_14_sgid_executables_flatten: "{{ ubtu18cis_6_1_14_sgid_executables.results | map(attribute='stdout_lines') | flatten }}"
 
-      - name: "MANUAL | 6.1.14 | AUDIT | Audit SGID executables | Alert SGID executables exist"
+      - name: "6.1.14 | AUDIT | Audit SGID executables | Alert SGID executables exist"
         debug:
             msg:
                 - "Warning!! You have SGID executables"
@@ -387,7 +387,7 @@
                 - "{{ ubtu18cis_6_1_14_sgid_executables_flatten }}"
         when: ubtu18cis_6_1_14_sgid_executables_flatten | length > 0
 
-      - name: "MANUAL | 6.1.14 | AUDIT | Audit SGID executables | Warn Count."
+      - name: "6.1.14 | AUDIT | Audit SGID executables | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: '6.1.14'
