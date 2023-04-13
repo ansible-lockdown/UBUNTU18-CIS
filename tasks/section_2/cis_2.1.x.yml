@@ -27,14 +27,16 @@
             - { regexp: '^#FallbackNTP|^FallbackNTP', line: 'FallbackNTP=ntp.ubuntu.com 3.ubuntu.pool.ntp.org', insertafter: '\[Time\]' }
             - { regexp: '^#RootDistanceMaxSec|^RootDistanceMaxSec', line: 'RootDistanceMaxSec=1', insertafter: '\[Time\]'}
 
-      - name: "2.1.1.2 | PATCH | Ensure systemd-timesyncd is configured | Start and enable the systemd-timesyncd service"
-        ansible.builtin.service:
-            name: systemd-timesyncd.service
-            state: started
-            enabled: true
+      - name: "2.1.1.2 | AUDIT | Ensure systemd-timesyncd is configured | Capture NTP state"
+        ansible.builtin.shell: "timedatectl status | grep NTP | cut -d':' -f2 | sed 's/^[ \\t]*//;s/[ \\t]*$//'"
+        changed_when: false
+        failed_when: false
+        register: ubtu18cis_2_1_1_2_ntp_status
 
       - name: "2.1.1.2 | PATCH | Ensure systemd-timesyncd is configured | Set timedatectl to ntp"
         ansible.builtin.shell: timedatectl set-ntp true
+        changed_when: true
+        when: "'inactive' in ubtu18cis_2_1_1_2_ntp_status.stdout"
   when:
       - ubtu18cis_rule_2_1_1_2
   tags:
