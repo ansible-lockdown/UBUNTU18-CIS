@@ -10,6 +10,7 @@
 - naming tidy up
 - minimum Ansible version
 - updated workflow to use audit benchmark version branch
+- readme update
 
 ## Release 1.2.1
 
