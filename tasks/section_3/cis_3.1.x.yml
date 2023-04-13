@@ -1,6 +1,6 @@
 ---
 - name: "3.1.1 | PATCH | Disable IPv6"
-  lineinfile:
+  ansible.builtin.lineinfile:
       path: /etc/default/grub
       regexp: '^(GRUB_CMDLINE_LINUX=.*(?!.*ipv6\.disable=1)\"[^\"]+)(\".*)'
       line: '\1 ipv6.disable=1\2'
@@ -20,7 +20,7 @@
 - name: "3.1.2 | PATCH | Ensure wireless interfaces are disabled"
   block:
       - name: "3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if nmcli command is available"
-        command: dpkg -s network-manager
+        ansible.builtin.shell: dpkg -s network-manager
         changed_when: false
         failed_when: false
         args:
@@ -29,14 +29,14 @@
         register: ubtu18cis_nmcli_available
 
       - name: "3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if wifi is enabled"
-        command: nmcli radio wifi
+        ansible.builtin.shell: nmcli radio wifi
         register: ubtu18cis_wifi_enabled
         check_mode: false
         changed_when: ubtu18cis_wifi_enabled.stdout != "disabled"
         when: ubtu18cis_nmcli_available.rc == 0
 
       - name: "3.1.2 | PATCH | Ensure wireless interfaces are disabled | Disable wifi if enabled"
-        command: nmcli radio wifi off
+        ansible.builtin.shell: nmcli radio wifi off
         when: ubtu18cis_wifi_enabled is changed
   when:
       - ubtu18cis_rule_3_1_2

@@ -1,6 +1,6 @@
 ---
 - name: "2.2.1 | PATCH | Ensure NIS Client is not installed"
-  apt:
+  ansible.builtin.apt:
       name: nis
       state: absent
   when:
@@ -15,7 +15,7 @@
       - nis
 
 - name: "2.2.2 | PATCH | Ensure rsh client is not installed"
-  apt:
+  ansible.builtin.apt:
       name: rsh-client
       state: absent
   when:
@@ -30,7 +30,7 @@
       - rsh
 
 - name: "2.2.3 | PATCH | Ensure talk client is not installed"
-  apt:
+  ansible.builtin.apt:
       name: talk
       state: absent
   when:
@@ -45,7 +45,7 @@
       - talk
 
 - name: "2.2.4 | PATCH | Ensure telnet client is not installed"
-  apt:
+  ansible.builtin.apt:
       name: telnet
       state: absent
   when:
@@ -60,7 +60,7 @@
       - telnet
 
 - name: "2.2.5 | PATCH | Ensure LDAP client is not installed"
-  apt:
+  ansible.builtin.apt:
       name: ldap-utils
       state: absent
   when:
@@ -75,7 +75,7 @@
       - ldap
 
 - name: "2.2.6 | PATCH | Ensure RPC is not installed"
-  apt:
+  ansible.builtin.apt:
       name: rpcbind
       state: absent
   when:
