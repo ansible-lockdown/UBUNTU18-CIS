@@ -258,7 +258,7 @@
       - service
 
 - name: "2.1.10 | PATCH | Ensure HTTP server is not installed"
-  ansible.builtin.apt:
+  ansible.builtin.package:
       name: apache2
       state: absent
   when:
@@ -274,7 +274,7 @@
       - service
 
 - name: "2.1.11 | PATCH | Ensure IMAP and POP3 server are not installed"
-  ansible.builtin.apt:
+  ansible.builtin.package:
       name: ['dovecot-imapd', 'dovecot-pop3d']
       state: absent
   when:
@@ -290,7 +290,7 @@
       - service
 
 - name: "2.1.12 | PATCH | Ensure Samba is not installed"
-  ansible.builtin.apt:
+  ansible.builtin.package:
       name: samba
       state: absent
   when:
@@ -306,7 +306,7 @@
       - service
 
 - name: "2.1.13 | PATCH | Ensure HTTP Proxy Server is not installed"
-  ansible.builtin.apt:
+  ansible.builtin.package:
       name: squid
       state: absent
   when:
@@ -322,7 +322,7 @@
       - service
 
 - name: "2.1.14 | PATCH | Ensure SNMP Server is not installed"
-  ansible.builtin.apt:
+  ansible.builtin.package:
       name: snmpd
       state: absent
   when:
@@ -378,7 +378,7 @@
       - postfix
 
 - name: "2.1.16 | PATCH | Ensure rsync service is not installed"
-  ansible.builtin.apt:
+  ansible.builtin.package:
       name: rsync
       state: absent
       purge: true
@@ -394,7 +394,7 @@
       - rsync
 
 - name: "2.1.17 | PATCH | Ensure NIS Server is not enabled"
-  ansible.builtin.apt:
+  ansible.builtin.package:
       name: nis
       state: absent
   when:
