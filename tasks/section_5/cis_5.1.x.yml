@@ -116,13 +116,18 @@
             path: /etc/cron.deny
             state: absent
 
+      - name: 5.1.8 | PATCH | Ensure cron is restricted to authorized users | confirm if file exists
+        ansible.builtin.stat:
+            path: /etc/cron.allow
+        register: ubtu18cis_5_1_8
+
       - name: "5.1.8 | PATCH | Ensure cron is restricted to authorized users | Create allow files"
         ansible.builtin.file:
             path: /etc/cron.allow
             owner: root
             group: root
             mode: 0640
-            state: file
+            state: "{{ ( ubtu18cis_5_1_8.stat.exists ) | ternary('file', 'touch') }}"
   when:
       - ubtu18cis_rule_5_1_8
   tags:
@@ -140,13 +145,18 @@
             path: /etc/at.deny
             state: absent
 
+      - name: 5.1.8 | PATCH | Ensure at is restricted to authorized users | confirm if file exists
+        ansible.builtin.stat:
+            path: /etc/at.allow
+        register: ubtu18cis_5_1_9
+
       - name: "5.1.9 | PATCH | Ensure at is restricted to authorized users | Create allow files"
         ansible.builtin.file:
             path: /etc/at.allow
             owner: root
             group: root
             mode: 0640
-            state: file
+            state: "{{ ( ubtu18cis_5_1_9.stat.exists ) | ternary('file', 'touch') }}"
   when:
       - ubtu18cis_rule_5_1_9
   tags:
