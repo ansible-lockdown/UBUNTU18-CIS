@@ -1,9 +1,4 @@
 ---
-# If you would like a report at the end accordin to OpenSCAP as to the report results
-# then you should set ubtu18cis_oscap_scan to true/yes.
-# NOTE: This requires the python_xmltojson package on the control host.
-ubtu18cis_oscap_scan: false
-ubtu18cis_report_dir: /tmp
 
 ubtu18cis_section1_patch: true
 ubtu18cis_section2_patch: true
@@ -18,25 +13,28 @@ ubtu18_skip_reboot: true
 ## Benchmark name used by auditing control role
 # The audit variable found at the base
 benchmark: UBUNTU18-CIS
+benchmark_version: '2.1.0'
 
 ### Audit Binary is required on the remote host
+### Goss is required on the remote host
 setup_audit: false
-# How to retrieve audit binary
+# How to retrive goss
 # Options are copy or download - detailed settings at the bottom of this file
 # you will need to access to either github or the file already dowmloaded
-get_audit_binary_method: download
+get_goss_file: download
 
 # how to get audit files onto host options
-# options are git/copy/get_url other e.g. if you wish to run from already downloaded conf
+# options are git/copy/get_url - use local if already available to to the host (adjust paths accordingly)
 audit_content: git
 
 # enable audits to run - this  runs the audit and get the latest content
 run_audit: false
 
-# Run heavy tests - some tests can have more impact on a system enabling these can have greater impact on a system
-audit_run_heavy_tests: true
 # Timeout for those cmds that take longer to run where timeout set
 audit_cmd_timeout: 60000
+
+# Run heavy tests - some tests can have more impact on a system enabling these can have greater impact on a system
+audit_run_heavy_tests: true
 
 ### End Audit enablements ####
 
@@ -477,7 +475,6 @@ ubtu18cis_ufw_allow_out_ports:
     - 80
     - 443
 
-
 # Controls 3.5.4.1.1 through 3.5.4.1.4
 # The iptables module only writes to memory which means a reboot could revert settings
 # The below toggle will install iptables-persistent and save the rules in memory (/etc/iptables/rules.v4 or rules.v6)
@@ -587,7 +584,6 @@ ubtu18cis_sshd:
 # This needs to be 5 or more to conform to CIS standards
 ubtu18cis_pamd_pwhistory_remember: 5
 
-
 # ubtu18cis_pass will be password based variables
 # Control 5.5.1.1
 # min_days is the min number of days allowed between changing passwords. Set to 1 or more to conform to CIS standards
@@ -625,7 +621,7 @@ ubtu18cis_su_group: "wheel"
 # ubtu18cis_manual_audit_dpkg is the setting that will allow the control to get a list of installed applications
 # and check them using the # dpkg --verify <package name> option.  This process can be very time consuming on machines.
 # ubtu18cis_manual_audit_dpkg: true will result in a quicker audit but will require had checking each application.
-ubtu18cis_manual_audit_dpkg: false
+ubtu18cis_manual_audit_dpkg: true
 
 # Control 6.1.10
 # ubtu18cis_no_world_write_adjust will toggle the automated fix to remove world-writable perms from all files
@@ -662,30 +658,29 @@ ubtu18cis_dotperm_ansibleManaged: true
 # Control 6.2.9 Allow ansible to adjust world-writable files. False will just display world-writable files, True will remove world-writable
 ubtu18cis_passwd_label: "{{ (this_item | default(item)).id }}: {{ (this_item | default(item)).dir }}"
 
-
 #### Audit Configuration Settings ####
 
 ### Audit binary settings ###
-audit_bin_version:
-    release: v0.3.16
-    checksum: 'sha256:827e354b48f93bce933f5efcd1f00dc82569c42a179cf2d384b040d8a80bfbfb'
+goss_version:
+    release: v0.3.21
+    checksum: 'sha256:9a9200779603acf0353d2c0e85ae46e083596c10838eaf4ee050c924678e4fe3'
 audit_bin_path: /usr/local/bin/
 audit_bin: "{{ audit_bin_path }}goss"
 audit_format: json
 
 # if get_audit_binary_method == download change accordingly
-audit_bin_url: "https://github.com/aelsabbahy/goss/releases/download/{{ audit_bin_version.release }}/goss-linux-amd64"
+goss_url: "https://github.com/goss-org/goss/releases/download/{{ goss_version.release }}/goss-linux-amd64"
 
-## if get_audit_binary_method - copy the following needs to be updated for your environment
+## if get_goss_file - copy the following needs to be updated for your environment
 ## it is expected that it will be copied from somewhere accessible to the control node
 ## e.g copy from ansible control node to remote host
-audit_bin_copy_location: /some/accessible/path
+copy_goss_from_path: /some/accessible/path
 
 ### Goss Audit Benchmark file ###
 ## managed by the control audit_content
 # git
 audit_file_git: "https://github.com/ansible-lockdown/{{ benchmark }}-Audit.git"
-audit_git_version: main
+audit_git_version: "benchmark_{{ benchmark_version }}"
 
 # archive or copy:
 audit_conf_copy: "some path to copy from"
@@ -693,15 +688,10 @@ audit_conf_copy: "some path to copy from"
 # get_url:
 audit_files_url: "some url maybe s3?"
 
-## Goss configuration information
-# Where the goss configs and outputs are stored
-audit_out_dir: '/var/tmp'
-# Where the goss audit configuration will be stored
+audit_out_dir: '/opt'
 audit_conf_dir: "{{ audit_out_dir }}/{{ benchmark }}-Audit/"
-
-# If changed these can affect other products
-pre_audit_outfile: "{{ audit_out_dir }}/{{ ansible_hostname }}_pre_scan_{{ ansible_date_time.epoch }}.{{ audit_format }}"
-post_audit_outfile: "{{ audit_out_dir }}/{{ ansible_hostname }}_post_scan_{{ ansible_date_time.epoch }}.{{ audit_format }}"
+pre_audit_outfile: "{{ audit_out_dir }}/{{ ansible_hostname }}-{{ benchmark }}_pre_scan_{{ ansible_date_time.epoch }}.{{ audit_format }}"
+post_audit_outfile: "{{ audit_out_dir }}/{{ ansible_hostname }}-{{ benchmark }}_post_scan_{{ ansible_date_time.epoch }}.{{ audit_format }}"
 
 ## The following should not need changing
 audit_control_file: "{{ audit_conf_dir }}goss.yml"

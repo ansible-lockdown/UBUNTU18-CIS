@@ -1,40 +1,36 @@
 ---
 # List users in order to look files inside each home directory
 - name: "PRELIM | List users accounts"
-  command: "awk -F: '{print $1}' /etc/passwd"
+  ansible.builtin.shell: "awk -F: '{print $1}' /etc/passwd"
   changed_when: false
   register: ubtu18cis_users
-  when:
-      - ubtu18cis_rule_6_2_8 or
-        ubtu18cis_rule_6_2_9 or
-        ubtu18cis_rule_6_2_10
+  tags:
+      - always
 
 - name: "PRELIM | Check for autofs service"
-  shell: "systemctl show autofs | grep LoadState | cut -d = -f 2"
-  register: ubtu18cis_autofs_service_status
+  ansible.builtin.shell: "systemctl show autofs | grep LoadState | cut -d = -f 2"
   changed_when: false
   check_mode: false
+  register: ubtu18cis_autofs_service_status
   when:
       - ubtu18cis_rule_1_1_23
-  tags:
-      - skip_ansible_lint
 
 - name: "PRELIM | Run apt update"
-  apt:
+  ansible.builtin.package:
       update_cache: true
-  when:
-      - ubtu18cis_rule_1_3_1
+  tags:
+      - always
 
 - name: "PRELIM | Check for avahi-daemon service"
-  shell: "systemctl show avahi-daemon | grep LoadState | cut -d = -f 2"
-  register: avahi_service_status
+  ansible.builtin.shell: "systemctl show avahi-daemon | grep LoadState | cut -d = -f 2"
   changed_when: false
   check_mode: false
+  register: avahi_service_status
   tags:
       - skip_ansible_lint
 
 - name: "PRELIM | Install gdm3"
-  apt:
+  ansible.builtin.package:
       name: gdm3
       state: present
   when:
@@ -44,7 +40,12 @@
         ubtu18cis_rule_1_8_3
 
 - name: "PRELIM | Install nftables"
-  apt:
+  ansible.builtin.package:
       name: nftables
       state: present
   when: ubtu18cis_firewall_package == "nftables"
+
+- name: "PRELIM | Install acl if not present"
+  ansible.builtin.package:
+      name: acl
+      state: present

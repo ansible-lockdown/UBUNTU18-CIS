@@ -26,13 +26,6 @@ resource "aws_security_group" "github_actions" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -77,6 +70,5 @@ resource "local_file" "inventory" {
         setup_audit: true
         run_audit: true
         system_is_ec2: true
-        audit_git_version: devel
     EOF
 }

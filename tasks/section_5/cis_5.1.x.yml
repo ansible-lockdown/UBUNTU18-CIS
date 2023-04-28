@@ -1,6 +1,6 @@
 ---
-- name: "AUTOMATED | 5.1.1 | PATCH | Ensure cron daemon is enabled"
-  service:
+- name: "5.1.1 | PATCH | Ensure cron daemon is enabled"
+  ansible.builtin.service:
       name: cron
       enabled: true
   when:
@@ -13,8 +13,8 @@
       - rule_5.1.1
       - cron
 
-- name: "AUTOMATED | 5.1.2 | PATCH | Ensure permissions on /etc/crontab are configured"
-  file:
+- name: "5.1.2 | PATCH | Ensure permissions on /etc/crontab are configured"
+  ansible.builtin.file:
       path: /etc/crontab
       owner: root
       group: root
@@ -29,8 +29,8 @@
       - rule_5.1.2
       - cron
 
-- name: "AUTOMATED | 5.1.3 | PATCH | Ensure permissions on /etc/cron.hourly are configured"
-  file:
+- name: "5.1.3 | PATCH | Ensure permissions on /etc/cron.hourly are configured"
+  ansible.builtin.file:
       path: /etc/cron.hourly
       owner: root
       group: root
@@ -45,8 +45,8 @@
       - rule_5.1.3
       - cron
 
-- name: "AUTOMATED | 5.1.4 | PATCH | Ensure permissions on /etc/cron.daily are configured"
-  file:
+- name: "5.1.4 | PATCH | Ensure permissions on /etc/cron.daily are configured"
+  ansible.builtin.file:
       path: /etc/cron.daily
       owner: root
       group: root
@@ -61,8 +61,8 @@
       - rule_5.1.4
       - cron
 
-- name: "AUTOMATED | 5.1.5 | PATCH | Ensure permissions on /etc/cron.weekly are configured"
-  file:
+- name: "5.1.5 | PATCH | Ensure permissions on /etc/cron.weekly are configured"
+  ansible.builtin.file:
       path: /etc/cron.weekly
       owner: root
       group: root
@@ -77,8 +77,8 @@
       - rule_5.1.5
       - cron
 
-- name: "AUTOMATED | 5.1.6 | PATCH | Ensure permissions on /etc/cron.monthly are configured"
-  file:
+- name: "5.1.6 | PATCH | Ensure permissions on /etc/cron.monthly are configured"
+  ansible.builtin.file:
       path: /etc/cron.monthly
       owner: root
       group: root
@@ -93,8 +93,8 @@
       - rule_5.1.6
       - cron
 
-- name: "AUTOMATED | 5.1.7 | PATCH | Ensure permissions on /etc/cron.d are configured"
-  file:
+- name: "5.1.7 | PATCH | Ensure permissions on /etc/cron.d are configured"
+  ansible.builtin.file:
       path: /etc/cron.d
       owner: root
       group: root
@@ -109,20 +109,25 @@
       - rule_5.1.7
       - cron
 
-- name: "AUTOMATED | 5.1.8 | PATCH | Ensure cron is restricted to authorized users"
+- name: "5.1.8 | PATCH | Ensure cron is restricted to authorized users"
   block:
-      - name: "AUTOMATED | 5.1.8 | PATCH | Ensure cron is restricted to authorized users | Remove deny configs"
-        file:
+      - name: "5.1.8 | PATCH | Ensure cron is restricted to authorized users | Remove deny configs"
+        ansible.builtin.file:
             path: /etc/cron.deny
             state: absent
 
-      - name: "AUTOMATED | 5.1.8 | PATCH | Ensure cron is restricted to authorized users | Create allow files"
-        file:
+      - name: 5.1.8 | PATCH | Ensure cron is restricted to authorized users | confirm if file exists
+        ansible.builtin.stat:
+            path: /etc/cron.allow
+        register: ubtu18cis_5_1_8
+
+      - name: "5.1.8 | PATCH | Ensure cron is restricted to authorized users | Create allow files"
+        ansible.builtin.file:
             path: /etc/cron.allow
             owner: root
             group: root
             mode: 0640
-            state: touch
+            state: "{{ ( ubtu18cis_5_1_8.stat.exists ) | ternary('file', 'touch') }}"
   when:
       - ubtu18cis_rule_5_1_8
   tags:
@@ -133,20 +138,25 @@
       - rule_5.1.8
       - cron
 
-- name: "AUTOMATED | 5.1.9 | PATCH | Ensure at is restricted to authorized users"
+- name: "5.1.9 | PATCH | Ensure at is restricted to authorized users"
   block:
-      - name: "AUTOMATED | 5.1.9 | PATCH | Ensure at is restricted to authorized users | Remove deny configs"
-        file:
+      - name: "5.1.9 | PATCH | Ensure at is restricted to authorized users | Remove deny configs"
+        ansible.builtin.file:
             path: /etc/at.deny
             state: absent
 
-      - name: "AUTOMATED | 5.1.9 | PATCH | Ensure at is restricted to authorized users | Create allow files"
-        file:
+      - name: 5.1.8 | PATCH | Ensure at is restricted to authorized users | confirm if file exists
+        ansible.builtin.stat:
+            path: /etc/at.allow
+        register: ubtu18cis_5_1_9
+
+      - name: "5.1.9 | PATCH | Ensure at is restricted to authorized users | Create allow files"
+        ansible.builtin.file:
             path: /etc/at.allow
             owner: root
             group: root
             mode: 0640
-            state: touch
+            state: "{{ ( ubtu18cis_5_1_9.stat.exists ) | ternary('file', 'touch') }}"
   when:
       - ubtu18cis_rule_5_1_9
   tags:

@@ -1,8 +1,8 @@
 ---
-- name: "AUTOMATED | 5.5.2 | PATCH | Ensure system accounts are secured"
+- name: "5.5.2 | PATCH | Ensure system accounts are secured"
   block:
-      - name: "AUTOMATED | 5.5.2 | PATCH | Ensure system accounts are secured | Set system accounts to login"
-        user:
+      - name: "5.5.2 | PATCH | Ensure system accounts are secured | Set system accounts to login"
+        ansible.builtin.user:
             name: "{{ item }}"
             shell: /sbin/nologin
         with_items:
@@ -13,8 +13,8 @@
             - item != "shutdown"
             - item != "halt"
 
-      - name: "AUTOMATED | 5.5.2 | PATCH | Ensure system accounts are secured | Lock non-root system accounts"
-        user:
+      - name: "5.5.2 | PATCH | Ensure system accounts are secured | Lock non-root system accounts"
+        ansible.builtin.user:
             name: "{{ item }}"
             password_lock: true
         with_items:
@@ -33,15 +33,15 @@
       - user
       - system
 
-- name: "AUTOMATED | 5.5.3 | PATCH | Ensure default group for the root account is GID 0"
+- name: "5.5.3 | PATCH | Ensure default group for the root account is GID 0"
   block:
-      - name: "AUTOMATED | 5.5.3 | PATCH | Ensure default group for the root account is GID 0 | Set root group to GUID 0"
-        group:
+      - name: "5.5.3 | PATCH | Ensure default group for the root account is GID 0 | Set root group to GUID 0"
+        ansible.builtin.group:
             name: root
             gid: 0
 
-      - name: "AUTOMATED | 5.5.3 | PATCH | Ensure default group for the root account is GID 0 | Set root user to root group"
-        user:
+      - name: "5.5.3 | PATCH | Ensure default group for the root account is GID 0 | Set root user to root group"
+        ansible.builtin.user:
             name: root
             group: root
   when:
@@ -55,8 +55,8 @@
       - user
       - system
 
-- name: "AUTOMATED | 5.5.4 | PATCH | Ensure default user umask is 027 or more restrictive"
-  lineinfile:
+- name: "5.5.4 | PATCH | Ensure default user umask is 027 or more restrictive"
+  ansible.builtin.lineinfile:
       path: "{{ item }}"
       regexp: '^umask '
       line: "umask {{ ubtu18cis_bash_umask }}"
@@ -73,8 +73,8 @@
       - rule_5.5.4
       - user
 
-- name: "AUTOMATED | 5.5.5 | PATCH | Ensure default user shell timeout is 900 seconds or less"
-  blockinfile:
+- name: "5.5.5 | PATCH | Ensure default user shell timeout is 900 seconds or less"
+  ansible.builtin.blockinfile:
       create: true
       mode: 0644
       dest: "{{ item.dest }}"
@@ -82,7 +82,8 @@
       marker: "# {mark} ANSIBLE MANAGED"
       block: |
         # Set session timeout - CIS ID 5.5.5
-        TMOUT={{ ubtu18cis_shell_session_timeout.timeout }}
+        # only set TMOUT if it isn't set yet to avoid a shell error
+        : TMOUT={{ ubtu18cis_shell_session_timeout.timeout }}
         readonly TMOUT
         export TMOUT
   with_items:

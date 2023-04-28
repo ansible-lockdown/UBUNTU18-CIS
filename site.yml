@@ -1,8 +1,10 @@
 ---
-- hosts: all # noqa: name[play]
+
+- hosts: all  # noqa: name[play]
   become: true
   vars:
       is_container: false
 
+  name: Run ansible-lockdown remediation role
   roles:
       - role: "{{ playbook_dir }}"
