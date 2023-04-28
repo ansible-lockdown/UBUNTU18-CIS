@@ -9,9 +9,9 @@
 
 - name: "PRELIM | Check for autofs service"
   ansible.builtin.shell: "systemctl show autofs | grep LoadState | cut -d = -f 2"
-  register: ubtu18cis_autofs_service_status
   changed_when: false
   check_mode: false
+  register: ubtu18cis_autofs_service_status
   when:
       - ubtu18cis_rule_1_1_23
 
@@ -23,9 +23,9 @@
 
 - name: "PRELIM | Check for avahi-daemon service"
   ansible.builtin.shell: "systemctl show avahi-daemon | grep LoadState | cut -d = -f 2"
-  register: avahi_service_status
   changed_when: false
   check_mode: false
+  register: avahi_service_status
   tags:
       - skip_ansible_lint
 
