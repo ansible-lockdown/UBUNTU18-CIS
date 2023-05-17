@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1
+
+- issue 84 from ubuntu20 fixed vartmp
+- fixed other mount points in 1.1.x.yml and options
+- updated the audit process list check
+
 ## 1.3
 
 - Audit integration
