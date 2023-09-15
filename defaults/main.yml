@@ -625,7 +625,7 @@ ubtu18cis_int_gid: 1000
 # Control 6.2.7
 # This control toggles automation to set all users dot files to not group or world writable
 # Value of true will change file permissiosn, value of false will skip the automation changing permissions.
-ubtu18cis_dotperm_ansibleManaged: true
+ubtu18cis_dotperm_ansiblemanaged: true
 
 # Control 6.2.9 Allow ansible to adjust world-writable files. False will just display world-writable files, True will remove world-writable
 ubtu18cis_passwd_label: "{{ (this_item | default(item)).id }}: {{ (this_item | default(item)).dir }}"
