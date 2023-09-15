@@ -15,13 +15,14 @@
 ![Ansible Galaxy Quality](https://img.shields.io/ansible/quality/54776?label=Quality&&logo=ansible)
 ![Discord Badge](https://img.shields.io/discord/925818806838919229?logo=discord)
 
-![Devel Build Status](https://img.shields.io/github/actions/workflow/status/ansible-lockdown/UBUNTU18-CIS/linux_benchmark_testing.yml?label=Devel%20Build%20Status)
-![Devel Commits](https://img.shields.io/github/commit-activity/m/ansible-lockdown/UBUNTU18-CIS/devel?color=dark%20green&label=Devel%20Branch%20commits)
-
 ![Release Branch](https://img.shields.io/badge/Release%20Branch-Main-brightgreen)
-![Main Build Status](https://img.shields.io/github/actions/workflow/status/ansible-lockdown/UBUNTU18-CIS/linux_benchmark_testing.yml?label=Build%20Status)
-![Main Release Date](https://img.shields.io/github/release-date/ansible-lockdown/UBUNTU18-CIS?label=Release%20Date)
-![Release Tag](https://img.shields.io/github/v/tag/ansible-lockdown/UBUNTU18-CIS?label=Release%20Tag&&color=success)
+![Release Tag](https://img.shields.io/github/v/release/ansible-lockdown/UBUNTU18-CIS)
+![Release Date](https://img.shields.io/github/release-date/ansible-lockdown/UBUNTU18-CIS)
+
+[![Main Pipeline Status](https://github.com/ansible-lockdown/UBUNTU18-CIS/actions/workflows/main_pipeline_validation.yml/badge.svg?)](https://github.com/ansible-lockdown/UBUNTU18-CIS/actions/workflows/main_pipeline_validation.yml)
+
+[![Devel Pipeline Status](https://github.com/ansible-lockdown/UBUNTU18-CIS/actions/workflows/devel_pipeline_validation.yml/badge.svg?)](https://github.com/ansible-lockdown/UBUNTU18-CIS/actions/workflows/devel_pipeline_validation.yml)
+![Devel Commits](https://img.shields.io/github/commit-activity/m/ansible-lockdown/UBUNTU18-CIS/devel?color=dark%20green&label=Devel%20Branch%20Commits)
 
 ![Issues Open](https://img.shields.io/github/issues-raw/ansible-lockdown/UBUNTU18-CIS?label=Open%20Issues)
 ![Issues Closed](https://img.shields.io/github/issues-closed-raw/ansible-lockdown/UBUNTU18-CIS?label=Closed%20Issues&&color=success)
@@ -39,7 +40,7 @@
 
 ### Community
 
-Join us on our [Discord Server](https://discord.io/ansible-lockdown) to ask questions, discuss features, or just chat with other Ansible-Lockdown users.
+Join us on our [Discord Server](https://www.lockdownenterprise.com/discord) to ask questions, discuss features, or just chat with other Ansible-Lockdown users.
 
 ---
 
@@ -128,7 +129,7 @@ default                    : ok=270  changed=23   unreachable=0    failed=0    s
 
 **Technical Dependencies:**
 
-- Access to download or add the goss binary and content to the system if using auditing 
+- Access to download or add the goss binary and content to the system if using auditing
 (other options are available on how to get the content to the system.)
 - Python3
 - Ansible 2.9+
@@ -181,3 +182,11 @@ uses:
 - ansible collections - pulls in the latest version based on requirements file
 - runs the audit using the devel branch
 - This is an automated test that occurs on pull requests into devel
+
+## Added Extras
+
+- [pre-commit](https://pre-commit.com) can be tested and can be run from within the directory
+
+```sh
+pre-commit run
+```
