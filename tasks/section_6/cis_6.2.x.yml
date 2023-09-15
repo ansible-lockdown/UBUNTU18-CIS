@@ -121,11 +121,12 @@
       # CAUTION: debug loops don't show changed since 2.4:
       # Fix: https://github.com/ansible/ansible/pull/59958
       - name: "6.2.4 | PATCH | Ensure all users' home directories exist | Alert about correcting owner and group"
-        ansible.builtin.debug: msg="You will need to mkdir -p {{ item }} and chown properly to the correct owner and group."
+        ansible.builtin.debug:
+            msg: "You will need to mkdir -p {{ item }} and chown properly to the correct owner and group."
         with_items: "{{ ubtu18cis_6_2_4_audit | map(attribute='dir') | list }}"
         changed_when: ubtu18cis_audit_complex
         when:
-            - ubtu18cis_users_missing_home is changed
+            - ubtu18cis_users_missing_home is changed  # noqa: no-handler
   vars:
       ld_regex: >-
           ^user '(?P<user>.*)': directory '(?P<dir>.*)' does not exist$
@@ -247,7 +248,7 @@
         with_items: "{{ ubtu18cis_6_2_7_audit.stdout_lines }}"
         when:
             - ubtu18cis_6_2_7_audit.stdout | length > 0
-            - ubtu18cis_dotperm_ansibleManaged
+            - ubtu18cis_dotperm_ansiblemanaged
 
       - name: "6.2.7 | AUDIT | Ensure users' dot files are not group or world-writable | Alert on files found"
         ansible.builtin.debug:
@@ -257,7 +258,7 @@
                 - "{{ ubtu18cis_6_2_7_audit.stdout_lines }}"
         when:
             - ubtu18cis_6_2_7_audit.stdout | length > 0
-            - not ubtu18cis_dotperm_ansibleManaged
+            - not ubtu18cis_dotperm_ansiblemanaged
 
       - name: "6.2.7 | AUDIT | Ensure users' dot files are not group or world-writable | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
@@ -265,7 +266,7 @@
             warn_control_id: '6.2.7'
         when:
             - ubtu18cis_6_2_7_audit.stdout | length > 0
-            - not ubtu18cis_dotperm_ansibleManaged
+            - not ubtu18cis_dotperm_ansiblemanaged
   when:
       - ubtu18cis_rule_6_2_7
       - ubtu18cis_disruption_high
