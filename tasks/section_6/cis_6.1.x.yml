@@ -236,7 +236,7 @@
 
       - name: "6.1.11 | AUDIT | Ensure no unowned files or directories exist | Displaying any unowned files or directories"
         ansible.builtin.debug:
-            msg: "Warning!! Missing owner on items in {{ ubtu18cis_6_1_11_audit | json_query('results[*].stdout_lines[*]') | flatten }}"  #noqa: jinja[invalid]
+            msg: "Warning!! Missing owner on items in {{ ubtu18cis_6_1_11_audit | json_query('results[*].stdout_lines[*]') | flatten }}"  # noqa: jinja[invalid]
         when: ubtu18cis_6_1_11_unowned_files_found
 
       - name: "6.1.11 | AUDIT | Ensure no unowned files or directories exist | warning"
