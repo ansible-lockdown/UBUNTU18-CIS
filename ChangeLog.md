@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.0
+
+- new workflow
+- linting
+- readme updates
+- wifi control update
+- import_tasks - set file
+
 ## 1.3.1
 
 - issue 84 from ubuntu20 fixed vartmp
