@@ -1,18 +1,18 @@
 ---
-- name: "AUTOMATED | 5.7 | PATCH | Ensure access to the su command is restricted"
+- name: "5.7 | PATCH | Ensure access to the su command is restricted"
   block:
-      - name: "AUTOMATED | 5.7 | PATCH | Ensure access to the su command is restricted | Check for pam_wheel.so module"
-        command: grep '^auth.*required.*pam_wheel' /etc/pam.d/su
+      - name: "5.7 | PATCH | Ensure access to the su command is restricted | Check for pam_wheel.so module"
+        ansible.builtin.shell: grep '^auth.*required.*pam_wheel' /etc/pam.d/su
         changed_when: false
         failed_when: false
         register: ubtu18cis_5_7_pam_wheel_status
 
-      - name: "AUTOMATED | 5.7 | PATCH | Ensure access to the su command is restricted | Create empty sugroup"
-        group:
+      - name: "5.7 | PATCH | Ensure access to the su command is restricted | Create empty sugroup"
+        ansible.builtin.group:
             name: "{{ ubtu18cis_su_group }}"
 
-      - name: "AUTOMATED | 5.7 | PATCH | Ensure access to the su command is restricted | Set pam_wheel if exists"
-        pamd:
+      - name: "5.7 | PATCH | Ensure access to the su command is restricted | Set pam_wheel if exists"
+        community.general.pamd:
             name: su
             type: auth
             control: required
@@ -20,12 +20,12 @@
             module_arguments: 'use_uid group={{ ubtu18cis_su_group }}'
         when: ubtu18cis_5_7_pam_wheel_status.stdout | length > 0
 
-      - name: "AUTOMATED | 5.7 | PATCH | Ensure access to the su command is restricted | Set pam_wheel if does not exist"
-        lineinfile:
+      - name: "5.7 | PATCH | Ensure access to the su command is restricted | Set pam_wheel if does not exist"
+        ansible.builtin.lineinfile:
             path: /etc/pam.d/su
             regex: (#)?auth\s+required\s+pam_wheel\.so\n|(#)?auth\s+required\s+pam_wheel\.so(.*?)use_uid
             line: 'auth       required   pam_wheel.so use_uid group={{ ubtu18cis_su_group }}'
-            create: yes
+            create: true
             insertafter: '(#)?auth\s+sufficient\s+pam_rootok'
         when: ubtu18cis_5_7_pam_wheel_status.stdout | length == 0
   when:

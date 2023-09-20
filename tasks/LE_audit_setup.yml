@@ -1,0 +1,30 @@
+---
+
+- name: Download audit binary
+  ansible.builtin.get_url:
+      url: "{{ goss_url }}"
+      dest: "{{ audit_bin }}"
+      owner: root
+      group: root
+      checksum: "{{ goss_version.checksum }}"
+      mode: 0555
+  when:
+      - get_goss_file == 'download'
+
+- name: Copy audit binary
+  ansible.builtin.copy:
+      src:
+      dest: "{{ audit_bin }}"
+      mode: 0555
+      owner: root
+      group: root
+  when:
+      - get_goss_file == 'copy'
+
+- name: Install git if not present
+  ansible.builtin.package:
+      name: git
+      state: present
+  register: git_installed
+  when:
+      - '"git" not in ansible_facts.packages'

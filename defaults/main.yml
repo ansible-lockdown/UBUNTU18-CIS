@@ -1,9 +1,4 @@
 ---
-# If you would like a report at the end accordin to OpenSCAP as to the report results
-# then you should set ubtu18cis_oscap_scan to true/yes.
-# NOTE: This requires the python_xmltojson package on the control host.
-ubtu18cis_oscap_scan: false
-ubtu18cis_report_dir: /tmp
 
 ubtu18cis_section1_patch: true
 ubtu18cis_section2_patch: true
@@ -11,6 +6,37 @@ ubtu18cis_section3_patch: true
 ubtu18cis_section4_patch: true
 ubtu18cis_section5_patch: true
 ubtu18cis_section6_patch: true
+
+# System will reboot if false, can give better audit results
+ubtu18_skip_reboot: true
+
+## Benchmark name used by auditing control role
+# The audit variable found at the base
+benchmark: UBUNTU18-CIS
+benchmark_version: '2.1.0'
+
+### Audit Binary is required on the remote host
+### Goss is required on the remote host
+setup_audit: false
+# How to retrive goss
+# Options are copy or download - detailed settings at the bottom of this file
+# you will need to access to either github or the file already dowmloaded
+get_goss_file: download
+
+# how to get audit files onto host options
+# options are git/copy/get_url - use local if already available to to the host (adjust paths accordingly)
+audit_content: git
+
+# enable audits to run - this  runs the audit and get the latest content
+run_audit: false
+
+# Timeout for those cmds that take longer to run where timeout set
+audit_cmd_timeout: 60000
+
+# Run heavy tests - some tests can have more impact on a system enabling these can have greater impact on a system
+audit_run_heavy_tests: true
+
+### End Audit enablements ####
 
 # We've defined complexity-high to mean that we cannot automatically remediate
 # the rule in question.  In the future this might mean that the remediation
@@ -344,52 +370,21 @@ ubtu18cis_ipv6_required: true
 # ubtu18cis_desktop_required is the toggle for requiring desktop environments. True means you use a desktop and will not disable/remove needed items to run a desktop (not recommented for servers)
 # false means you do not require a desktop
 ubtu18cis_desktop_required: false
-# Toggle to have automation install gdm3. 
-# The gdm related handlers won't run if you have this set to true but gdm3 is not installed. 
+# Toggle to have automation install gdm3.
+# The gdm related handlers won't run if you have this set to true but gdm3 is not installed.
 ubtu18cis_install_gdm3: true
-
-# Section 1 Control Variables
-# Control 1.1.2/1.1.3/1.1.4/1.1.5
-# ubtu18cis_tmp_fstab_options are the file system options for the fstabs configuration for /tmp
-# To conform to CIS control 1.1.2 could use any settings
-# To conform to CIS control 1.1.3 nodev needs to be present
-# To conform to CIS control 1.1.4 nosuid needs to be present
-# To conform to CIS control 1.1.5 noexec needs to present
-ubtu18cis_tmp_fstab_options: "defaults,rw,nosuid,nodev,noexec,relatime"
-
-# Control 1.1.6/1.1.7/1.1.8/1.1.9
-# ubtu18cis_shm_fstab_options are the file system options for the fstabs configuration for /dev/shm
-# To conform to CIS control 1.1.6 could use any settings
-# To conform to CIS control 1.1.7 nodev needs to be present
-# To conform to CIS control 1.1.8 nosuid needs to be present
-# To conform to CIS control 1.1.9 no exec needs to be present
-ubtu18cis_shm_fstab_options: "defaults,noexec,nodev,nosuid,seclabel"
-
-# Control 1.1.12/1.1.13/1.1.14
-# These are the settings for the /var/tmp mount
-# To conform to CIS control 1.1.12 nodev needs to be present in opts
-# To conform to CIS control 1.1.13 nosuid needs to be present in opts
-# To conform to CIS control 1.1.14 noexec needs to be present in opts
-ubtu18cis_vartmp:
-    source: /tmp
-    fstype: none
-    opts: "defaults,nodev,nosuid,noexec,bind"
-    enabled: false
 
 # Control 1.3.2
 # These are the crontab settings for file system integrity enforcement
 ubtu18cis_aide_cron:
     cron_user: root
-    cron_file: /etc/crontab
+    cron_file: /etc/cron.d/cis_aide
     aide_job: '/usr/bin/aide.wrapper --config /etc/aide/aide.conf --check'
     aide_minute: 0
     aide_hour: 5
     aide_day: '*'
     aide_month: '*'
     aide_weekday: '*'
-
-# Control 1.4.2
-ubtu18cis_bootloader_password_hash: 'grub.pbkdf2.sha512.changethispassword'
 
 # Control 1.4.4
 # THIS VARIABLE SHOULD BE CHANGED AND INCORPORATED INTO VAULT
@@ -420,6 +415,7 @@ ubtu18cis_time_synchronization_servers:
     - 1.pool.ntp.org
     - 2.pool.ntp.org
     - 3.pool.ntp.org
+ubtu18cis_ntp_fallback_server_list: "2.debian.pool.ntp.org 3.debian.pool.ntp.org"
 
 # Section 3 Control Variables
 # Control 3.3.2
@@ -429,7 +425,7 @@ ubtu18cis_host_allow:
     - "172.16.0.0/255.240.0.0"
     - "192.168.0.0/255.255.0.0"
 
-# Control 3.5.1.1
+# All Control 3.5.x.yml
 # ubtu18cis_firewall_package is the firewall package you will be using.
 # the options are ufw, nftables, or iptables
 # you much chose only one firewall package
@@ -560,7 +556,6 @@ ubtu18cis_sshd:
 # This needs to be 5 or more to conform to CIS standards
 ubtu18cis_pamd_pwhistory_remember: 5
 
-
 # ubtu18cis_pass will be password based variables
 # Control 5.5.1.1
 # min_days is the min number of days allowed between changing passwords. Set to 1 or more to conform to CIS standards
@@ -577,7 +572,7 @@ ubtu18cis_pass:
     inactive: 30
 
 # Control 5.5.4
-# ubtu18cis_bash_umask is the umask to set in the /etc/bash.bashrc and /etc/profile. 
+# ubtu18cis_bash_umask is the umask to set in the /etc/bash.bashrc and /etc/profile.
 # The value needs to be 027 or more restrictive to comply with CIS standards
 ubtu18cis_bash_umask: '027'
 
@@ -593,6 +588,13 @@ ubtu18cis_shell_session_timeout:
 ubtu18cis_su_group: "wheel"
 
 # Section 6 Control Variables
+
+# Control 6.1.1
+# ubtu18cis_manual_audit_dpkg is the setting that will allow the control to get a list of installed applications
+# and check them using the # dpkg --verify <package name> option.  This process can be very time consuming on machines.
+# ubtu18cis_manual_audit_dpkg: true will result in a quicker audit but will require had checking each application.
+ubtu18cis_manual_audit_dpkg: true
+
 # Control 6.1.10
 # ubtu18cis_no_world_write_adjust will toggle the automated fix to remove world-writable perms from all files
 # Setting to true will remove all world-writable permissions, and false will leave as-is
@@ -616,10 +618,57 @@ ubtu18cis_no_group_adjust: true
 # Set to true this role will remove that bit, set to false we will just warn about the files
 ubtu18cis_suid_adjust: false
 
+# Control 6.2.5
+# ubtu18cis_int_gid is the UID for interactive users to start at
+ubtu18cis_int_gid: 1000
+
 # Control 6.2.7
 # This control toggles automation to set all users dot files to not group or world writable
-# Value of true will change file permissiosn, value of false will skip the automation changing permissions. 
-ubtu18cis_dotperm_ansibleManaged: true
+# Value of true will change file permissiosn, value of false will skip the automation changing permissions.
+ubtu18cis_dotperm_ansiblemanaged: true
 
 # Control 6.2.9 Allow ansible to adjust world-writable files. False will just display world-writable files, True will remove world-writable
 ubtu18cis_passwd_label: "{{ (this_item | default(item)).id }}: {{ (this_item | default(item)).dir }}"
+
+#### Audit Configuration Settings ####
+
+### Audit binary settings ###
+goss_version:
+    release: v0.3.21
+    checksum: 'sha256:9a9200779603acf0353d2c0e85ae46e083596c10838eaf4ee050c924678e4fe3'
+audit_bin_path: /usr/local/bin/
+audit_bin: "{{ audit_bin_path }}goss"
+audit_format: json
+
+# if get_audit_binary_method == download change accordingly
+goss_url: "https://github.com/goss-org/goss/releases/download/{{ goss_version.release }}/goss-linux-amd64"
+
+## if get_goss_file - copy the following needs to be updated for your environment
+## it is expected that it will be copied from somewhere accessible to the control node
+## e.g copy from ansible control node to remote host
+copy_goss_from_path: /some/accessible/path
+
+### Goss Audit Benchmark file ###
+## managed by the control audit_content
+# git
+audit_file_git: "https://github.com/ansible-lockdown/{{ benchmark }}-Audit.git"
+audit_git_version: "benchmark_{{ benchmark_version }}"
+
+# archive or copy:
+audit_conf_copy: "some path to copy from"
+
+# get_url:
+audit_files_url: "some url maybe s3?"
+
+audit_out_dir: '/opt'
+audit_conf_dir: "{{ audit_out_dir }}/{{ benchmark }}-Audit/"
+pre_audit_outfile: "{{ audit_out_dir }}/{{ ansible_hostname }}-{{ benchmark }}_pre_scan_{{ ansible_date_time.epoch }}.{{ audit_format }}"
+post_audit_outfile: "{{ audit_out_dir }}/{{ ansible_hostname }}-{{ benchmark }}_post_scan_{{ ansible_date_time.epoch }}.{{ audit_format }}"
+
+## The following should not need changing
+audit_control_file: "{{ audit_conf_dir }}goss.yml"
+audit_vars_path: "{{ audit_conf_dir }}/vars/{{ ansible_hostname }}.yml"
+audit_results: |
+      The pre remediation results are: {{ pre_audit_summary }}.
+      The post remediation results are: {{ post_audit_summary }}.
+      Full breakdown can be found in {{ audit_out_dir }}

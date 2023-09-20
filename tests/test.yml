@@ -1,5 +1,7 @@
 ---
+
 - hosts: localhost
+
   remote_user: root
   roles:
-    - UBUNTU18-CIS
+      - UBUNTU18-CIS
