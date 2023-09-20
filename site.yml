@@ -6,6 +6,5 @@
   vars:
       is_container: false
 
-  name: Run ansible-lockdown remediation role
   roles:
       - role: "{{ playbook_dir }}"
