@@ -1,6 +1,7 @@
 ---
 
-- hosts: all  # noqa: name[play]
+- name: Run ubuntu18-cis remediation
+  hosts: all
   become: true
   vars:
       is_container: false
