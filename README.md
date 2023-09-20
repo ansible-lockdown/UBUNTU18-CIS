@@ -29,7 +29,6 @@
 ![Pull Requests](https://img.shields.io/github/issues-pr/ansible-lockdown/UBUNTU18-CIS?label=Pull%20Requests)
 
 ![License](https://img.shields.io/github/license/ansible-lockdown/UBUNTU18-CIS?label=License)
-
 ---
 
 ## Looking for support?
