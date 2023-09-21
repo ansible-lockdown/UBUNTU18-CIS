@@ -31,19 +31,22 @@
       - always
 
 - name: Prelim Import Tasks
-  ansible.builtin.import_tasks: prelim.yml
+  ansible.builtin.import_tasks:
+      file: prelim.yml
   tags:
       - always
 
 - name: Pre Remediate Audit Task Import
-  ansible.builtin.import_tasks: pre_remediation_audit.yml
+  ansible.builtin.import_tasks:
+      file: pre_remediation_audit.yml
   when:
       - run_audit
   tags:
       - run_audit
 
 - name: Run Password Parsing
-  ansible.builtin.import_tasks: parse_etc_password.yml
+  ansible.builtin.import_tasks:
+      file: parse_etc_password.yml
   when:
       - ubtu18cis_section5_patch or
         ubtu18cis_section6_patch
@@ -55,37 +58,43 @@
       - always
 
 - name: Include section 1 patches
-  ansible.builtin.import_tasks: section_1/main.yml
+  ansible.builtin.import_tasks:
+      file: section_1/main.yml
   when: ubtu18cis_section1_patch
   tags:
       - section1
 
 - name: Include section 2 patches
-  import_tasks: section_2/main.yml
+  ansible.builtin.import_tasks:
+      file: section_2/main.yml
   when: ubtu18cis_section2_patch
   tags:
       - section2
 
 - name: Include section 3 patches
-  ansible.builtin.import_tasks: section_3/main.yml
+  ansible.builtin.import_tasks:
+      file: section_3/main.yml
   when: ubtu18cis_section3_patch
   tags:
       - section3
 
 - name: Include section 4 patches
-  ansible.builtin.import_tasks: section_4/main.yml
+  ansible.builtin.import_tasks:
+      file: section_4/main.yml
   when: ubtu18cis_section4_patch
   tags:
       - section4
 
 - name: Include section 5 patches
-  ansible.builtin.import_tasks: section_5/main.yml
+  ansible.builtin.import_tasks:
+      file: section_5/main.yml
   when: ubtu18cis_section5_patch
   tags:
       - section5
 
 - name: Include section 6 patches
-  ansible.builtin.import_tasks: section_6/main.yml
+  ansible.builtin.import_tasks:
+      file: section_6/main.yml
   when: ubtu18cis_section6_patch | bool
   tags:
       - section6
@@ -113,7 +122,8 @@
             warn_control_id: 'Reboot Required'
 
 - name: Post Remediation Task
-  ansible.builtin.import_tasks: post_remediation_audit.yml
+  ansible.builtin.import_tasks:
+      file: post_remediation_audit.yml
   when:
       - run_audit
 

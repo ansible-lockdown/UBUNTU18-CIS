@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.0
+
+workflow update
+linting updates
+import_tasks added file
+rule 3.1.2 logic update
+tidy up tags
+
 ## 1.3.1
 
 - issue 84 from ubuntu20 fixed vartmp

@@ -50,7 +50,8 @@
         when: not ubtu18cis_rsyslog_ansible_managed
 
       - name: "4.2.1.3 | PATCH | Ensure logging is configured | Warn Count"
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '4.2.1.3'
         when: not ubtu18cis_rsyslog_ansible_managed
