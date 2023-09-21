@@ -20,6 +20,9 @@
       name: exim4
       state: restarted
 
+- name: Disable wireless adaptor
+  ansible.builtin.shell: nmcli radio wifi off
+
 - name: sysctl flush ipv4 route table
   ansible.posix.sysctl:
       name: net.ipv4.route.flush

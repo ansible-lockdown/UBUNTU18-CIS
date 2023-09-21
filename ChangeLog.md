@@ -4,7 +4,9 @@
 
 workflow update
 linting updates
-impoirt_tasks spilut with file
+import_tasks spilut with file
+rule 3.1.2 logic update
+tidy up tags
 
 ## 1.3.1
 
