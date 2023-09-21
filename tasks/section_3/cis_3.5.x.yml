@@ -145,7 +145,8 @@
                 - "{{ ubtu18cis_3_5_1_6_firewall_rules.stdout_lines }}"
 
       - name: "3.5.1.6 | AUDIT | Ensure firewall rules exist for all open ports | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.1.6'
   when:
@@ -191,7 +192,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
 
       - name: "3.5.2.1 | AUDIT | Ensure firewall rules exist for all open ports | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.1'
   # ansible.builtin.package:
@@ -217,7 +219,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
 
       - name: "3.5.2.2 | AUDIT | Ensure ufw is uninstalled or disabled with nftables. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.2'
   # ansible.builtin.package:
@@ -243,7 +246,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please use UFW or iptables"
 
       - name: "3.5.2.3 | PATCH | Ensure iptables are flushed. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.3'
   # ansible.builtin.iptables:
@@ -268,7 +272,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.4 | PATCH | Ensure a nftables table exists. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.4'
   # ansible.builtin.shell: "nft create table {{ ubtu18cis_nftables_table_name }}"
@@ -294,7 +299,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.5 | PATCH | Ensure nftables base chains exist | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.5'
   # block:
@@ -334,7 +340,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.6 | PATCH | Ensure nftables loopback traffic is configured. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.6'
   # block:
@@ -399,7 +406,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.7 | PATCH | Ensure nftables outbound and established connections are configured | Warn Count"
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.7'
   when:
@@ -421,7 +429,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.8 | PATCH | Ensure nftables default deny firewall policy | Warn Count"
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.8'
   when:
@@ -443,7 +452,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.9 | PATCH | Ensure nftables service is enabled | Warn Count"
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.9'
   # service:
@@ -469,7 +479,8 @@
             msg: "Warning!! NFTables is not supported in this role. Please us UFW or iptables"
 
       - name: "3.5.2.10 | PATCH | Ensure nftables rules are permanent. | Warn Count"
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.2.10'
   when:
@@ -665,7 +676,8 @@
                 - "{{ ubtu18cis_3_5_3_2_4_current_rules.stdout_lines }}"
 
       - name: "3.5.3.2.4 | AUDIT | Ensure firewall rules exist for all open ports | Warn Count"
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.3.2.4'
   when:
@@ -837,7 +849,8 @@
                 - "{{ ubtu18cis_3_5_3_3_4_current_rules.stdout_lines }}"
 
       - name: "3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Warn Count"
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '3.5.3.3.4'
   when:
