@@ -1,7 +1,7 @@
 // github_actions variables
 // Resourced in github_networks.tf
 // Declared in variables.tf
-// 
+//
 
 namespace         = "Ansible_Lockdown_GH_PR_Actions"
 environment       = "Ansible_Lockdown_GH_PR_Pipeline"

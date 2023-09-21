@@ -19,27 +19,34 @@
 
 - name: "3.1.2 | PATCH | Ensure wireless interfaces are disabled"
   block:
-      - name: "3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if nmcli command is available"
-        ansible.builtin.shell: dpkg -s network-manager
-        changed_when: false
-        failed_when: false
-        args:
-            warn: false
-        check_mode: false
-        register: ubtu18cis_nmcli_available
-
-      - name: "3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if wifi is enabled"
+      - name: "3.1.2 | AUDIT | Ensure wireless interfaces are disabled | Check if wifi is enabled if wlan exists"
         ansible.builtin.shell: nmcli radio wifi
         register: ubtu18cis_wifi_enabled
         check_mode: false
-        changed_when: ubtu18cis_wifi_enabled.stdout != "disabled"
-        when: ubtu18cis_nmcli_available.rc == 0
+        changed_when: ubtu18cis_wifi_enabled.stdout not in  [ 'disabled', 'missing' ]
+        when: "'network-manager' in ansible_facts.packages"
 
       - name: "3.1.2 | PATCH | Ensure wireless interfaces are disabled | Disable wifi if enabled"
         ansible.builtin.shell: nmcli radio wifi off
-        when: ubtu18cis_wifi_enabled is changed  # noqa: no-handler
+        notify: Disable wireless adaptor
+        when:
+            - ubtu18cis_wifi_enabled.stdout is defined
+            - "[ 'disabled', 'missing' ] not in ubtu18cis_wifi_enabled.stdout"
+
+      - name: "3.1.2 | PATCH | Ensure wireless interfaces are disabled | Warning"
+        ansible.builtin.debug:
+            msg: "Warning!! network-manager package is not installed please check wireless connections manually"
+        when: "'network-manager' not in ansible_facts.packages"
+
+      - name: "3.1.2 | PATCH | Ensure wireless interfaces are disabled | warning count"
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
+        when: "'network-manager' not in ansible_facts.packages"
+        vars:
+            warn_control_id: '3.1.2'
   when:
       - ubtu18cis_rule_3_1_2
+      - "'wlan' in ansible_facts.interfaces"
   tags:
       - level1-server
       - level2-workstation

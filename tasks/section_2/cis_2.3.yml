@@ -14,7 +14,8 @@
                 - "{{ ubtu18cis_2_3_services.stdout_lines }}"
 
       - name: "2.3 | AUDIT | Ensure nonessential services are removed or masked | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '2.3'
   when:

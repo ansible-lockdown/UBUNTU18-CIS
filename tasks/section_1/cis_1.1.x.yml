@@ -255,7 +255,8 @@
               ubtu18cis_1_1_10_var_mounted.stdout | length == 0
 
       - name: "1.1.10 | AUDIT | Ensure separate partition exists for /var | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '1.1.10'
         when:
@@ -289,7 +290,8 @@
               ubtu18cis_1_1_11_var_tmp_mounted.stdout | length == 0
 
       - name: "1.1.11 | AUDIT | Ensure separate partition exists for /var/tmp | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '1.1.11'
         when:
@@ -352,7 +354,8 @@
               ubtu18cis_1_1_15_var_log_mounted.stdout | length == 0
 
       - name: "1.1.15 | AUDIT | Ensure separate partition exists for /var/log | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '1.1.15'
         when:
@@ -386,7 +389,8 @@
               ubtu18cis_1_1_16_var_log_audit_mounted.stdout | length == 0
 
       - name: "1.1.16 | AUDIT | Ensure separate partition exists for /var/log/audit | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '1.1.16'
         when:
@@ -420,7 +424,8 @@
               ubtu18cis_1_1_17_home_mounted.stdout | length == 0
 
       - name: "1.1.17 | AUDIT | Ensure separate partition exists for /home | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '1.1.17'
         when:
@@ -462,7 +467,8 @@
             msg: "Warning!! Ensure nodev option set on removable media partitions."
 
       - name: "1.1.19 | AUDIT | Ensure nodev option set on removable media partitions. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '1.1.19'
   when:
@@ -482,7 +488,8 @@
             msg: "Warning!! Ensure nosuid option set on removable media partitions."
 
       - name: "1.1.20 | AUDIT | Ensure nosuid option set on removable media partitions. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '1.1.20'
   when:
@@ -502,7 +509,8 @@
             msg: "Warning!! Ensure noexec option set on removable media partitions."
 
       - name: "1.1.21 | AUDIT | Ensure noexec option set on removable media partitions. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks:
+            file: warning_facts.yml
         vars:
             warn_control_id: '1.1.21'
   when:
