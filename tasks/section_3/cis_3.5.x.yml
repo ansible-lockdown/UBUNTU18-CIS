@@ -105,7 +105,7 @@
 
       - name: "3.5.1.5 | PATCH | Ensure outbound connections are configured | Allow all"
         community.general.ufw:
-            default: allow
+            rule: allow
             direction: outgoing
         notify: reload ufw
         when: "'all' in ubtu18cis_ufw_allow_out_ports"
