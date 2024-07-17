@@ -591,7 +591,7 @@
 
       - name: "6.2.17 | AUDIT | Ensure shadow group is empty | Message on no users"
         ansible.builtin.debug:
-            msg: "Good News! There are no users with the Shado GID on your system"
+            msg: "Good News! There are no users with the Shadow GID on your system"
         when: ubtu18cis_6_2_17_users_shadow_gid.stdout | length == 0
 
       - name: "6.2.17 | AUDIT | Ensure shadow group is empty | Message on users with Shadow GID"
