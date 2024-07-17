@@ -132,10 +132,9 @@ default                    : ok=270  changed=23   unreachable=0    failed=0    s
 - Access to download or add the goss binary and content to the system if using auditing
 (other options are available on how to get the content to the system.)
 - Python3
-- Ansible 2.9+
+- Ansible 2.10.1+
 - python-def
 - libselinux-python
-- jmespath
 
 ## Role Variables
 
@@ -178,7 +177,7 @@ ubtu18cis_rule_1_1_3_3
 
 uses:
 
-- ansible-core 2.12
+- ansible-core 2.16
 - ansible collections - pulls in the latest version based on requirements file
 - runs the audit using the devel branch
 - This is an automated test that occurs on pull requests into devel
