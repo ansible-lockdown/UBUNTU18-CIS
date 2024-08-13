@@ -36,14 +36,6 @@
   tags:
       - always
 
-- name: Pre Remediate Audit Task Import
-  ansible.builtin.import_tasks:
-      file: pre_remediation_audit.yml
-  when:
-      - run_audit
-  tags:
-      - run_audit
-
 - name: Run Password Parsing
   ansible.builtin.import_tasks:
       file: parse_etc_password.yml

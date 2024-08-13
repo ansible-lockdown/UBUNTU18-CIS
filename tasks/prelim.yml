@@ -1,4 +1,30 @@
 ---
+
+- name: "PRELIM | Run apt update"
+  ansible.builtin.package:
+      update_cache: true
+  tags:
+      - always
+
+- name: Include audit specific variables
+  when:
+      - run_audit or audit_only
+      - setup_audit
+  tags:
+      - setup_audit
+      - run_audit
+  ansible.builtin.include_vars:
+      file: audit.yml
+
+- name: Include pre-remediation audit tasks
+  when:
+      - run_audit or audit_only
+      - setup_audit
+  tags:
+      - run_audit
+  ansible.builtin.import_tasks:
+      file: pre_remediation_audit.yml
+
 # List users in order to look files inside each home directory
 - name: "PRELIM | List users accounts"
   ansible.builtin.shell: "awk -F: '{print $1}' /etc/passwd"
@@ -14,12 +40,6 @@
   register: ubtu18cis_autofs_service_status
   when:
       - ubtu18cis_rule_1_1_23
-
-- name: "PRELIM | Run apt update"
-  ansible.builtin.package:
-      update_cache: true
-  tags:
-      - always
 
 - name: "PRELIM | Check for avahi-daemon service"
   ansible.builtin.shell: "systemctl show avahi-daemon | grep LoadState | cut -d = -f 2"

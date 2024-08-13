@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0
+
+workflow update
+audit updates
+jmespath no longer required
+typo and lint tidy up
+
 ## 1.4.0
 
 workflow update

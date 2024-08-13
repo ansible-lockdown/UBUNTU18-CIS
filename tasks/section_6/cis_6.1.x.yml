@@ -237,7 +237,7 @@
 
       - name: "6.1.11 | AUDIT | Ensure no unowned files or directories exist | Displaying any unowned files or directories"
         ansible.builtin.debug:
-            msg: "Warning!! Missing owner on items in {{ ubtu18cis_6_1_11_audit | json_query('results[*].stdout_lines[*]') | flatten }}"  # noqa: jinja[invalid]
+            msg: "Warning!! Missing owner on items in {{ ubtu18cis_6_1_11_audit.results| map(attribute='stdout_lines') | flatten }}"
         when: ubtu18cis_6_1_11_unowned_files_found
 
       - name: "6.1.11 | AUDIT | Ensure no unowned files or directories exist | warning"
@@ -281,7 +281,7 @@
 
       - name: "6.1.12 | AUDIT | Ensure no ungrouped files or directories exist | Displaying any unowned files or directories"
         ansible.builtin.debug:
-            msg: "Warning!! Missing owner on items in {{ ubtu18cis_6_1_12_audit | json_query('results[*].stdout_lines[*]') | flatten }}"  # noqa: jinja[invalid]
+            msg: "Warning!! Missing owner on items in {{ ubtu18cis_6_1_12_audit.results | map(attribute='stdout_lines') | flatten }}"
         when: ubtu18cis_6_1_12_ungrouped_files_found
 
       - name: "6.1.12 | AUDIT | Ensure no ungrouped files or directories exist | warning"
@@ -321,7 +321,7 @@
 
       - name: "6.1.13 | AUDIT | Audit SUID executables | Alert SUID executables exist"
         ansible.builtin.debug:
-            msg: "Warning!! SUID on items in {{ ubtu18cis_6_1_13_suid_perms | json_query('results[*].stdout_lines[*]') | flatten }}"  # noqa: jinja[invalid]
+            msg: "Warning!! SUID on items in {{ ubtu18cis_6_1_13_suid_perms.results | map(attribute='stdout_lines') | flatten }}"
         when: ubtu18cis_6_1_13_suid_found
 
       - name: "6.1.13 | AUDIT | Audit SUID executables | Alert SUID executables exist | warning"
@@ -361,7 +361,7 @@
 
       - name: "6.1.14 | AUDIT | Audit SGID executables | Alert SGID executables exist"
         ansible.builtin.debug:
-            msg: "Warning!! SGID on items in {{ ubtu18cis_6_1_14_sgid_perms | json_query('results[*].stdout_lines[*]') | flatten }}"  # noqa: jinja[invalid]
+            msg: "Warning!! SGID on items in {{ ubtu18cis_6_1_14_sgid_perms.results | map(attribute='stdout_lines') | flatten }}"  # noqa: jinja[invalid]
         when: ubtu18cis_6_1_14_sgid_found
 
       - name: "6.1.14 | AUDIT | Audit SGID executables| warning"

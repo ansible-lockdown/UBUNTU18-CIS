@@ -1,7 +1,7 @@
 ---
 - name: "5.5.2 | PATCH | Ensure system accounts are secured"
   block:
-      - name: "5.5.2 | PATCH | Ensure system accounts are secured | Set system accounts to login"
+      - name: "5.5.2 | PATCH | Ensure system accounts are secured | Set system accounts to nologin"
         ansible.builtin.user:
             name: "{{ item }}"
             shell: /sbin/nologin

@@ -241,10 +241,6 @@
         failed_when: false
         register: ubtu18cis_1_1_10_var_mounted
 
-      - name: DEBUG
-        ansible.builtin.debug:
-            msg: "{{ ubtu18cis_1_1_10_var_mounted }}"
-
       - name: "1.1.10 | AUDIT | Ensure separate partition exists for /var | Alert if /var partition does not exist"
         ansible.builtin.debug:
             msg:
